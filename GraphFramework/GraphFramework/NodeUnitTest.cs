@@ -48,6 +48,15 @@ namespace GraphFramework
         }
 
         [Test]
+        public void AddingArcToNodeIsOneWayOnly()
+        {
+            Node node1 = new Node();
+            Node node2 = new Node();
+            node1.AddArc(node2);
+            Assert.IsFalse(node2.Neighbours.Contains(node1));
+        }
+        
+        [Test]
         [Ignore]
         public void CanNotAddEdgeIfArcExistsFromTheTargetNodeToBaseNode()
         {
