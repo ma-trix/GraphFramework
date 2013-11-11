@@ -28,5 +28,14 @@ namespace GraphFramework
             node1.AddEdge(node2);
             Assert.Contains(node1, node2.Neighbours);
         }
+
+        [Test]
+        public void CanNotAddMultipleEdgesBetweenTwoNodes()
+        {
+            Node node1 = new Node();
+            Node node2 = new Node();
+            node1.AddEdge(node2);
+            Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
+        }
     }
 }

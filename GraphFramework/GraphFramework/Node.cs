@@ -13,6 +13,8 @@ namespace GraphFramework
 
         public void AddEdge(Node newNeighbour)
         {
+            if (Neighbours.Contains(newNeighbour))
+                throw new NoMultiedgePermitedException();
             Neighbours.AddLast(newNeighbour);
             newNeighbour.AddReciprocally(this);
         }
