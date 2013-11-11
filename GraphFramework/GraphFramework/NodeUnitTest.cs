@@ -56,5 +56,12 @@ namespace GraphFramework
             node1.AddArc(node2);
             Assert.IsFalse(node2.Neighbours.Contains(node1));
         }
+        
+        [Test]
+        public void CanNotAddArcIfStartIsAlreadyIncidentToEndNode()
+        {
+            node1.AddArc(node2);
+            Assert.Throws<NoMultiedgePermitedException>(() => node1.AddArc(node2));
+        }
     }
 }

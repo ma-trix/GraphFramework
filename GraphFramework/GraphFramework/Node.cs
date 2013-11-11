@@ -26,6 +26,8 @@ namespace GraphFramework
 
         public void AddArc(Node node)
         {
+            if (Neighbours.Contains(node))
+                throw new NoMultiedgePermitedException();
             Neighbours.AddLast(node);
         }
     }
