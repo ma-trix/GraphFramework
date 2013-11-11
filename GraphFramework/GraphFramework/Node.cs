@@ -16,6 +16,8 @@ namespace GraphFramework
             if (Neighbours.Contains(newNeighbour))
                 throw new NoMultiedgePermitedException();
             Neighbours.AddLast(newNeighbour);
+            if (newNeighbour.Neighbours.Contains(this))
+                throw new NoMultiedgePermitedException();
             newNeighbour.AddReciprocally(this);
         }
 
