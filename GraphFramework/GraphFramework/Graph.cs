@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GraphFramework
 {
@@ -13,16 +9,6 @@ namespace GraphFramework
         public void AddNode(Node node)
         {
             nodes.AddLast(node);
-        }
-    }
-
-    public class GraphGenerator
-    {
-        public Graph gerenarteRandomGraph()
-        {
-            Graph g = new Graph();
-
-            return g;
         }
     }
 }
