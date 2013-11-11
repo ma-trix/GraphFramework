@@ -16,10 +16,6 @@ namespace GraphFramework
         }
     }
 
-    public class Node
-    {
-    }
-
     public class GraphGenerator
     {
         public Graph gerenarteRandomGraph()
