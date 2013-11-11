@@ -11,7 +11,7 @@ namespace GraphFramework
             Neighbours = new LinkedList<Node>();
         }
 
-        public void AddNeighbour(Node newNeighbour)
+        public void AddEdge(Node newNeighbour)
         {
             Neighbours.AddLast(newNeighbour);
             newNeighbour.AddReciprocally(this);

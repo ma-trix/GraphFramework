@@ -12,20 +12,20 @@ namespace GraphFramework
         }
 
         [Test]
-        public void AddsNeighbourToNode()
+        public void AddsEdgeToNode()
         {
             Node node1 = new Node();
             Node node2 = new Node();
-            node1.AddNeighbour(node2);
+            node1.AddEdge(node2);
             Assert.Contains(node2, node1.Neighbours);
         }
 
         [Test]
-        public void NodeIsANeighbourOfItsNeighbour()
+        public void AddingEdgeMakesNodesNeighboursOfEachOther()
         {
             Node node1 = new Node();
             Node node2 = new Node();
-            node1.AddNeighbour(node2);
+            node1.AddEdge(node2);
             Assert.Contains(node1, node2.Neighbours);
         }
     }
