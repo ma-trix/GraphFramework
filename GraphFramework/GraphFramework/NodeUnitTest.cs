@@ -2,8 +2,19 @@
 
 namespace GraphFramework
 {
+    [TestFixture]
     public class NodeUnitTest
     {
+        private Node node1;
+        private Node node2;
+
+        [SetUp]
+        public void Init()
+        {
+            node1 = new Node();
+            node2 = new Node();
+        }
+
         [Test]
         public void NewNodeHasNoNeighbours()
         {
@@ -14,8 +25,6 @@ namespace GraphFramework
         [Test]
         public void AddsEdgeToNode()
         {
-            Node node1 = new Node();
-            Node node2 = new Node();
             node1.AddEdge(node2);
             Assert.Contains(node2, node1.Neighbours);
         }
@@ -23,8 +32,6 @@ namespace GraphFramework
         [Test]
         public void AddingEdgeMakesNodesNeighboursOfEachOther()
         {
-            Node node1 = new Node();
-            Node node2 = new Node();
             node1.AddEdge(node2);
             Assert.Contains(node1, node2.Neighbours);
         }
@@ -32,8 +39,6 @@ namespace GraphFramework
         [Test]
         public void CanNotAddMultipleEdgesBetweenTwoNodes()
         {
-            Node node1 = new Node();
-            Node node2 = new Node();
             node1.AddEdge(node2);
             Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
         }
@@ -41,8 +46,6 @@ namespace GraphFramework
         [Test]
         public void AddsArcToNode()
         {
-            Node node1 = new Node();
-            Node node2 = new Node();
             node1.AddArc(node2);
             Assert.Contains(node2, node1.Neighbours);
         }
@@ -50,17 +53,8 @@ namespace GraphFramework
         [Test]
         public void AddingArcToNodeIsOneWayOnly()
         {
-            Node node1 = new Node();
-            Node node2 = new Node();
             node1.AddArc(node2);
             Assert.IsFalse(node2.Neighbours.Contains(node1));
-        }
-        
-        [Test]
-        [Ignore]
-        public void CanNotAddEdgeIfArcExistsFromTheTargetNodeToBaseNode()
-        {
-            
         }
     }
 }
