@@ -37,5 +37,21 @@ namespace GraphFramework
             node1.AddEdge(node2);
             Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
         }
+
+        [Test]
+        public void AddsArcToNode()
+        {
+            Node node1 = new Node();
+            Node node2 = new Node();
+            node1.AddArc(node2);
+            Assert.Contains(node2, node1.Neighbours);
+        }
+
+        [Test]
+        [Ignore]
+        public void CanNotAddEdgeIfArcExistsFromTheTargetNodeToBaseNode()
+        {
+            
+        }
     }
 }

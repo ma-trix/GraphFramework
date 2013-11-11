@@ -23,5 +23,10 @@ namespace GraphFramework
         {
             Neighbours.AddLast(node);
         }
+
+        public void AddArc(Node node)
+        {
+            Neighbours.AddLast(node);
+        }
     }
 }
