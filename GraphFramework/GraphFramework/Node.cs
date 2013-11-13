@@ -11,6 +11,11 @@ namespace GraphFramework
             Neighbours = new LinkedList<Node>();
         }
 
+        public int OutDegree
+        {
+            get { return Neighbours.Count; }
+        }
+
         public void AddEdge(Node newNeighbour)
         {
             AddArc(newNeighbour);

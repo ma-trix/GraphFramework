@@ -70,5 +70,18 @@ namespace GraphFramework
             node2.AddArc(node1);
             Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
         }
+
+        [Test]
+        public void NewNodeHasOutDegreeZero()
+        {
+            Assert.AreEqual(0, node1.OutDegree);
+        }
+
+        [Test]
+        public void NodeKnowsItsNonzeroOutDegree()
+        {
+            node1.AddArc(node2);
+            Assert.AreEqual(1, node1.OutDegree);
+        }
     }
 }
