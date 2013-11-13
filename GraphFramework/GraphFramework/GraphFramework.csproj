@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Graph.cs" />
     <Compile Include="GraphUnitTests.cs" />
+    <Compile Include="NoArcException.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />

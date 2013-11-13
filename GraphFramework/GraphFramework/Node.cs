@@ -28,5 +28,18 @@ namespace GraphFramework
                 throw new NoMultiedgePermitedException();
             Neighbours.AddLast(node);
         }
+
+        public void RemoveArc(Node node)
+        {
+            if (!Neighbours.Contains(node))
+                throw new NoArcException();
+            Neighbours.Remove(node);
+        }
+
+        public void RemoveEdge(Node toNode)
+        {
+            RemoveArc(toNode);
+            toNode.RemoveArc(this);
+        }
     }
 }

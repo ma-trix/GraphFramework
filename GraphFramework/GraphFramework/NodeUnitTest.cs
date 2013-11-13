@@ -83,5 +83,41 @@ namespace GraphFramework
             node1.AddArc(node2);
             Assert.AreEqual(1, node1.OutDegree);
         }
+
+        [Test]
+        public void CanRemoveArcBetweenTwoNodes()
+        {
+            node1.AddArc(node2);
+            node1.RemoveArc(node2);
+            Assert.IsFalse(node1.Neighbours.Contains(node2));
+        }
+
+        [Test]
+        public void RemovingNonExistentArcThrowsException()
+        {
+            Assert.Throws<NoArcException>(() => node1.RemoveArc(node2));
+        }
+
+        [Test]
+        public void CanRemoveEdgeBetweenTwoNodes()
+        {
+            node1.AddEdge(node2);
+            node1.RemoveEdge(node2);
+            Assert.IsFalse(node1.Neighbours.Contains(node2));
+            Assert.IsFalse(node2.Neighbours.Contains(node1));
+        }
+
+        [Test]
+        public void RemovingNonExistenEdgeThrowsException()
+        {
+            Assert.Throws<NoArcException>(() => node1.RemoveEdge(node2));
+        }
+
+        [Test]
+        public void RemovingEdgeWhenArcFromEndNodeToStartNodeExistsThrowsException()
+        {
+            node2.AddArc(node1);
+            Assert.Throws<NoArcException>(() => node1.RemoveEdge(node2));
+        }
     }
 }
