@@ -119,5 +119,18 @@ namespace GraphFramework
             _vertex2.AddArc(_vertex1);
             Assert.Throws<NoArcException>(() => _vertex1.RemoveEdge(_vertex2));
         }
+
+        [Test]
+        public void NewVertexHasZeroInboundNeighbours()
+        {
+            Assert.AreEqual(0, _vertex1.Inbound.Count);
+        }
+
+        [Test]
+        public void VertexKnowsItsInboundNeighbours()
+        {
+            _vertex1.AddArc(_vertex2);
+            Assert.IsTrue(_vertex2.Inbound.Contains(_vertex1));
+        }
     }
 }

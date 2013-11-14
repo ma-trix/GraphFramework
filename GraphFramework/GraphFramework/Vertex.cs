@@ -5,10 +5,12 @@ namespace GraphFramework
     public class Vertex
     {
         public LinkedList<Vertex> Neighbours;
+        public LinkedList<Vertex> Inbound;
 
         public Vertex()
         {
             Neighbours = new LinkedList<Vertex>();
+            Inbound = new LinkedList<Vertex>();
         }
 
         public int OutDegree
@@ -27,6 +29,12 @@ namespace GraphFramework
             if (Neighbours.Contains(vertex))
                 throw new NoMultiedgePermitedException();
             Neighbours.AddLast(vertex);
+            vertex.AddInArc(this);
+        }
+
+        private void AddInArc(Vertex fromVertex)
+        {
+            Inbound.AddLast(fromVertex);
         }
 
         public void RemoveArc(Vertex vertex)
