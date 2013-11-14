@@ -3,7 +3,7 @@
 namespace GraphFramework
 {
     [TestFixture]
-    public class NodeUnitTest
+    public class VertexUnitTest
     {
         private Vertex _vertex1;
         private Vertex _vertex2;
@@ -23,17 +23,13 @@ namespace GraphFramework
         }
 
         [Test]
-        public void AddsEdgeToVertex()
-        {
-            _vertex1.AddEdge(_vertex2);
-            Assert.Contains(_vertex2, _vertex1.Neighbours);
-        }
-
-        [Test]
         public void AddingEdgeMakesVerticesNeighboursOfEachOther()
         {
             _vertex1.AddEdge(_vertex2);
+            Assert.Contains(_vertex2, _vertex1.Neighbours);
             Assert.Contains(_vertex1, _vertex2.Neighbours);
+            Assert.Contains(_vertex1, _vertex2.Inbound);
+            Assert.Contains(_vertex2, _vertex1.Inbound);
         }
 
         [Test]
@@ -48,6 +44,7 @@ namespace GraphFramework
         {
             _vertex1.AddArc(_vertex2);
             Assert.Contains(_vertex2, _vertex1.Neighbours);
+            Assert.Contains(_vertex1, _vertex2.Inbound);
         }
 
         [Test]
@@ -55,6 +52,7 @@ namespace GraphFramework
         {
             _vertex1.AddArc(_vertex2);
             Assert.IsFalse(_vertex2.Neighbours.Contains(_vertex1));
+            Assert.IsFalse(_vertex1.Inbound.Contains(_vertex2));
         }
         
         [Test]
@@ -90,6 +88,7 @@ namespace GraphFramework
             _vertex1.AddArc(_vertex2);
             _vertex1.RemoveArc(_vertex2);
             Assert.IsFalse(_vertex1.Neighbours.Contains(_vertex2));
+            Assert.IsFalse(_vertex2.Inbound.Contains(_vertex1));
         }
 
         [Test]
@@ -105,6 +104,8 @@ namespace GraphFramework
             _vertex1.RemoveEdge(_vertex2);
             Assert.IsFalse(_vertex1.Neighbours.Contains(_vertex2));
             Assert.IsFalse(_vertex2.Neighbours.Contains(_vertex1));
+            Assert.IsFalse(_vertex1.Inbound.Contains(_vertex2));
+            Assert.IsFalse(_vertex2.Inbound.Contains(_vertex1));
         }
 
         [Test]
@@ -124,13 +125,6 @@ namespace GraphFramework
         public void NewVertexHasZeroInboundNeighbours()
         {
             Assert.AreEqual(0, _vertex1.Inbound.Count);
-        }
-
-        [Test]
-        public void VertexKnowsItsInboundNeighbours()
-        {
-            _vertex1.AddArc(_vertex2);
-            Assert.IsTrue(_vertex2.Inbound.Contains(_vertex1));
         }
     }
 }

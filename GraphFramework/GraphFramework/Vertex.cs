@@ -29,10 +29,10 @@ namespace GraphFramework
             if (Neighbours.Contains(vertex))
                 throw new NoMultiedgePermitedException();
             Neighbours.AddLast(vertex);
-            vertex.AddInArc(this);
+            vertex.AddInboundArc(this);
         }
 
-        private void AddInArc(Vertex fromVertex)
+        private void AddInboundArc(Vertex fromVertex)
         {
             Inbound.AddLast(fromVertex);
         }
@@ -41,7 +41,15 @@ namespace GraphFramework
         {
             if (!Neighbours.Contains(vertex))
                 throw new NoArcException();
+            vertex.RemoveInboundArc(this);
             Neighbours.Remove(vertex);
+        }
+
+        private void RemoveInboundArc(Vertex fromVertex)
+        {
+            if (!Inbound.Contains(fromVertex))
+                throw new NoArcException();
+            Inbound.Remove(fromVertex);
         }
 
         public void RemoveEdge(Vertex toVertex)
