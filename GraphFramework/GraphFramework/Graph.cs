@@ -4,16 +4,16 @@ namespace GraphFramework
 {
     public class Graph
     {
-        public LinkedList<Node> nodes = new LinkedList<Node>();
+        public LinkedList<Vertex> vertices = new LinkedList<Vertex>();
 
-        public void AddNode(Node node)
+        public void AddVertex(Vertex vertex)
         {
-            nodes.AddLast(node);
+            vertices.AddLast(vertex);
         }
 
-        public void RemoveNode(Node nodeToRemove)
+        public void RemoveVertex(Vertex vertexToRemove)
         {
-            nodes.Remove(nodeToRemove);
+            vertices.Remove(vertexToRemove);
         }
     }
 }

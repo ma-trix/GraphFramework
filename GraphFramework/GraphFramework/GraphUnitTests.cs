@@ -5,31 +5,31 @@ namespace GraphFramework
     class GraphUnitTests
     {
         [Test]
-        public void EmptyGraphHasNoNodes()
+        public void EmptyGraphHasNoVertices()
         {
             Graph graph = new Graph();
-            Assert.AreEqual(0, graph.nodes.Count);
+            Assert.AreEqual(0, graph.vertices.Count);
         }
 
 
         [Test]
-        public void AddsNodeToGraph()
+        public void AddsVertexToGraph()
         {
             Graph graph = new Graph();
-            Node newNode = new Node();
-            graph.AddNode(newNode);
-            Assert.Contains(newNode, graph.nodes);
+            Vertex newVertex = new Vertex();
+            graph.AddVertex(newVertex);
+            Assert.Contains(newVertex, graph.vertices);
         }
 
         [Test]
-        public void RemovesNodeFromGraph()
+        public void RemovesVertexFromGraph()
         {
             Graph graph = new Graph();
-            Node newNode = new Node();
-            graph.AddNode(newNode);
-            Assert.IsTrue(graph.nodes.Contains(newNode));
-            graph.RemoveNode(newNode);
-            Assert.IsFalse(graph.nodes.Contains(newNode));
+            Vertex newVertex = new Vertex();
+            graph.AddVertex(newVertex);
+            Assert.IsTrue(graph.vertices.Contains(newVertex));
+            graph.RemoveVertex(newVertex);
+            Assert.IsFalse(graph.vertices.Contains(newVertex));
         }
     }
 }

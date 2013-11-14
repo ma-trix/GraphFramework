@@ -5,119 +5,119 @@ namespace GraphFramework
     [TestFixture]
     public class NodeUnitTest
     {
-        private Node node1;
-        private Node node2;
+        private Vertex _vertex1;
+        private Vertex _vertex2;
 
         [SetUp]
         public void Init()
         {
-            node1 = new Node();
-            node2 = new Node();
+            _vertex1 = new Vertex();
+            _vertex2 = new Vertex();
         }
 
         [Test]
-        public void NewNodeHasNoNeighbours()
+        public void NewVertexHasNoNeighbours()
         {
-            Node node = new Node();
-            Assert.AreEqual(0, node.Neighbours.Count);
+            Vertex vertex = new Vertex();
+            Assert.AreEqual(0, vertex.Neighbours.Count);
         }
 
         [Test]
-        public void AddsEdgeToNode()
+        public void AddsEdgeToVertex()
         {
-            node1.AddEdge(node2);
-            Assert.Contains(node2, node1.Neighbours);
+            _vertex1.AddEdge(_vertex2);
+            Assert.Contains(_vertex2, _vertex1.Neighbours);
         }
 
         [Test]
-        public void AddingEdgeMakesNodesNeighboursOfEachOther()
+        public void AddingEdgeMakesVerticesNeighboursOfEachOther()
         {
-            node1.AddEdge(node2);
-            Assert.Contains(node1, node2.Neighbours);
+            _vertex1.AddEdge(_vertex2);
+            Assert.Contains(_vertex1, _vertex2.Neighbours);
         }
 
         [Test]
-        public void CanNotAddMultipleEdgesBetweenTwoNodes()
+        public void CanNotAddMultipleEdgesBetweenTwoVertices()
         {
-            node1.AddEdge(node2);
-            Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
+            _vertex1.AddEdge(_vertex2);
+            Assert.Throws<NoMultiedgePermitedException>(() => _vertex1.AddEdge(_vertex2));
         }
 
         [Test]
-        public void AddsArcToNode()
+        public void AddsArcToVertex()
         {
-            node1.AddArc(node2);
-            Assert.Contains(node2, node1.Neighbours);
+            _vertex1.AddArc(_vertex2);
+            Assert.Contains(_vertex2, _vertex1.Neighbours);
         }
 
         [Test]
-        public void AddingArcToNodeIsOneWayOnly()
+        public void AddingArcToVertexIsOneWayOnly()
         {
-            node1.AddArc(node2);
-            Assert.IsFalse(node2.Neighbours.Contains(node1));
+            _vertex1.AddArc(_vertex2);
+            Assert.IsFalse(_vertex2.Neighbours.Contains(_vertex1));
         }
         
         [Test]
-        public void CanNotAddArcIfStartIsAlreadyConsecutiveToEndNode()
+        public void CanNotAddArcIfStartVertexIsAlreadyConsecutiveToEndVertex()
         {
-            node1.AddArc(node2);
-            Assert.Throws<NoMultiedgePermitedException>(() => node1.AddArc(node2));
+            _vertex1.AddArc(_vertex2);
+            Assert.Throws<NoMultiedgePermitedException>(() => _vertex1.AddArc(_vertex2));
         }
 
         [Test]
-        public void CanNotAddEdgeIfEndNodeIsAlreadyConsecutiveToStartNode()
+        public void CanNotAddEdgeIfEndVertexIsAlreadyConsecutiveToStartVertex()
         {
-            node2.AddArc(node1);
-            Assert.Throws<NoMultiedgePermitedException>(() => node1.AddEdge(node2));
+            _vertex2.AddArc(_vertex1);
+            Assert.Throws<NoMultiedgePermitedException>(() => _vertex1.AddEdge(_vertex2));
         }
 
         [Test]
-        public void NewNodeHasOutDegreeZero()
+        public void NewVertexHasOutDegreeZero()
         {
-            Assert.AreEqual(0, node1.OutDegree);
+            Assert.AreEqual(0, _vertex1.OutDegree);
         }
 
         [Test]
-        public void NodeKnowsItsNonzeroOutDegree()
+        public void VertexKnowsItsNonzeroOutDegree()
         {
-            node1.AddArc(node2);
-            Assert.AreEqual(1, node1.OutDegree);
+            _vertex1.AddArc(_vertex2);
+            Assert.AreEqual(1, _vertex1.OutDegree);
         }
 
         [Test]
-        public void CanRemoveArcBetweenTwoNodes()
+        public void CanRemoveArcBetweenTwoVertices()
         {
-            node1.AddArc(node2);
-            node1.RemoveArc(node2);
-            Assert.IsFalse(node1.Neighbours.Contains(node2));
+            _vertex1.AddArc(_vertex2);
+            _vertex1.RemoveArc(_vertex2);
+            Assert.IsFalse(_vertex1.Neighbours.Contains(_vertex2));
         }
 
         [Test]
         public void RemovingNonExistentArcThrowsException()
         {
-            Assert.Throws<NoArcException>(() => node1.RemoveArc(node2));
+            Assert.Throws<NoArcException>(() => _vertex1.RemoveArc(_vertex2));
         }
 
         [Test]
-        public void CanRemoveEdgeBetweenTwoNodes()
+        public void CanRemoveEdgeBetweenTwoVertices()
         {
-            node1.AddEdge(node2);
-            node1.RemoveEdge(node2);
-            Assert.IsFalse(node1.Neighbours.Contains(node2));
-            Assert.IsFalse(node2.Neighbours.Contains(node1));
+            _vertex1.AddEdge(_vertex2);
+            _vertex1.RemoveEdge(_vertex2);
+            Assert.IsFalse(_vertex1.Neighbours.Contains(_vertex2));
+            Assert.IsFalse(_vertex2.Neighbours.Contains(_vertex1));
         }
 
         [Test]
         public void RemovingNonExistenEdgeThrowsException()
         {
-            Assert.Throws<NoArcException>(() => node1.RemoveEdge(node2));
+            Assert.Throws<NoArcException>(() => _vertex1.RemoveEdge(_vertex2));
         }
 
         [Test]
-        public void RemovingEdgeWhenArcFromEndNodeToStartNodeExistsThrowsException()
+        public void RemovingEdgeWhenArcFromEndVertexToStartVertexExistsThrowsException()
         {
-            node2.AddArc(node1);
-            Assert.Throws<NoArcException>(() => node1.RemoveEdge(node2));
+            _vertex2.AddArc(_vertex1);
+            Assert.Throws<NoArcException>(() => _vertex1.RemoveEdge(_vertex2));
         }
     }
 }
