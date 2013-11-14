@@ -52,7 +52,7 @@ namespace GraphFramework
             _graph.AddVertex(_v2);
             _v2.AddArc(_v1);
             _graph.RemoveVertex(_v1);
-            Assert.IsFalse(_v2.Neighbours.Contains(_v1));
+            Assert.IsFalse(_v2.Outbound.Contains(_v1));
         }
 
         [Test]

@@ -4,18 +4,18 @@ namespace GraphFramework
 {
     public class Vertex
     {
-        public LinkedList<Vertex> Neighbours;
+        public LinkedList<Vertex> Outbound;
         public LinkedList<Vertex> Inbound;
 
         public Vertex()
         {
-            Neighbours = new LinkedList<Vertex>();
+            Outbound = new LinkedList<Vertex>();
             Inbound = new LinkedList<Vertex>();
         }
 
         public int OutDegree
         {
-            get { return Neighbours.Count; }
+            get { return Outbound.Count; }
         }
 
         public void AddEdge(Vertex newNeighbour)
@@ -26,9 +26,9 @@ namespace GraphFramework
         
         public void AddArc(Vertex vertex)
         {
-            if (Neighbours.Contains(vertex))
+            if (Outbound.Contains(vertex))
                 throw new NoMultiedgePermitedException();
-            Neighbours.AddLast(vertex);
+            Outbound.AddLast(vertex);
             vertex.AddInboundArc(this);
         }
 
@@ -39,10 +39,10 @@ namespace GraphFramework
 
         public void RemoveArc(Vertex vertex)
         {
-            if (!Neighbours.Contains(vertex))
+            if (!Outbound.Contains(vertex))
                 throw new NoArcException();
             vertex.RemoveInboundArc(this);
-            Neighbours.Remove(vertex);
+            Outbound.Remove(vertex);
         }
 
         private void RemoveInboundArc(Vertex fromVertex)
@@ -69,14 +69,14 @@ namespace GraphFramework
 
         private void EndVertexRemoved(Vertex endVertex)
         {
-            if (!Neighbours.Contains(endVertex))
+            if (!Outbound.Contains(endVertex))
                 throw new NoArcException();
-            Neighbours.Remove(endVertex);
+            Outbound.Remove(endVertex);
         }
 
         public void RemoveOutboundArcs()
         {
-            foreach (var neighbour in Neighbours)
+            foreach (var neighbour in Outbound)
             {
                 neighbour.RemoveInboundArc(this);
             }

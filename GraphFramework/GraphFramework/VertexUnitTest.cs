@@ -16,17 +16,17 @@ namespace GraphFramework
         }
 
         [Test]
-        public void NewVertexHasNoNeighbours()
+        public void NewVertexHasZeroOutboundNeighbours()
         {
-            Assert.AreEqual(0, _v1.Neighbours.Count);
+            Assert.AreEqual(0, _v1.Outbound.Count);
         }
 
         [Test]
         public void AddingEdgeMakesVerticesNeighboursOfEachOther()
         {
             _v1.AddEdge(_v2);
-            Assert.Contains(_v2, _v1.Neighbours);
-            Assert.Contains(_v1, _v2.Neighbours);
+            Assert.Contains(_v2, _v1.Outbound);
+            Assert.Contains(_v1, _v2.Outbound);
             Assert.Contains(_v1, _v2.Inbound);
             Assert.Contains(_v2, _v1.Inbound);
         }
@@ -42,7 +42,7 @@ namespace GraphFramework
         public void AddsArcToVertex()
         {
             _v1.AddArc(_v2);
-            Assert.Contains(_v2, _v1.Neighbours);
+            Assert.Contains(_v2, _v1.Outbound);
             Assert.Contains(_v1, _v2.Inbound);
         }
 
@@ -50,7 +50,7 @@ namespace GraphFramework
         public void AddingArcToVertexIsOneWayOnly()
         {
             _v1.AddArc(_v2);
-            Assert.IsFalse(_v2.Neighbours.Contains(_v1));
+            Assert.IsFalse(_v2.Outbound.Contains(_v1));
             Assert.IsFalse(_v1.Inbound.Contains(_v2));
         }
         
@@ -86,7 +86,7 @@ namespace GraphFramework
         {
             _v1.AddArc(_v2);
             _v1.RemoveArc(_v2);
-            Assert.IsFalse(_v1.Neighbours.Contains(_v2));
+            Assert.IsFalse(_v1.Outbound.Contains(_v2));
             Assert.IsFalse(_v2.Inbound.Contains(_v1));
         }
 
@@ -101,8 +101,8 @@ namespace GraphFramework
         {
             _v1.AddEdge(_v2);
             _v1.RemoveEdge(_v2);
-            Assert.IsFalse(_v1.Neighbours.Contains(_v2));
-            Assert.IsFalse(_v2.Neighbours.Contains(_v1));
+            Assert.IsFalse(_v1.Outbound.Contains(_v2));
+            Assert.IsFalse(_v2.Outbound.Contains(_v1));
             Assert.IsFalse(_v1.Inbound.Contains(_v2));
             Assert.IsFalse(_v2.Inbound.Contains(_v1));
         }
