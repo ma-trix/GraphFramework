@@ -10,5 +10,10 @@ namespace GraphFramework
         {
             nodes.AddLast(node);
         }
+
+        public void RemoveNode(Node nodeToRemove)
+        {
+            nodes.Remove(nodeToRemove);
+        }
     }
 }
