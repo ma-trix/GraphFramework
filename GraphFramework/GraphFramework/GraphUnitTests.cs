@@ -46,7 +46,6 @@ namespace GraphFramework
         }
 
         [Test]
-        [Ignore]
         public void RemovingVertexRemovesInboundArcs()
         {
             _graph.AddVertex(_v1);

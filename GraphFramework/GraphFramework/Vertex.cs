@@ -57,5 +57,21 @@ namespace GraphFramework
             RemoveArc(toVertex);
             toVertex.RemoveArc(this);
         }
+
+        public void RemoveInboundArcs()
+        {
+            foreach (var vertex in Inbound)
+            {
+                vertex.EndVertexRemoved(this);
+            }
+            Inbound = new LinkedList<Vertex>();
+        }
+
+        private void EndVertexRemoved(Vertex endVertex)
+        {
+            if (!Neighbours.Contains(endVertex))
+                throw new NoArcException();
+            Neighbours.Remove(endVertex);
+        }
     }
 }
