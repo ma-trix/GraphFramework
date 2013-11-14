@@ -73,5 +73,13 @@ namespace GraphFramework
                 throw new NoArcException();
             Neighbours.Remove(endVertex);
         }
+
+        public void RemoveOutboundArcs()
+        {
+            foreach (var neighbour in Neighbours)
+            {
+                neighbour.RemoveInboundArc(this);
+            }
+        }
     }
 }

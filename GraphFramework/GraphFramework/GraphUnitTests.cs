@@ -54,5 +54,15 @@ namespace GraphFramework
             _graph.RemoveVertex(_v1);
             Assert.IsFalse(_v2.Neighbours.Contains(_v1));
         }
+
+        [Test]
+        public void RemovingVertexRemovesOutboundArcsToNeighbours()
+        {
+            _graph.AddVertex(_v1);
+            _graph.AddVertex(_v2);
+            _v1.AddArc(_v2);
+            _graph.RemoveVertex(_v1);
+            Assert.IsFalse(_v2.Inbound.Contains(_v1));
+        }
     }
 }

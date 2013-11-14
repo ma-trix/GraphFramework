@@ -14,6 +14,7 @@ namespace GraphFramework
         public void RemoveVertex(Vertex vertexToRemove)
         {
             vertexToRemove.RemoveInboundArcs();
+            vertexToRemove.RemoveOutboundArcs();
             if (!vertices.Contains(vertexToRemove))
             {
                 throw new NoVertexException();
