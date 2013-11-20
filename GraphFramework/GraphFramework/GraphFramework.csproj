@@ -46,6 +46,8 @@
     <Compile Include="GraphUnitTests.cs" />
     <Compile Include="NoArcException.cs" />
     <Compile Include="NoVertexException.cs" />
+    <Compile Include="TwinGraph.cs" />
+    <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
