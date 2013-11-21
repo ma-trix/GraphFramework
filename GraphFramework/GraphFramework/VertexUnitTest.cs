@@ -82,6 +82,19 @@ namespace GraphFramework
         }
 
         [Test]
+        public void NewVertexHasInDegreeZero()
+        {
+            Assert.AreEqual(0, _v1.InDegree);
+        }
+
+        [Test]
+        public void VertexKnowsItsNonzeroInDegree()
+        {
+            _v2.AddArc(_v1);
+            Assert.AreEqual(1, _v1.InDegree);
+        }
+
+        [Test]
         public void CanRemoveArcBetweenTwoVertices()
         {
             _v1.AddArc(_v2);

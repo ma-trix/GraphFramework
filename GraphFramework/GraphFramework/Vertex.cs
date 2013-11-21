@@ -28,6 +28,11 @@ namespace GraphFramework
             get { return _inbound; }
         }
 
+        public int InDegree
+        {
+            get { return _inbound.Count; }
+        }
+
         public void AddEdge(Vertex newNeighbour)
         {
             AddArc(newNeighbour);
