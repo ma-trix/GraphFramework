@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace GraphFramework
 {
@@ -36,34 +35,19 @@ namespace GraphFramework
 
         public void AddEdge(Vertex newNeighbour)
         {
-            AddArc(newNeighbour);
-            newNeighbour.AddArc(this);
+            AddOutboundArc(newNeighbour);
+            newNeighbour.AddOutboundArc(this);
         }
         
-        public void AddArc(Vertex vertex)
+        public void AddOutboundArc(Vertex endVertex)
         {
-            if (DoesArcExist(this, vertex, _outboundArcs))
+            if (DoesArcExist(this, endVertex, _outboundArcs))
             {
                 throw new NoMultiedgePermitedException();
             }
-            var newArc = new Arc(null, this, vertex);
+            var newArc = new Arc(null, this, endVertex);
             _outboundArcs.AddLast(newArc);
-            vertex.AddInboundArc(newArc);
-        }
-
-        private bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
-        {
-            var arc = inList.First;
-            while (arc != null)
-            {
-                var nextArc = arc.Next;
-                if (arc.Value.Start == start && arc.Value.End == end)
-                {
-                    return true;
-                }
-                arc = nextArc;
-            }
-            return false;
+            endVertex.AddInboundArc(newArc);
         }
 
         private void AddInboundArc(Arc newArc)
@@ -79,25 +63,11 @@ namespace GraphFramework
             DeleteArc(this, vertex, _outboundArcs);
         }
 
-        private void DeleteArc(Vertex start, Vertex end, LinkedList<Arc> fromList)
+        private void RemoveInboundArc(Vertex startVertex)
         {
-            var arc = fromList.First;
-            while (arc != null)
-            {
-                var nextArc = arc.Next;
-                if (arc.Value.Start == start && arc.Value.End == end)
-                {
-                    fromList.Remove(arc);
-                }
-                arc = nextArc;
-            }
-        }
-
-        private void RemoveInboundArc(Vertex fromVertex)
-        {
-            if (!DoesArcExist(fromVertex, this, _inboundArcs))
+            if (!DoesArcExist(startVertex, this, _inboundArcs))
                 throw new NoArcException();
-            DeleteArc(fromVertex, this, _inboundArcs);
+            DeleteArc(startVertex, this, _inboundArcs);
         }
 
         public void RemoveEdge(Vertex toVertex)
@@ -127,6 +97,35 @@ namespace GraphFramework
             foreach (var neighbour in _outboundArcs)
             {
                 neighbour.End.RemoveInboundArc(this);
+            }
+        }
+
+        private bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
+        {
+            var arc = inList.First;
+            while (arc != null)
+            {
+                var nextArc = arc.Next;
+                if (arc.Value.Start == start && arc.Value.End == end)
+                {
+                    return true;
+                }
+                arc = nextArc;
+            }
+            return false;
+        }
+
+        private void DeleteArc(Vertex start, Vertex end, LinkedList<Arc> fromList)
+        {
+            var arc = fromList.First;
+            while (arc != null)
+            {
+                var nextArc = arc.Next;
+                if (arc.Value.Start == start && arc.Value.End == end)
+                {
+                    fromList.Remove(arc);
+                }
+                arc = nextArc;
             }
         }
     }

@@ -51,7 +51,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _v2.AddArc(_v1);
+            _v2.AddOutboundArc(_v1);
             _graph.RemoveVertex(_v1);
             Assert.AreEqual(0, _v2.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v1).Count());
         }
@@ -61,7 +61,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _v1.AddArc(_v2);
+            _v1.AddOutboundArc(_v2);
             _graph.RemoveVertex(_v1);
             Assert.AreEqual(0, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
         }
