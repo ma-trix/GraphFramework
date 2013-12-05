@@ -33,13 +33,15 @@ namespace GraphFramework
             get { return _inboundArcs; }
         }
 
+        public Graph Graph { get; set; }
+
         public void AddEdge(Vertex newNeighbour)
         {
             AddOutboundArc(newNeighbour);
             newNeighbour.AddOutboundArc(this);
         }
         
-        public void AddOutboundArc(Vertex endVertex)
+        public Arc AddOutboundArc(Vertex endVertex)
         {
             if (DoesArcExist(this, endVertex, _outboundArcs))
             {
@@ -48,6 +50,7 @@ namespace GraphFramework
             var newArc = new Arc(null, this, endVertex);
             _outboundArcs.AddLast(newArc);
             endVertex.AddInboundArc(newArc);
+            return newArc;
         }
 
         private void AddInboundArc(Arc newArc)

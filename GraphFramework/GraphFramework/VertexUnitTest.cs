@@ -139,5 +139,19 @@ namespace GraphFramework
         {
             Assert.AreEqual(0, _v1.InboundArcs.Count);
         }
+
+        [Test]
+        public void VerticesWithArcBetweenThemReferToTheSameObject()
+        {
+            _v1.AddOutboundArc(_v2);
+            Assert.AreSame(_v1.OutboundArcs.First(arc => arc.Start == _v1 && arc.End == _v2),
+                            _v2.InboundArcs.First(arc => arc.Start == _v1 && arc.End == _v2));
+        }
+
+        [Test]
+        public void NewVertexDoesntBelongToAnyGraph()
+        {
+            Assert.IsNull(_v1.Graph);
+        }
     }
 }
