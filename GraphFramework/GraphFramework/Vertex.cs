@@ -5,13 +5,11 @@ namespace GraphFramework
 {
     public class Vertex
     {
-        private LinkedList<Vertex> _inbound;
         private LinkedList<Arc> _outboundArcs;
         private LinkedList<Arc> _inboundArcs;
 
         public Vertex()
         {
-            _inbound = new LinkedList<Vertex>();
             _outboundArcs = new LinkedList<Arc>();
             _inboundArcs = new LinkedList<Arc>();
         }
@@ -21,19 +19,9 @@ namespace GraphFramework
             get { return _outboundArcs.Count; }
         }
 
-        public LinkedList<Vertex> Outbound
-        {
-            get { return null; }
-        }
-
-        public LinkedList<Vertex> Inbound
-        {
-            get { return _inbound; }
-        }
-
         public int InDegree
         {
-            get { return _inbound.Count; }
+            get { return _inboundArcs.Count; }
         }
 
         public LinkedList<Arc> OutboundArcs
@@ -81,7 +69,6 @@ namespace GraphFramework
         private void AddInboundArc(Arc newArc)
         {
             _inboundArcs.AddLast(newArc);
-            _inbound.AddLast(newArc.Start);
         }
 
         public void RemoveArc(Vertex vertex)
@@ -108,9 +95,8 @@ namespace GraphFramework
 
         private void RemoveInboundArc(Vertex fromVertex)
         {
-            if (!_inbound.Contains(fromVertex))
+            if (!DoesArcExist(fromVertex, this, _inboundArcs))
                 throw new NoArcException();
-            _inbound.Remove(fromVertex);
             DeleteArc(fromVertex, this, _inboundArcs);
         }
 
@@ -122,11 +108,10 @@ namespace GraphFramework
 
         public void RemoveInboundArcs()
         {
-            foreach (var vertex in _inbound)
+            foreach (var neighbour in _inboundArcs)
             {
-                vertex.EndVertexRemoved(this);
+                neighbour.Start.EndVertexRemoved(this);
             }
-            _inbound = new LinkedList<Vertex>();
             _inboundArcs = new LinkedList<Arc>();
         }
 

@@ -63,7 +63,6 @@ namespace GraphFramework
             _graph.AddVertex(_v2);
             _v1.AddArc(_v2);
             _graph.RemoveVertex(_v1);
-            Assert.IsFalse(_v2.Inbound.Contains(_v1));
             Assert.AreEqual(0, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
         }
     }
