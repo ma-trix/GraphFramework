@@ -5,14 +5,12 @@ namespace GraphFramework
 {
     public class Vertex
     {
-        private LinkedList<Vertex> _outbound;
         private LinkedList<Vertex> _inbound;
         private LinkedList<Arc> _outboundArcs;
         private LinkedList<Arc> _inboundArcs;
 
         public Vertex()
         {
-            _outbound = new LinkedList<Vertex>();
             _inbound = new LinkedList<Vertex>();
             _outboundArcs = new LinkedList<Arc>();
             _inboundArcs = new LinkedList<Arc>();
@@ -25,7 +23,7 @@ namespace GraphFramework
 
         public LinkedList<Vertex> Outbound
         {
-            get { return _outbound; }
+            get { return null; }
         }
 
         public LinkedList<Vertex> Inbound
@@ -60,7 +58,6 @@ namespace GraphFramework
             {
                 throw new NoMultiedgePermitedException();
             }
-            _outbound.AddLast(vertex);
             var newArc = new Arc(null, this, vertex);
             _outboundArcs.AddLast(newArc);
             vertex.AddInboundArc(newArc);
@@ -92,7 +89,6 @@ namespace GraphFramework
             if (!DoesArcExist(this, vertex, _outboundArcs))
                 throw new NoArcException();
             vertex.RemoveInboundArc(this);
-            _outbound.Remove(vertex);
             DeleteArc(this, vertex, _outboundArcs);
         }
 
@@ -138,7 +134,6 @@ namespace GraphFramework
         {
             if (!DoesArcExist(this, endVertex, _outboundArcs))
                 throw new NoArcException();
-            _outbound.Remove(endVertex);
             DeleteArc(this, endVertex, _outboundArcs);
         }
 
