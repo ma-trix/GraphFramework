@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arc.cs" />
+    <Compile Include="ArcUnitTests.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphUnitTests.cs" />
     <Compile Include="NoArcException.cs" />
