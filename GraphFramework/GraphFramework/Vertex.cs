@@ -20,7 +20,7 @@ namespace GraphFramework
 
         public int OutDegree
         {
-            get { return _outbound.Count; }
+            get { return _outboundArcs.Count; }
         }
 
         public LinkedList<Vertex> Outbound
@@ -56,12 +56,29 @@ namespace GraphFramework
         
         public void AddArc(Vertex vertex)
         {
-            if (_outbound.Contains(vertex))
+            if (DoesArcExist(this, vertex, _outboundArcs))
+            {
                 throw new NoMultiedgePermitedException();
+            }
             _outbound.AddLast(vertex);
-            Arc newArc = new Arc(null, this, vertex);
+            var newArc = new Arc(null, this, vertex);
             _outboundArcs.AddLast(newArc);
             vertex.AddInboundArc(newArc);
+        }
+
+        private bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
+        {
+            var arc = inList.First;
+            while (arc != null)
+            {
+                var nextArc = arc.Next;
+                if (arc.Value.Start == start && arc.Value.End == end)
+                {
+                    return true;
+                }
+                arc = nextArc;
+            }
+            return false;
         }
 
         private void AddInboundArc(Arc newArc)
@@ -72,7 +89,7 @@ namespace GraphFramework
 
         public void RemoveArc(Vertex vertex)
         {
-            if (!_outbound.Contains(vertex))
+            if (!DoesArcExist(this, vertex, _outboundArcs))
                 throw new NoArcException();
             vertex.RemoveInboundArc(this);
             _outbound.Remove(vertex);
@@ -114,20 +131,22 @@ namespace GraphFramework
                 vertex.EndVertexRemoved(this);
             }
             _inbound = new LinkedList<Vertex>();
+            _inboundArcs = new LinkedList<Arc>();
         }
 
         private void EndVertexRemoved(Vertex endVertex)
         {
-            if (!_outbound.Contains(endVertex))
+            if (!DoesArcExist(this, endVertex, _outboundArcs))
                 throw new NoArcException();
             _outbound.Remove(endVertex);
+            DeleteArc(this, endVertex, _outboundArcs);
         }
 
         public void RemoveOutboundArcs()
         {
-            foreach (var neighbour in _outbound)
+            foreach (var neighbour in _outboundArcs)
             {
-                neighbour.RemoveInboundArc(this);
+                neighbour.End.RemoveInboundArc(this);
             }
         }
     }
