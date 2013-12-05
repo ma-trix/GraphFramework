@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace GraphFramework
 {
@@ -29,6 +30,10 @@ namespace GraphFramework
             Assert.Contains(_v1, _v2.Outbound);
             Assert.Contains(_v1, _v2.Inbound);
             Assert.Contains(_v2, _v1.Inbound);
+            Assert.AreEqual(1, _v1.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+            Assert.AreEqual(1, _v1.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+            Assert.AreEqual(1, _v2.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+            Assert.AreEqual(1, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
         }
 
         [Test]
@@ -39,11 +44,13 @@ namespace GraphFramework
         }
 
         [Test]
-        public void AddsArcToVertex()
+        public void AddsOutboundArcToVertex()
         {
             _v1.AddArc(_v2);
             Assert.Contains(_v2, _v1.Outbound);
             Assert.Contains(_v1, _v2.Inbound);
+            Assert.AreEqual(1, _v1.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+            Assert.AreEqual(1, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
         }
 
         [Test]
@@ -52,6 +59,8 @@ namespace GraphFramework
             _v1.AddArc(_v2);
             Assert.IsFalse(_v2.Outbound.Contains(_v1));
             Assert.IsFalse(_v1.Inbound.Contains(_v2));
+            Assert.IsFalse(_v2.OutboundArcs.Select(arc => arc.Start == _v2 && arc.End == _v1).Count() == 1);
+            Assert.IsFalse(_v1.InboundArcs.Select(arc => arc.Start == _v2 && arc.End == _v1).Count() == 1);
         }
         
         [Test]
@@ -101,6 +110,8 @@ namespace GraphFramework
             _v1.RemoveArc(_v2);
             Assert.IsFalse(_v1.Outbound.Contains(_v2));
             Assert.IsFalse(_v2.Inbound.Contains(_v1));
+            Assert.AreEqual(0, _v1.OutboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
+            Assert.AreEqual(0, _v2.InboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2 )).Count());
         }
 
         [Test]
@@ -118,6 +129,10 @@ namespace GraphFramework
             Assert.IsFalse(_v2.Outbound.Contains(_v1));
             Assert.IsFalse(_v1.Inbound.Contains(_v2));
             Assert.IsFalse(_v2.Inbound.Contains(_v1));
+            Assert.AreEqual(0, _v1.OutboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
+            Assert.AreEqual(0, _v1.InboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
+            Assert.AreEqual(0, _v2.OutboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
+            Assert.AreEqual(0, _v2.InboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
         }
 
         [Test]
@@ -137,6 +152,18 @@ namespace GraphFramework
         public void NewVertexHasZeroInboundNeighbours()
         {
             Assert.AreEqual(0, _v1.Inbound.Count);
+        }
+    
+        [Test]
+        public void NewVertexHasZeroOutboundEdges()
+        {
+            Assert.AreEqual(0, _v1.OutboundArcs.Count);
+        }
+
+        [Test]
+        public void NewVertexHasZeroInboundEdges()
+        {
+            Assert.AreEqual(0, _v1.InboundArcs.Count);
         }
     }
 }
