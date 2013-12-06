@@ -31,43 +31,12 @@ namespace GraphFramework
             arcs.AddLast(a);
         }
 
-        public bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
-        {
-            var arc = inList.First;
-            while (arc != null)
-            {
-                var nextArc = arc.Next;
-                if (arc.Value.Start == start && arc.Value.End == end)
-                {
-                    return true;
-                }
-                arc = nextArc;
-            }
-            return false;
-        }
-
         public void RemoveArc(Vertex v1, Vertex v2)
         {
-            if (DeleteArc(v1, v2, arcs))
+            if (ArcHelper.DeleteArc(v1, v2, arcs))
             {
                 v1.RemoveArc(v2);
             }
-        }
-
-        private bool DeleteArc(Vertex start, Vertex end, LinkedList<Arc> fromList)
-        {
-            var arc = fromList.First;
-            while (arc != null)
-            {
-                var nextArc = arc.Next;
-                if (arc.Value.Start == start && arc.Value.End == end)
-                {
-                    fromList.Remove(arc);
-                    return true;
-                }
-                arc = nextArc;
-            }
-            return false;
         }
 
         public void AddEdge(Vertex startVertex, Vertex endVertex)
