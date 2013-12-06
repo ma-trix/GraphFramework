@@ -37,6 +37,10 @@ namespace GraphFramework
             {
                 v1.RemoveArc(v2);
             }
+            else
+            {
+                throw new NoArcException();
+            }
         }
 
         public void AddEdge(Vertex startVertex, Vertex endVertex)
@@ -47,8 +51,13 @@ namespace GraphFramework
 
         public void RemoveEdge(Vertex v1, Vertex v2)
         {
+            if (!ArcHelper.DoesArcExist(v1, v2, arcs))
+                throw new NoArcException();
+            if (!ArcHelper.DoesArcExist(v2, v1, arcs))
+                throw new NoArcException();
             RemoveArc(v1, v2);
             RemoveArc(v2, v1);
+            
         }
     }
 }

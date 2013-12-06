@@ -148,5 +148,16 @@ namespace GraphFramework
             Assert.IsNull(_v1.OutboundArcs.FirstOrDefault(arcV2V1));
             Assert.IsNull(_v2.InboundArcs.FirstOrDefault(arcV2V1));
         }
+
+        [Test]
+        public void RemovingEdgeWhenOnlyArcExistsLeavesArcAndThrowsException()
+        {
+            _graph.AddVertex(_v1);
+            _graph.AddVertex(_v2);
+            _graph.AddArc(_v1, _v2);
+            Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
+            Assert.Throws<NoArcException>(() => _graph.RemoveEdge(_v1, _v2));
+            Assert.IsNotNull(_graph.arcs.FirstOrDefault(arcV1V2));
+        }
     }
 }
