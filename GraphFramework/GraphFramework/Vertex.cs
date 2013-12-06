@@ -36,12 +36,7 @@ namespace GraphFramework
         }
 
         public Graph Graph { get; set; }
-
-        public ArcHelper ArcHelper
-        {
-            get { return _arcHelper; }
-        }
-
+        
         public void AddEdge(Vertex newNeighbour)
         {
             AddOutboundArc(newNeighbour);
@@ -54,7 +49,7 @@ namespace GraphFramework
             {
                 throw new NoMultiedgePermitedException();
             }
-            var newArc = new Arc(null, this, endVertex);
+            var newArc = new Arc(Graph, this, endVertex);
             _outboundArcs.AddLast(newArc);
             endVertex.AddInboundArc(newArc);
             return newArc;
