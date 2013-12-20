@@ -17,5 +17,16 @@
         {
             get { return graph; }
         }
+
+        public bool IsInMatching
+        {
+            get;
+            set;
+        }
+
+        public void AddToMatching()
+        {
+            IsInMatching = true;
+        }
     }
 }

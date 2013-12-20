@@ -51,6 +51,8 @@
     <Compile Include="NoVertexException.cs" />
     <Compile Include="TwinGraph.cs" />
     <Compile Include="TwinGraphUnitTests.cs" />
+    <Compile Include="TwinVertex.cs" />
+    <Compile Include="TwinVertexTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />

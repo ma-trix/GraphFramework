@@ -31,5 +31,13 @@ namespace GraphFramework
             Arc a = new Arc(g, v1, v2);
             Assert.AreSame(g, a.Graph);
         }
+
+        [Test]
+        public void KnowsItIsInMatching()
+        {
+            Arc a = new Arc(g, v1, v2);
+            a.AddToMatching();
+            Assert.AreEqual(true, a.IsInMatching);
+        }
     }
 }
