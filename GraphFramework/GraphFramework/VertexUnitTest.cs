@@ -153,5 +153,11 @@ namespace GraphFramework
         {
             Assert.IsNull(_v1.Graph);
         }
+
+        [Test]
+        public void NewVertexHasGuid()
+        {
+            Assert.IsNotNull(_v1.Guid);
+        }
     }
 }

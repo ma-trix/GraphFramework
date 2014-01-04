@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphFramework
 {
@@ -13,6 +14,7 @@ namespace GraphFramework
             _outboundArcs = new LinkedList<Arc>();
             _inboundArcs = new LinkedList<Arc>();
             _arcHelper = new ArcHelper();
+            Guid = Guid.NewGuid();
         }
 
         public int OutDegree
@@ -36,7 +38,9 @@ namespace GraphFramework
         }
 
         public Graph Graph { get; set; }
-        
+
+        public Guid Guid { get; private set; }
+
         public void AddEdge(Vertex newNeighbour)
         {
             AddOutboundArc(newNeighbour);
