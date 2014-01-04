@@ -5,37 +5,26 @@ namespace GraphFramework
 {
     public class Vertex
     {
-        private LinkedList<Arc> _outboundArcs;
-        private LinkedList<Arc> _inboundArcs;
-        private readonly ArcHelper _arcHelper;
-
         public Vertex()
         {
-            _outboundArcs = new LinkedList<Arc>();
-            _inboundArcs = new LinkedList<Arc>();
-            _arcHelper = new ArcHelper();
+            OutboundArcs = new LinkedList<Arc>();
+            InboundArcs = new LinkedList<Arc>();
             Guid = Guid.NewGuid();
         }
 
         public int OutDegree
         {
-            get { return _outboundArcs.Count; }
+            get { return OutboundArcs.Count; }
         }
 
         public int InDegree
         {
-            get { return _inboundArcs.Count; }
+            get { return InboundArcs.Count; }
         }
 
-        public LinkedList<Arc> OutboundArcs
-        {
-            get { return _outboundArcs; }
-        }
+        public LinkedList<Arc> OutboundArcs { get; private set; }
 
-        public LinkedList<Arc> InboundArcs
-        {
-            get { return _inboundArcs; }
-        }
+        public LinkedList<Arc> InboundArcs { get; private set; }
 
         public Graph Graph { get; set; }
 
@@ -49,34 +38,34 @@ namespace GraphFramework
         
         public Arc AddOutboundArc(Vertex endVertex)
         {
-            if (ArcHelper.DoesArcExist(this, endVertex, _outboundArcs))
+            if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
             {
                 throw new NoMultiedgePermitedException();
             }
             var newArc = new Arc(Graph, this, endVertex);
-            _outboundArcs.AddLast(newArc);
+            OutboundArcs.AddLast(newArc);
             endVertex.AddInboundArc(newArc);
             return newArc;
         }
 
         private void AddInboundArc(Arc newArc)
         {
-            _inboundArcs.AddLast(newArc);
+            InboundArcs.AddLast(newArc);
         }
 
         public void RemoveArc(Vertex vertex)
         {
-            if (!ArcHelper.DoesArcExist(this, vertex, _outboundArcs))
+            if (!ArcHelper.DoesArcExist(this, vertex, OutboundArcs))
                 throw new NoArcException();
             vertex.RemoveInboundArc(this);
-            ArcHelper.DeleteArc(this, vertex, _outboundArcs);
+            ArcHelper.DeleteArc(this, vertex, OutboundArcs);
         }
 
         private void RemoveInboundArc(Vertex startVertex)
         {
-            if (!ArcHelper.DoesArcExist(startVertex, this, _inboundArcs))
+            if (!ArcHelper.DoesArcExist(startVertex, this, InboundArcs))
                 throw new NoArcException();
-            ArcHelper.DeleteArc(startVertex, this, _inboundArcs);
+            ArcHelper.DeleteArc(startVertex, this, InboundArcs);
         }
 
         public void RemoveEdge(Vertex toVertex)
@@ -87,23 +76,23 @@ namespace GraphFramework
 
         public void RemoveInboundArcs()
         {
-            foreach (var neighbour in _inboundArcs)
+            foreach (var neighbour in InboundArcs)
             {
                 neighbour.Start.EndVertexRemoved(this);
             }
-            _inboundArcs = new LinkedList<Arc>();
+            InboundArcs = new LinkedList<Arc>();
         }
 
         private void EndVertexRemoved(Vertex endVertex)
         {
-            if (!ArcHelper.DoesArcExist(this, endVertex, _outboundArcs))
+            if (!ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
                 throw new NoArcException();
-            ArcHelper.DeleteArc(this, endVertex, _outboundArcs);
+            ArcHelper.DeleteArc(this, endVertex, OutboundArcs);
         }
 
         public void RemoveOutboundArcs()
         {
-            foreach (var neighbour in _outboundArcs)
+            foreach (var neighbour in OutboundArcs)
             {
                 neighbour.End.RemoveInboundArc(this);
             }
