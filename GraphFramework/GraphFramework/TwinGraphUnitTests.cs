@@ -46,8 +46,8 @@ namespace GraphFramework
             g.AddVertex(v2);
             TwinGraph tg = new TwinGraph(g);
             Assert.AreEqual(2, tg.Vertices.Count);
-            Assert.That(tg.Vertices.Count(v => v.Precursor.Guid == v1.Guid), Is.EqualTo(1));
-            Assert.That(tg.Vertices.Count(v => v.Precursor.Guid == v2.Guid), Is.EqualTo(1));
+            Assert.IsTrue(VertexHelper.DoesTwinVertexExist(v1.Guid, tg.Vertices));
+            Assert.IsTrue(VertexHelper.DoesTwinVertexExist(v2.Guid, tg.Vertices));
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace GraphFramework
             tg.AddTwinVertex(tv1);
             tg.AddTwinVertex(tv2);
             tg.AddEdge(tv1, tv2, false);
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv1.B.Guid && arc.End.Guid == tv2.A.Guid), Is.EqualTo(1));
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv2.B.Guid && arc.End.Guid == tv1.A.Guid), Is.EqualTo(1));
+            Assert.IsTrue(ArcHelper.DoesArcExist(tv1.B, tv2.A, tg.Arcs));
+            Assert.IsTrue(ArcHelper.DoesArcExist(tv2.B, tv1.A, tg.Arcs));
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace GraphFramework
             tg.AddTwinVertex(tv1);
             tg.AddTwinVertex(tv2);
             tg.AddArc(tv1, tv2, false);
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv1.B.Guid && arc.End.Guid == tv2.A.Guid), Is.EqualTo(1));
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv2.B.Guid && arc.End.Guid == tv1.A.Guid), Is.EqualTo(0));
+            Assert.IsTrue(ArcHelper.DoesArcExist(tv1.B, tv2.A, tg.Arcs));
+            Assert.IsFalse(ArcHelper.DoesArcExist(tv2.B, tv1.A, tg.Arcs));
         }
 
         [Test]
@@ -95,8 +95,8 @@ namespace GraphFramework
             TwinGraph tg = new TwinGraph(g);
             TwinVertex tv1 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == v1.Guid);
             TwinVertex tv2 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == v2.Guid);
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv1.B.Guid && arc.End.Guid == tv2.A.Guid), Is.EqualTo(1));
-            Assert.That(tg.Arcs.Count(arc => arc.Start.Guid == tv2.B.Guid && arc.End.Guid == tv1.A.Guid), Is.EqualTo(1));
+            Assert.IsTrue(ArcHelper.DoesArcExist(tv1.B, tv2.A, tg.Arcs));
+            Assert.IsTrue(ArcHelper.DoesArcExist(tv2.B, tv1.A, tg.Arcs));
         }
     }
 }

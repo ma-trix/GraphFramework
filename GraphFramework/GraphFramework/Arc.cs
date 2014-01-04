@@ -4,25 +4,17 @@
     {
         public Vertex Start;
         public Vertex End;
-        private Graph graph;
 
         public Arc(Graph graph, Vertex start, Vertex end)
         {
             Start = start;
             End = end;
-            this.graph = graph;
+            Graph = graph;
         }
 
-        public Graph Graph
-        {
-            get { return graph; }
-        }
+        public Graph Graph { get; private set; }
 
-        public bool IsInMatching
-        {
-            get;
-            set;
-        }
+        public bool IsInMatching { get; private set; }
 
         public void AddToMatching()
         {

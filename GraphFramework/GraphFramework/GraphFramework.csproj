@@ -54,6 +54,7 @@
     <Compile Include="TwinVertex.cs" />
     <Compile Include="TwinVertexTests.cs" />
     <Compile Include="Vertex.cs" />
+    <Compile Include="VertexHelper.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
