@@ -84,5 +84,36 @@ namespace GraphFramework
         }
 
         public LinkedList<Arc> Arcs { get; private set; }
+
+        public void RemoveTwinVertex(TwinVertex tv)
+        {
+            VertexHelper.DeleteTwinVertex(tv, Vertices);
+        }
+
+        public void RemoveArc(TwinVertex tvFrom, TwinVertex tvTo, bool inMatching)
+        {
+            if (inMatching)
+            {
+                if (ArcHelper.DeleteArc(tvFrom.A, tvTo.B, Arcs))
+                {
+                    tvFrom.A.RemoveArc(tvTo.B);
+                }
+                else
+                {
+                    throw new NoArcException();
+                }
+            }
+            else
+            {
+                if (ArcHelper.DeleteArc(tvFrom.B, tvTo.A, Arcs))
+                {
+                    tvFrom.B.RemoveArc(tvTo.A);
+                }
+                else
+                {
+                    throw new NoArcException();
+                }
+            }
+        }
     }
 }

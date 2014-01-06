@@ -49,5 +49,21 @@ namespace GraphFramework
             }
             return null;
         }
+
+        public static bool DeleteTwinVertex(TwinVertex tv, LinkedList<TwinVertex> fromList)
+        {
+            var twinVertex = fromList.First;
+            while (twinVertex != null)
+            {
+                var nextTwinVertex = twinVertex.Next;
+                if (twinVertex.Value == tv)
+                {
+                    fromList.Remove(twinVertex);
+                    return true;
+                }
+                twinVertex = nextTwinVertex;
+            }
+            return false;
+        }
     }
 }

@@ -100,5 +100,29 @@ namespace GraphFramework
             Assert.That(ArcHelper.DoesArcExist(tv1.B, tv2.A, tg.Arcs), Is.True);
             Assert.That(ArcHelper.DoesArcExist(tv2.B, tv1.A, tg.Arcs), Is.True);
         }
+
+        [Test]
+        public void RemovesTwinVertexFromTwinGraph()
+        {
+            _tg.AddTwinVertex(_tv1);
+            Assert.That(_tg.Vertices.Contains(_tv1), Is.True);
+            _tg.RemoveTwinVertex(_tv1);
+            Assert.That(_tg.Vertices.Contains(_tv1), Is.False);
+        }
+
+        [Test]
+        public void RemovesArcBetweenTwinVertices()
+        {
+            _tg.AddTwinVertex(_tv1);
+            _tg.AddTwinVertex(_tv2);
+            _tg.AddArc(_tv1, _tv2, false);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv1.B.OutboundArcs), Is.True);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv2.A.InboundArcs), Is.True);
+            _tg.RemoveArc(_tv1, _tv2, false);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.False);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv1.B.OutboundArcs), Is.False);
+            Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv2.A.InboundArcs), Is.False);
+        }
     }
 }
