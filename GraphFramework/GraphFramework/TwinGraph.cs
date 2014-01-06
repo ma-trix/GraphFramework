@@ -87,7 +87,8 @@ namespace GraphFramework
 
         public void RemoveTwinVertex(TwinVertex tv)
         {
-            VertexHelper.DeleteTwinVertex(tv, Vertices);
+            if (!VertexHelper.DeleteTwinVertex(tv, Vertices))
+                throw new NoVertexException();
         }
 
         public void RemoveArc(TwinVertex tvFrom, TwinVertex tvTo, bool inMatching)
@@ -114,6 +115,26 @@ namespace GraphFramework
                     throw new NoArcException();
                 }
             }
+        }
+
+        public void RemoveEdge(TwinVertex tvFrom, TwinVertex tvTo, bool inMatching)
+        {
+            if (inMatching)
+            {
+                if (!ArcHelper.DoesArcExist(tvFrom.A, tvTo.B, Arcs))
+                    throw new NoArcException();
+                if (!ArcHelper.DoesArcExist(tvTo.A, tvFrom.B, Arcs))
+                    throw new NoArcException();
+            }
+            else
+            {
+                if (!ArcHelper.DoesArcExist(tvFrom.B, tvTo.A, Arcs))
+                    throw new NoArcException();
+                if (!ArcHelper.DoesArcExist(tvTo.B, tvFrom.A, Arcs))
+                    throw new NoArcException();
+            }
+            RemoveArc(tvFrom, tvTo, inMatching);
+            RemoveArc(tvTo, tvFrom, inMatching);
         }
     }
 }
