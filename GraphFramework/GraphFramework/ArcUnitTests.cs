@@ -5,37 +5,37 @@ namespace GraphFramework
     [TestFixture]
     public class ArcUnitTests
     {
-        private Vertex v1;
-        private Vertex v2;
-        private Graph g;
+        private Vertex _v1;
+        private Vertex _v2;
+        private Graph _g;
 
         [SetUp]
         public void Init()
         {
-            v1 = new Vertex();
-            v2 = new Vertex();
-            g = new Graph();
+            _v1 = new Vertex();
+            _v2 = new Vertex();
+            _g = new Graph();
         }
 
         [Test]
         public void SetsStartAndEndVerticesOnCreate()
         {
-            Arc a = new Arc(null, v1, v2);
-            Assert.AreSame(v1, a.Start);
-            Assert.AreSame(v2, a.End);
+            Arc a = new Arc(null, _v1, _v2);
+            Assert.AreSame(_v1, a.Start);
+            Assert.AreSame(_v2, a.End);
         }
 
         [Test]
         public void KnowsGraphItBelongsTo()
         {
-            Arc a = new Arc(g, v1, v2);
-            Assert.AreSame(g, a.Graph);
+            Arc a = new Arc(_g, _v1, _v2);
+            Assert.AreSame(_g, a.Graph);
         }
 
         [Test]
         public void KnowsItIsInMatching()
         {
-            Arc a = new Arc(g, v1, v2);
+            Arc a = new Arc(_g, _v1, _v2);
             a.AddToMatching();
             Assert.AreEqual(true, a.IsInMatching);
         }

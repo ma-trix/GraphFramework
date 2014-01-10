@@ -36,17 +36,17 @@ namespace GraphFramework
         [Test]
         public void AddsOutboundArcToVertex()
         {
-            _v1.AddOutboundArc(_v2);
-            Assert.AreEqual(1, _v1.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
-            Assert.AreEqual(1, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+            Arc a = _v1.AddOutboundArc(_v2);
+            Assert.That(_v1.OutboundArcs.Contains(a), Is.True);
+            Assert.That(_v2.InboundArcs.Contains(a), Is.True);
         }
 
         [Test]
         public void AddingArcToVertexIsOneWayOnly()
         {
             _v1.AddOutboundArc(_v2);
-            Assert.IsFalse(_v2.OutboundArcs.Select(arc => arc.Start == _v2 && arc.End == _v1).Count() == 1);
-            Assert.IsFalse(_v1.InboundArcs.Select(arc => arc.Start == _v2 && arc.End == _v1).Count() == 1);
+            Assert.That(_v1.InDegree, Is.EqualTo(0));
+            Assert.That(_v2.OutDegree, Is.EqualTo(0));
         }
         
         [Test]
