@@ -2,8 +2,14 @@
 {
     public class MDFS
     {
-        private TwinGraph _tg;
-        private VertexStack _k;
+        private readonly TwinGraph _tg;
+        private readonly VertexStack _k;
+
+        public MDFS(TwinGraph tg, VertexStack k)
+        {
+            _tg = tg;
+            _k = k;
+        }
 
         public void Run()
         {
@@ -19,11 +25,11 @@
             }
             else
             {
-                Vertex top = _k.Top();
+                var top = _k.Top();
                 top.Pushed();
                 foreach (var arc in top.OutboundArcs)
                 {
-                    Vertex v = arc.End;
+                    var v = (ABVertex) arc.End;
                     if (v.Type == VertexType.B)
                     {
                         _k.Push(v);
@@ -37,11 +43,11 @@
                             if (_k.Contains(v.Twin)){}
                             else
                             {
-                                if (v.isPushed)
+                                if (v.IsPushed)
                                 {
                                     while (v.Lset != null)
                                     {
-                                        Vertex nextVertex = v.Lset;
+                                        ABVertex nextVertex = v.Lset;
                                         _k.Push(nextVertex);
                                         Search();
                                     }
@@ -64,19 +70,5 @@
         {
             
         }
-    }
-
-    public enum VertexType
-    {
-        A,
-        B
-    }
-
-    public interface VertexStack
-    {
-        void Push(Vertex vertex);
-        Vertex Top();
-        bool Contains(Vertex vertex);
-        void Pop();
     }
 }

@@ -54,8 +54,12 @@
     <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="TwinVertex.cs" />
     <Compile Include="TwinVertexTests.cs" />
+    <Compile Include="ABVertex.cs" />
+    <Compile Include="ABVertexTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
+    <Compile Include="VertexStack.cs" />
+    <Compile Include="VertexType.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

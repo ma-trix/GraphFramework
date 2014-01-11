@@ -6,17 +6,19 @@
         {
             Precursor = precursor;
             Graph = tg;
-            A = new Vertex();
-            B = new Vertex();
+            A = new ABVertex(VertexType.A);
+            B = new ABVertex(VertexType.B);
+            A.SetTwin(B);
+            B.SetTwin(A);
         }
 
         public Vertex Precursor { get; set; }
 
         public TwinGraph Graph { get; set; }
 
-        public Vertex A { get; private set; }
+        public ABVertex A { get; private set; }
         
-        public Vertex B { get; private set; }
+        public ABVertex B { get; private set; }
 
         public void AddNonMatchingEdge(TwinVertex tv2)
         {

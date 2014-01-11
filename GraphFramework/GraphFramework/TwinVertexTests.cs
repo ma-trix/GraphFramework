@@ -32,6 +32,24 @@ namespace GraphFramework
         }
 
         [Test]
+        public void AandBVerticesHaveCorrectTypesAssigned()
+        {
+            var v = new Vertex();
+            var tv = new TwinVertex(v, null);
+            Assert.That(tv.A.Type, Is.EqualTo(VertexType.A));
+            Assert.That(tv.B.Type, Is.EqualTo(VertexType.B));
+        }
+
+        [Test]
+        public void AandBVerticesAreTwinsOfEachOther()
+        {
+            var v = new Vertex();
+            var tv = new TwinVertex(v, null);
+            Assert.That(tv.A.Twin, Is.EqualTo(tv.B));
+            Assert.That(tv.B.Twin, Is.EqualTo(tv.A));
+        }
+
+        [Test]
         public void AddsNotMatchingEdgeToNeighbour()
         {
             TwinVertex tv1 = new TwinVertex(null, null);
