@@ -30,6 +30,14 @@ namespace GraphFramework
 
         public Guid Guid { get; private set; }
 
+        public VertexType Type { get; private set; }
+
+        public Vertex Twin { get; private set; }
+
+        public bool isPushed { get; private set; }
+
+        public Vertex Lset { get; private set; }
+
         public void AddEdge(Vertex newNeighbour)
         {
             AddOutboundArc(newNeighbour);
@@ -96,6 +104,11 @@ namespace GraphFramework
             {
                 neighbour.End.RemoveInboundArc(this);
             }
+        }
+
+        public void Pushed()
+        {
+            
         }
     }
 }
