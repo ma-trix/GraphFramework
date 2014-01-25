@@ -32,7 +32,7 @@ namespace GraphFramework
         }
 
         [Test]
-        public void PushingAnotherElementMakesItAncestorToCurrentTop()
+        public void PushingAnotherElementMakesCurrentTopItsAncestor()
         {
             var k = new VertexStack();
             var v = new ABVertex(VertexType.A);
@@ -40,6 +40,17 @@ namespace GraphFramework
             var v2 = new ABVertex(VertexType.B);
             var pushed = k.Push(v2);
             Assert.That(pushed.Ancestor, Is.SameAs(v));
+        }
+
+        [Test]
+        public void PushingAnotherElementMakesItDescendantOfCurrentTop()
+        {
+            var k = new VertexStack();
+            var v1 = new ABVertex(VertexType.A);
+            var v2 = new ABVertex(VertexType.B);
+            var pushedV1 = k.Push(v1);
+            k.Push(v2);
+            Assert.That(VertexHelper.DoesABVertexExist(v2.Guid, pushedV1.Descendants), Is.True);
         }
     }
 }

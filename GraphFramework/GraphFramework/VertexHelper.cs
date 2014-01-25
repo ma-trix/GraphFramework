@@ -20,6 +20,21 @@ namespace GraphFramework
             return false;
         }
 
+        public static bool DoesABVertexExist(Guid guid, LinkedList<ABVertex> inList)
+        {
+            var vertex = inList.First;
+            while (vertex != null)
+            {
+                var nextVertex = vertex.Next;
+                if (vertex.Value.Guid == guid)
+                {
+                    return true;
+                }
+                vertex = nextVertex;
+            }
+            return false;
+        }
+
         public static bool DoesTwinVertexExist(Guid precursorGuid, LinkedList<TwinVertex> inList)
         {
             var twinVertex = inList.First;

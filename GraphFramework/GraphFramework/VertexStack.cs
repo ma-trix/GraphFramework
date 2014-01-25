@@ -2,18 +2,19 @@
 {
     public class VertexStack : IVertexStack
     {
-        private ABVertex _top;
+        private StackVertex _top = new StackVertex(null, null);
 
         public StackVertex Push(ABVertex vertex)
         {
-            var wrapped = new StackVertex(vertex, _top);
-            _top = vertex;
-            return wrapped;
+            var pushedVertex = new StackVertex(vertex, _top.Value);
+            _top.AddDescendant(vertex);
+            _top = pushedVertex;
+            return pushedVertex;
         }
 
         public ABVertex Top()
         {
-            return _top;
+            return _top.Value;
         }
 
         public bool Contains(Vertex vertex)
