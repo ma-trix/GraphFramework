@@ -1,4 +1,6 @@
-﻿namespace GraphFramework
+﻿using System.Collections.Generic;
+
+namespace GraphFramework
 {
     public class MDFS
     {
@@ -37,19 +39,40 @@
                     }
                     else
                     {
-                        if(_k.Contains(v)){}
+                        if (_k.Contains(v))
+                        {
+                            v.AddToE(top);
+                        }
                         else
                         {
-                            if (_k.Contains(v.Twin)){}
+                            if (_k.Contains(v.Twin))
+                            {
+                                if (v.IsPushed)
+                                {
+                                    v.AddToE(top);
+                                }
+                                else
+                                {
+                                    v.AddToR(top);
+                                }
+                            }
                             else
                             {
                                 if (v.IsPushed)
                                 {
-                                    while (v.Lset != null)
+                                    if (v.L != null)
                                     {
-                                        ABVertex nextVertex = v.Lset;
-                                        _k.Push(nextVertex);
+                                        top.Expand(arc);
+                                        _k.Push(v.L);
+                                        v.L = null;
                                         Search();
+                                    }
+                                    else
+                                    {
+                                        if (!v.isInL())
+                                        {
+                                            v.AddToE(top);
+                                        }
                                     }
                                 }
                                 else
@@ -61,9 +84,33 @@
                         }
                     }
                 }
+                if (top.Type == VertexType.B && !top.Twin.IsPushed)
+                {
+                    var Lcur = top.Twin;
+                    Lcur.EmptyD();
+                    var Ldef = new LinkedList<ABVertex>();
+                    foreach (var v in Lcur.R)
+                    {
+                        ConstrL(new Arc(null, v, Lcur), top);
+                    }
+                    while (Ldef.Count > 0)
+                    {
+                        var v = Ldef.Last.Value;
+                        Ldef.Remove(v);
+                        foreach (var x in v.E)
+                        {
+                            ConstrL(new Arc(null, x, v), top);
+                        }
+                    }
+                }
                 _k.Pop();
                 _k.Pop();
             }
+        }
+
+        private void ConstrL(Arc arc, ABVertex top)
+        {
+            
         }
 
         private void Reconstruct()
