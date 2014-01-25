@@ -4,7 +4,7 @@
     {
         StackVertex Push(ABVertex vertex);
         ABVertex Top();
-        bool Contains(Vertex vertex);
+        bool Contains(ABVertex vertex);
         void Pop();
     }
 }

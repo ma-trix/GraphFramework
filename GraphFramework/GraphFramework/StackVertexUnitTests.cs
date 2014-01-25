@@ -6,20 +6,20 @@ namespace GraphFramework
     public class StackVertexUnitTests
     {
         private ABVertex _value;
-        private ABVertex _ancestor;
+        private StackVertex _ancestor;
 
         [SetUp]
         public void SetUp()
         {
             _value = new ABVertex(VertexType.A);
-            _ancestor = new ABVertex(VertexType.B);
+            _ancestor = new StackVertex(null, null);
         }
 
         [Test]
         public void NewStackVertexHasNoDescendants()
         {
             var sv = new StackVertex(null, null);
-            Assert.That(sv.Descendants, Is.Not.Empty);
+            Assert.That(sv.Descendants, Is.Empty);
         }
 
         [Test]

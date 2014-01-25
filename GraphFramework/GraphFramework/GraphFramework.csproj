@@ -61,8 +61,8 @@
     <Compile Include="ABVertexTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
-    <Compile Include="VertexStack.cs" />
-    <Compile Include="VertexStackUnitTests.cs" />
+    <Compile Include="ABVertexStack.cs" />
+    <Compile Include="ABVertexStackUnitTests.cs" />
     <Compile Include="VertexType.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
