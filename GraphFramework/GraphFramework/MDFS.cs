@@ -5,9 +5,9 @@ namespace GraphFramework
     public class MDFS
     {
         private readonly TwinGraph _tg;
-        private readonly VertexStack _k;
+        private readonly IVertexStack _k;
 
-        public MDFS(TwinGraph tg, VertexStack k)
+        public MDFS(TwinGraph tg, IVertexStack k)
         {
             _tg = tg;
             _k = k;

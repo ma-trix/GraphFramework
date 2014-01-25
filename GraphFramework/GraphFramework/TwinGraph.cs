@@ -5,25 +5,25 @@ namespace GraphFramework
 {
     public class TwinGraph
     {
-        public Vertex StartVertex
+        public ABVertex StartVertex
         {
             get { return _startVertex; }
         }
 
-        public Vertex EndVertex
+        public ABVertex EndVertex
         {
             get {return _endVertex; }
         }
 
         public LinkedList<TwinVertex> Vertices { get; private set; }
 
-        private readonly Vertex _startVertex;
-        private readonly Vertex _endVertex;
+        private readonly ABVertex _startVertex;
+        private readonly ABVertex _endVertex;
 
         public TwinGraph()
         {
-            _startVertex = new Vertex();
-            _endVertex = new Vertex();
+            _startVertex = new ABVertex(VertexType.A);
+            _endVertex = new ABVertex(VertexType.B);
             Vertices = new LinkedList<TwinVertex>();
             Arcs = new LinkedList<Arc>();
         }

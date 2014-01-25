@@ -47,9 +47,11 @@
     <Compile Include="ArcUnitTests.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphUnitTests.cs" />
+    <Compile Include="IVertexStack.cs" />
     <Compile Include="MDFS.cs" />
     <Compile Include="NoArcException.cs" />
     <Compile Include="NoVertexException.cs" />
+    <Compile Include="StackVertex.cs" />
     <Compile Include="TwinGraph.cs" />
     <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="TwinVertex.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
     <Compile Include="VertexStack.cs" />
+    <Compile Include="VertexStackUnitTests.cs" />
     <Compile Include="VertexType.cs" />
     <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
