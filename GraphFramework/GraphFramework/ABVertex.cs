@@ -14,9 +14,7 @@ namespace GraphFramework
         public bool IsPushed { get; private set; }
         public VertexType Type { get; private set; }
         public ABVertex L { get; set; }
-
-        public LinkedList<ABVertex> R { get; set; }
-
+        
         public void Pushed()
         {
             IsPushed = true;
@@ -27,14 +25,14 @@ namespace GraphFramework
             Twin = twin;
         }
 
-        public void AddToE(ABVertex top)
+        public void AddToE(Arc arc)
         {
-            throw new System.NotImplementedException();
+            E.AddLast(arc);
         }
 
-        public void AddToR(ABVertex top)
+        public void AddToR(Arc arc)
         {
-            throw new System.NotImplementedException();
+            R.AddLast(arc);
         }
 
         public void Expand(Arc arc)
@@ -52,6 +50,7 @@ namespace GraphFramework
             throw new System.NotImplementedException();
         }
 
-        public LinkedList<ABVertex> E;
+        public LinkedList<Arc> E = new LinkedList<Arc>();
+        public LinkedList<Arc> R = new LinkedList<Arc>();
     }
 }

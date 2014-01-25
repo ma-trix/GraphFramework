@@ -41,7 +41,7 @@ namespace GraphFramework
                     {
                         if (_k.Contains(v))
                         {
-                            v.AddToE(top);
+                            v.AddToE(arc);
                         }
                         else
                         {
@@ -49,11 +49,11 @@ namespace GraphFramework
                             {
                                 if (v.IsPushed)
                                 {
-                                    v.AddToE(top);
+                                    v.AddToE(arc);
                                 }
                                 else
                                 {
-                                    v.AddToR(top);
+                                    v.AddToR(arc);
                                 }
                             }
                             else
@@ -71,7 +71,7 @@ namespace GraphFramework
                                     {
                                         if (!v.isInL())
                                         {
-                                            v.AddToE(top);
+                                            v.AddToE(arc);
                                         }
                                     }
                                 }
@@ -89,9 +89,9 @@ namespace GraphFramework
                     var Lcur = top.Twin;
                     Lcur.EmptyD();
                     var Ldef = new LinkedList<ABVertex>();
-                    foreach (var v in Lcur.R)
+                    foreach (var a in Lcur.R)
                     {
-                        ConstrL(new Arc(null, v, Lcur), top);
+                        ConstrL(a, top);
                     }
                     while (Ldef.Count > 0)
                     {
@@ -99,7 +99,7 @@ namespace GraphFramework
                         Ldef.Remove(v);
                         foreach (var x in v.E)
                         {
-                            ConstrL(new Arc(null, x, v), top);
+                            ConstrL(x, top);
                         }
                     }
                 }
