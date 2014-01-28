@@ -40,7 +40,7 @@ namespace GraphFramework
             throw new System.NotImplementedException();
         }
 
-        public bool isInL()
+        public bool IsInL()
         {
             throw new System.NotImplementedException();
         }

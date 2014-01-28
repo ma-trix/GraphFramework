@@ -69,7 +69,7 @@ namespace GraphFramework
                                     }
                                     else
                                     {
-                                        if (!v.isInL())
+                                        if (!v.IsInL())
                                         {
                                             v.AddToE(arc);
                                         }
