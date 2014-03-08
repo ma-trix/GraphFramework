@@ -16,9 +16,9 @@ namespace GraphFramework
             return pushedVertex;
         }
 
-        public ABVertex Top()
+        public StackVertex Top()
         {
-            return _top.Value;
+            return _top;
         }
 
         public bool Contains(ABVertex vertex)

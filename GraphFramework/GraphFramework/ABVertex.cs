@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 
 namespace GraphFramework
@@ -8,13 +8,18 @@ namespace GraphFramework
         public ABVertex(VertexType type)
         {
             Type = type;
+            inL = false;
+            D = new LinkedList<ABVertex>();
         }
 
         public ABVertex Twin { get; private set; }
         public bool IsPushed { get; private set; }
         public VertexType Type { get; private set; }
         public ABVertex L { get; set; }
-        
+        public Tuple<Arc, StackVertex> P { get; set; }
+        public LinkedList<ABVertex> D { get; set; }
+        private bool inL;
+
         public void Pushed()
         {
             IsPushed = true;
@@ -25,14 +30,14 @@ namespace GraphFramework
             Twin = twin;
         }
 
-        public void AddToE(Arc arc)
+        public void AddToE(Tuple<Arc, StackVertex> connection)
         {
-            E.AddLast(arc);
+            E.AddLast(connection);
         }
 
-        public void AddToR(Arc arc)
+        public void AddToR(Tuple<Arc, StackVertex> connection)
         {
-            R.AddLast(arc);
+            R.AddLast(connection);
         }
 
         public void Expand(Arc arc)
@@ -42,15 +47,33 @@ namespace GraphFramework
 
         public bool IsInL()
         {
-            throw new System.NotImplementedException();
+            return inL;
         }
 
         public void EmptyD()
         {
-            throw new System.NotImplementedException();
+            D.Clear();
         }
 
-        public LinkedList<Arc> E = new LinkedList<Arc>();
-        public LinkedList<Arc> R = new LinkedList<Arc>();
+        public LinkedList<Tuple<Arc,StackVertex>> E = new LinkedList<Tuple<Arc, StackVertex>>();
+        public LinkedList<Tuple<Arc, StackVertex>> R = new LinkedList<Tuple<Arc, StackVertex>>();
+
+        public void AddToD(ABVertex v)
+        {
+            D.AddLast(v);
+        }
+
+        public void AddAnotherDToD(LinkedList<ABVertex> AnotherD)
+        {
+            foreach (var v in AnotherD)
+            {
+                D.AddLast(v);
+            }
+        }
+
+        public void AddedToL()
+        {
+            inL = true;
+        }
     }
 }

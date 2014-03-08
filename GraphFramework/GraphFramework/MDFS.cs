@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphFramework
 {
@@ -6,11 +7,13 @@ namespace GraphFramework
     {
         private readonly TwinGraph _tg;
         private readonly IVertexStack _k;
+        private readonly LinkedList<ABVertex> L; 
 
-        public MDFS(TwinGraph tg, IVertexStack k)
+        public MDFS(TwinGraph tg, IVertexStack k, LinkedList<ABVertex> L)
         {
             _tg = tg;
             _k = k;
+            this.L = L;
         }
 
         public void Run()
@@ -21,63 +24,64 @@ namespace GraphFramework
 
         private void Search()
         {
-            if (_k.Top() == _tg.EndVertex)
+            if (_k.Top().Value == _tg.EndVertex)
             {
                 Reconstruct();
             }
             else
             {
-                var top = _k.Top();
+                var stackTop = _k.Top();
+                var top = stackTop.Value;
                 top.Pushed();
                 foreach (var arc in top.OutboundArcs)
                 {
-                    var v = (ABVertex) arc.End;
-                    if (v.Type == VertexType.B)
+                    var w = (ABVertex) arc.End;
+                    if (w.Type == VertexType.B)
                     {
-                        _k.Push(v);
+                        _k.Push(w);
                         Search();
                     }
                     else
                     {
-                        if (_k.Contains(v))
+                        if (_k.Contains(w))
                         {
-                            v.AddToE(arc);
+                            w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
                         }
                         else
                         {
-                            if (_k.Contains(v.Twin))
+                            if (_k.Contains(w.Twin))
                             {
-                                if (v.IsPushed)
+                                if (w.IsPushed)
                                 {
-                                    v.AddToE(arc);
+                                    w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
                                 }
                                 else
                                 {
-                                    v.AddToR(arc);
+                                    w.AddToR(new Tuple<Arc, StackVertex>(arc, stackTop));
                                 }
                             }
                             else
                             {
-                                if (v.IsPushed)
+                                if (w.IsPushed)
                                 {
-                                    if (v.L != null)
+                                    if (w.L != null)
                                     {
                                         top.Expand(arc);
-                                        _k.Push(v.L);
-                                        v.L = null;
+                                        _k.Push(w.L);
+                                        w.L = null;
                                         Search();
                                     }
                                     else
                                     {
-                                        if (!v.IsInL())
+                                        if (!w.IsInL())
                                         {
-                                            v.AddToE(arc);
+                                            w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    _k.Push(v);
+                                    _k.Push(w);
                                     Search();
                                 }
                             }
@@ -91,7 +95,7 @@ namespace GraphFramework
                     var Ldef = new LinkedList<ABVertex>();
                     foreach (var a in Lcur.R)
                     {
-                        ConstrL(a, top);
+                        ConstrL(a, top, Lcur, Ldef);
                     }
                     while (Ldef.Count > 0)
                     {
@@ -99,7 +103,7 @@ namespace GraphFramework
                         Ldef.Remove(v);
                         foreach (var x in v.E)
                         {
-                            ConstrL(x, top);
+                            ConstrL(x, top, Lcur, Ldef);
                         }
                     }
                 }
@@ -108,9 +112,44 @@ namespace GraphFramework
             }
         }
 
-        private void ConstrL(Arc arc, ABVertex top)
+        private void ConstrL(Tuple<Arc, StackVertex> connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
         {
-            
+            var qB = connection.Item2;
+            var uA = connection.Item1.End;
+            var zB = qB;
+            var n = qB.Ancestor;
+
+            while (n.Value != xB)
+            {
+                if (n.Value.Type == VertexType.A)
+                {
+                    if (!L.Contains(n.Value))
+                    {
+                        Lcur.AddToD(n.Value);
+                        AddToL(n.Value);
+                        n.Value.P = connection;
+                        Ldef.AddLast(n.Value);
+                    }
+                    else
+                    {
+                        var rB = FindCurrentDContaining(n.Value);
+                        Lcur.AddAnotherDToD(rB.Value.D);
+                        zB = rB;
+                    }
+                }
+                n = n.Ancestor;
+            }
+        }
+
+        private void AddToL(ABVertex v)
+        {
+            L.AddLast(v);
+            v.AddedToL();
+        }
+
+        private StackVertex FindCurrentDContaining(ABVertex stackVertex)
+        {
+            throw new NotImplementedException();
         }
 
         private void Reconstruct()

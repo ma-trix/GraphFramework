@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace GraphFramework
 {
@@ -33,8 +34,9 @@ namespace GraphFramework
             var abv = new ABVertex(VertexType.A);
             var v1 = new ABVertex(VertexType.B);
             var arc = new Arc(null, v1, abv);
-            abv.AddToE(arc);
-            Assert.That(ArcHelper.DoesArcExist(v1, abv, abv.E));
+            var connection = new Tuple<Arc, StackVertex>(arc, null);
+            abv.AddToE(connection);
+            Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.E));
         }
 
         [Test]
@@ -50,8 +52,47 @@ namespace GraphFramework
             var abv = new ABVertex(VertexType.A);
             var v1 = new ABVertex(VertexType.B);
             var arc = new Arc(null, v1, abv);
-            abv.AddToR(arc);
-            Assert.That(ArcHelper.DoesArcExist(v1, abv, abv.R));
+            var connection = new Tuple<Arc, StackVertex>(arc, null);
+            abv.AddToR(connection);
+            Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.R));
+        }
+        
+        [Test]
+        public void NewVertexHasEmptyD()
+        {
+            var abv = new ABVertex(VertexType.A);
+            Assert.That(abv.D, Is.Empty);
+        }
+
+        [Test]
+        public void AddsToD()
+        {
+            var abv = new ABVertex(VertexType.A);
+            var v1 = new ABVertex(VertexType.B);
+            abv.AddToD(v1);
+            Assert.That(abv.D, Contains.Item(v1));
+        }
+
+        [Test]
+        public void EmptiesD()
+        {
+            var abv = new ABVertex(VertexType.A);
+            var v1 = new ABVertex(VertexType.B);
+            abv.AddToD(v1);
+            abv.EmptyD();
+            Assert.That(abv.D, Is.Empty);
+        }
+
+        [Test]
+        public void AddsAnotherDToD()
+        {
+            var abv = new ABVertex(VertexType.A);
+            var v1 = new ABVertex(VertexType.B);
+            v1.AddToD(abv);
+            v1.AddToD(v1);
+            abv.AddAnotherDToD(v1.D);
+            Assert.That(abv.D, Contains.Item(abv));
+            Assert.That(abv.D, Contains.Item(v1));
         }
     }
 }
