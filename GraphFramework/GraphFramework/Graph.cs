@@ -4,12 +4,16 @@ namespace GraphFramework
 {
     public class Graph
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public LinkedList<Vertex> vertices = new LinkedList<Vertex>();
         public LinkedList<Arc> arcs = new LinkedList<Arc>();
 
         public void AddVertex(Vertex vertex)
         {
             vertices.AddLast(vertex);
+            Log.Info("Added vertex " + vertex.Name);
             vertex.Graph = this;
         }
 
@@ -28,6 +32,7 @@ namespace GraphFramework
         public void AddArc(Vertex startVertex, Vertex endVertex)
         {
             Arc a = startVertex.AddOutboundArc(endVertex);
+            Log.Info("Added arc " + startVertex.Name + " -> " + endVertex.Name);
             arcs.AddLast(a);
         }
 
@@ -45,6 +50,7 @@ namespace GraphFramework
 
         public void AddEdge(Vertex startVertex, Vertex endVertex)
         {
+            Log.Info("Adding edge " + startVertex.Name + " <-> " + endVertex.Name);
             AddArc(startVertex, endVertex);
             AddArc(endVertex, startVertex);
         }

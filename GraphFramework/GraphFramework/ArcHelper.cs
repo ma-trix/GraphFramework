@@ -5,6 +5,9 @@ namespace GraphFramework
 {
     public class ArcHelper
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
         {
             var arc = inList.First;
@@ -44,6 +47,7 @@ namespace GraphFramework
                 if (arc.Value.Start == start && arc.Value.End == end)
                 {
                     fromList.Remove(arc);
+                    Log.Info("Removed Arc " + arc.Value.Start.Name + " -> " + arc.Value.End.Name);
                     return true;
                 }
                 arc = nextArc;

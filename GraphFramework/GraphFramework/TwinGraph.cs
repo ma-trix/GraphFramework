@@ -5,6 +5,9 @@ namespace GraphFramework
 {
     public class TwinGraph
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         public TwinGraph()
         {
             _startVertex = new ABVertex(VertexType.A, "s");
@@ -15,10 +18,13 @@ namespace GraphFramework
 
         public TwinGraph(Graph graph) : this()
         {
+            Log.Info("Generating TwinGraph from Graph");
+            Log.Info("Generating twin vertices from vertices");
             foreach (var vertex in graph.vertices)
             {
                 AddTwinVertex(new TwinVertex(vertex, this));
             }
+            Log.Info("Generating arcs for twin vertices from arcs");
             foreach (var arc in graph.arcs)
             {
                 TwinVertex tv1 = Vertices.FirstOrDefault(tv => tv.Precursor.Guid == arc.Start.Guid);
@@ -37,6 +43,7 @@ namespace GraphFramework
 
         public void AddTwinVertex(TwinVertex tv)
         {
+            Log.Info("Adding TwinVertex " + tv.Name + " with precursor " + (tv.Precursor != null ? tv.Precursor.Name : "NULL"));
             Vertices.AddLast(tv);
         }
 
@@ -74,6 +81,7 @@ namespace GraphFramework
                 a.AddToMatching();
             }
             Arcs.AddLast(a);
+            Log.Info("Added arc " + a.Start.Name + " -> " + a.End.Name);
         }
        
         public void RemoveTwinVertex(TwinVertex tv)

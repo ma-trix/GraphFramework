@@ -10,6 +10,7 @@ namespace GraphFramework
         private Graph _g;
         private Vertex _v1;
         private Vertex _v2;
+        private Vertex _precursor;
         private TwinVertex _tv1;
         private TwinVertex _tv2;
 
@@ -20,8 +21,9 @@ namespace GraphFramework
             _g = new Graph();
             _v1 = new Vertex();
             _v2 = new Vertex();
-            _tv1 = new TwinVertex(null, _tg);
-            _tv2 = new TwinVertex(null, _tg);
+            _precursor = new Vertex("p");
+            _tv1 = new TwinVertex(_precursor, _tg);
+            _tv2 = new TwinVertex(_precursor, _tg);
         }
 
         [Test]

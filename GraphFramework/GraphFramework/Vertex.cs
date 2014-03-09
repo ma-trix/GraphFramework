@@ -5,6 +5,9 @@ namespace GraphFramework
 {
     public class Vertex
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Vertex()
         {
             OutboundArcs = new LinkedList<Arc>();
@@ -85,6 +88,7 @@ namespace GraphFramework
 
         public void RemoveInboundArcs()
         {
+            Log.Info("Removing inbound arcs from vertex " + Name);
             foreach (var neighbour in InboundArcs)
             {
                 neighbour.Start.EndVertexRemoved(this);

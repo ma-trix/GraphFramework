@@ -1,4 +1,6 @@
-﻿namespace GraphFramework
+﻿using System;
+
+namespace GraphFramework
 {
     public class TwinVertex
     {
@@ -27,6 +29,8 @@
         public ABVertex A { get; private set; }
         
         public ABVertex B { get; private set; }
+
+        public String Name { get { return Precursor.Name + ".TV"; } }
 
         public void AddNonMatchingEdge(TwinVertex tv2)
         {

@@ -78,5 +78,14 @@ namespace GraphFramework
             Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
             Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
         }
+
+        [Test]
+        public void TwinVertexHasNameOfPrecursorWithTVAppended()
+        {
+            var name = "badaboom";
+            Vertex v = new Vertex(name);
+            TwinVertex tv = new TwinVertex(v, null);
+            Assert.That(tv.Name, Is.EqualTo(name + ".TV"));
+        }
     }
 }
