@@ -5,21 +5,6 @@ namespace GraphFramework
 {
     public class TwinGraph
     {
-        public ABVertex StartVertex
-        {
-            get { return _startVertex; }
-        }
-
-        public ABVertex EndVertex
-        {
-            get {return _endVertex; }
-        }
-
-        public LinkedList<TwinVertex> Vertices { get; private set; }
-
-        private readonly ABVertex _startVertex;
-        private readonly ABVertex _endVertex;
-
         public TwinGraph()
         {
             _startVertex = new ABVertex(VertexType.A, "s");
@@ -41,6 +26,14 @@ namespace GraphFramework
                 AddArc(tv1, tv2, arc.IsInMatching);
             }
         }
+
+        public LinkedList<TwinVertex> Vertices { get; private set; }
+
+        public ABVertex StartVertex { get { return _startVertex; } }
+        public ABVertex EndVertex { get {return _endVertex; } }
+        private readonly ABVertex _startVertex;
+        private readonly ABVertex _endVertex;
+        public LinkedList<Arc> Arcs { get; private set; }
 
         public void AddTwinVertex(TwinVertex tv)
         {
@@ -82,9 +75,7 @@ namespace GraphFramework
             }
             Arcs.AddLast(a);
         }
-
-        public LinkedList<Arc> Arcs { get; private set; }
-
+       
         public void RemoveTwinVertex(TwinVertex tv)
         {
             if (!VertexHelper.DeleteTwinVertex(tv, Vertices))
