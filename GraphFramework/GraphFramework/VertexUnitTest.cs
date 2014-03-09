@@ -159,5 +159,18 @@ namespace GraphFramework
         {
             Assert.IsNotNull(_v1.Guid);
         }
+
+        [Test]
+        public void DefualtNameIsGuid()
+        {
+            Assert.That(_v1.Name, Is.EqualTo(_v1.Guid.ToString()));
+        }
+
+        [Test]
+        public void NamesAVertex()
+        {
+            Vertex v = new Vertex("1");
+            Assert.That(v.Name, Is.EqualTo("1"));
+        }
     }
 }

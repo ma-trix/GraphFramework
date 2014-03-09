@@ -22,8 +22,8 @@ namespace GraphFramework
 
         public TwinGraph()
         {
-            _startVertex = new ABVertex(VertexType.A);
-            _endVertex = new ABVertex(VertexType.B);
+            _startVertex = new ABVertex(VertexType.A, "s");
+            _endVertex = new ABVertex(VertexType.B, "t");
             Vertices = new LinkedList<TwinVertex>();
             Arcs = new LinkedList<Arc>();
         }

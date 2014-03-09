@@ -6,8 +6,16 @@
         {
             Precursor = precursor;
             Graph = tg;
-            A = new ABVertex(VertexType.A);
-            B = new ABVertex(VertexType.B);
+            if (precursor != null)
+            {
+                A = new ABVertex(VertexType.A, precursor.Name);
+                B = new ABVertex(VertexType.B, precursor.Name);
+            }
+            else
+            {
+                A = new ABVertex(VertexType.A);
+                B = new ABVertex(VertexType.B);
+            }
             A.SetTwin(B);
             B.SetTwin(A);
         }

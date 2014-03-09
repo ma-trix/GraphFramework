@@ -10,6 +10,12 @@ namespace GraphFramework
             OutboundArcs = new LinkedList<Arc>();
             InboundArcs = new LinkedList<Arc>();
             Guid = Guid.NewGuid();
+            _name = Guid.ToString();
+        }
+
+        public Vertex(string name) : this()
+        {
+            _name = name;
         }
 
         public int OutDegree
@@ -21,6 +27,9 @@ namespace GraphFramework
         {
             get { return InboundArcs.Count; }
         }
+
+        public virtual String Name { get { return _name; } }
+        protected String _name;
 
         public LinkedList<Arc> OutboundArcs { get; private set; }
 

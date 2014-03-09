@@ -68,5 +68,15 @@ namespace GraphFramework
             Assert.That(tv1.A.OutboundArcs.Count(a => a.End == tv2.B), Is.EqualTo(1));
             Assert.That(tv2.A.OutboundArcs.Count(a => a.End == tv1.B), Is.EqualTo(1));
         }
+
+        [Test]
+        public void TwinsHaveNameOfPrecursorWithTypeAppended()
+        {
+            var name = "badaboom";
+            Vertex v = new Vertex(name);
+            TwinVertex tv = new TwinVertex(v, null);
+            Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
+            Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
+        }
     }
 }

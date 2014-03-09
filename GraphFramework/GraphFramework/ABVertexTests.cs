@@ -94,5 +94,13 @@ namespace GraphFramework
             Assert.That(abv.D, Contains.Item(abv));
             Assert.That(abv.D, Contains.Item(v1));
         }
+
+        [Test]
+        public void InitializesABVertexWithName()
+        {
+            const string name = "bazinga";
+            var abv = new ABVertex(VertexType.A, name);
+            Assert.That(abv.Name, Is.EqualTo(name + ".A"));
+        }
     }
 }

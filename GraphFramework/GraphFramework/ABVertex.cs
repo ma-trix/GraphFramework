@@ -12,6 +12,11 @@ namespace GraphFramework
             D = new LinkedList<ABVertex>();
         }
 
+        public ABVertex(VertexType type, string name) : this(type)
+        {
+            _name = name;
+        }
+
         public ABVertex Twin { get; private set; }
         public bool IsPushed { get; private set; }
         public VertexType Type { get; private set; }
@@ -19,6 +24,7 @@ namespace GraphFramework
         public Tuple<Arc, StackVertex> P { get; set; }
         public LinkedList<ABVertex> D { get; set; }
         private bool inL;
+        public override String Name { get { return _name + "." + Type.ToString(); } }
 
         public void Pushed()
         {
