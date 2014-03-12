@@ -42,6 +42,8 @@ namespace GraphFramework
 
         public Guid Guid { get; private set; }
 
+        public bool IsInMatching { get; set; }
+
         public void AddEdge(Vertex newNeighbour)
         {
             AddOutboundArc(newNeighbour);
@@ -59,6 +61,40 @@ namespace GraphFramework
             Log.Info("Added outbound arc " + newArc + " to vertex " + Name);
             endVertex.AddInboundArc(newArc);
             return newArc;
+        }
+
+
+        public Arc AddOutboundArc(Vertex endVertex, bool inMatching)
+        {
+            if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
+            {
+                throw new NoMultiedgePermitedException();
+            }
+            var newArc = new Arc(Graph, this, endVertex, inMatching);
+            OutboundArcs.AddLast(newArc);
+            if (inMatching)
+            {
+                AddToMatching();
+            }
+            Log.Info("Added outbound arc " + newArc + " to vertex " + Name);
+            endVertex.AddInboundArc(newArc, inMatching);
+            return newArc;
+        }
+
+        private void AddInboundArc(Arc newArc, bool inMatching)
+        {
+            InboundArcs.AddLast(newArc);
+            if (inMatching)
+            {
+                AddToMatching();
+            }
+            Log.Info("Added inbound arc " + newArc + " to vertex " + Name);
+        }
+
+        private void AddToMatching()
+        {
+            IsInMatching = true;
+            Log.Info("Adsded vertex " + Name + " to matching");
         }
 
         private void AddInboundArc(Arc newArc)

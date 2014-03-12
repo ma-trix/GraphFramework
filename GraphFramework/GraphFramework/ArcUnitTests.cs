@@ -39,5 +39,12 @@ namespace GraphFramework
             a.AddToMatching();
             Assert.AreEqual(true, a.IsInMatching);
         }
+
+        [Test]
+        public void CanCreateArcInMatching()
+        {
+            Arc a = new Arc(_g, _v1, _v2, true);
+            Assert.That(a.IsInMatching, Is.True);
+        }
     }
 }

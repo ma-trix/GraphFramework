@@ -172,5 +172,69 @@ namespace GraphFramework
             Vertex v = new Vertex("1");
             Assert.That(v.Name, Is.EqualTo("1"));
         }
+
+        [Test]
+        public void AddsArcInMatchingToOutboundArcsInStartVertex()
+        {
+            _v1.AddOutboundArc(_v2, true);
+            var a = ArcHelper.FindArc(_v1, _v2, _v1.OutboundArcs);
+            Assert.That(a, Is.Not.Null);
+            Assert.That(a.IsInMatching, Is.True);
+        }
+
+        [Test]
+        public void AddsArcInMatchingToInboundArcsInEndVertex()
+        {
+            _v1.AddOutboundArc(_v2, true);
+            var a = ArcHelper.FindArc(_v1, _v2, _v2.InboundArcs);
+            Assert.That(a, Is.Not.Null);
+            Assert.That(a.IsInMatching, Is.True);
+        }
+
+        [Test]
+        public void AddingArcInMatchingMakesStartVertexInMatching()
+        {
+            _v1.AddOutboundArc(_v2, true);
+            Assert.That(_v1.IsInMatching, Is.True);
+        }
+
+        [Test]
+        public void AddingArcInMatchingMakesEndVertexInMatching()
+        {
+            _v1.AddOutboundArc(_v2, true);
+            Assert.That(_v2.IsInMatching, Is.True);
+        }
+
+        [Test]
+        public void AddsArcNotInMatchingToOutboundArcsInStartVertex()
+        {
+            _v1.AddOutboundArc(_v2, false);
+            var a = ArcHelper.FindArc(_v1, _v2, _v1.OutboundArcs);
+            Assert.That(a, Is.Not.Null);
+            Assert.That(a.IsInMatching, Is.False);
+        }
+
+        [Test]
+        public void AddsArcNotInMatchingToInboundArcsInEndVertex()
+        {
+            _v1.AddOutboundArc(_v2, false);
+            var a = ArcHelper.FindArc(_v1, _v2, _v2.InboundArcs);
+            Assert.That(a, Is.Not.Null);
+            Assert.That(a.IsInMatching, Is.False);
+        }
+
+        [Test]
+        public void AddingArcNotInMatchingMakesStartVertexInMatching()
+        {
+            _v1.AddOutboundArc(_v2, false);
+            Assert.That(_v1.IsInMatching, Is.False);
+        }
+
+        [Test]
+        public void AddingArcNotInMatchingMakesEndVertexInMatching()
+        {
+            _v1.AddOutboundArc(_v2, false);
+            Assert.That(_v2.IsInMatching, Is.False);
+        }
     }
 }

@@ -14,6 +14,14 @@
             Graph = graph;
         }
 
+        public Arc(Graph graph, Vertex start, Vertex end, bool inMatching) : this(graph, start, end)
+        {
+            if (inMatching)
+            {
+                AddToMatching();    
+            }
+        }
+
         public void AddToMatching()
         {
             IsInMatching = true;
