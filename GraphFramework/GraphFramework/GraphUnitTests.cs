@@ -52,7 +52,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _v2.AddOutboundArc(_v1);
+            _v2.AddOutboundArc(_v1, false);
             _graph.RemoveVertex(_v1);
             Assert.AreEqual(0, _v2.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v1).Count());
         }
@@ -62,7 +62,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _v1.AddOutboundArc(_v2);
+            _v1.AddOutboundArc(_v2, false);
             _graph.RemoveVertex(_v1);
             Assert.AreEqual(0, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
         }
@@ -94,7 +94,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddArc(_v1, _v2);
+            _graph.AddArc(_v1, _v2, false);
             Assert.IsTrue(ArcHelper.DoesArcExist(_v1, _v2, _graph.arcs));
             Assert.IsNotNull(_v1.OutboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
             Assert.IsNotNull(_v2.InboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
@@ -106,7 +106,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddArc(_v1, _v2);
+            _graph.AddArc(_v1, _v2, false);
             _graph.RemoveArc(_v1, _v2);
             Assert.IsNull(_graph.arcs.FirstOrDefault(arc => arc.Start == _v1 && arc.End == _v2));
             Assert.IsNull(_v1.OutboundArcs.FirstOrDefault(arc => arc.Start == _v1 && arc.End == _v2));
@@ -118,7 +118,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddEdge(_v1, _v2);
+            _graph.AddEdge(_v1, _v2, false);
             Assert.IsTrue(ArcHelper.DoesArcExist(_v1, _v2, _graph.arcs));
             Assert.IsNotNull(_v1.OutboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
             Assert.IsNotNull(_v2.InboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
@@ -135,7 +135,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddEdge(_v1, _v2);
+            _graph.AddEdge(_v1, _v2, false);
             _graph.RemoveEdge(_v1, _v2);
 
             Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
@@ -154,7 +154,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddArc(_v1, _v2);
+            _graph.AddArc(_v1, _v2, false);
             Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
             Assert.Throws<NoArcException>(() => _graph.RemoveEdge(_v1, _v2));
             Assert.IsNotNull(_graph.arcs.FirstOrDefault(arcV1V2));
@@ -165,7 +165,7 @@ namespace GraphFramework
         {
             _graph.AddVertex(_v1);
             _graph.AddVertex(_v2);
-            _graph.AddArc(_v1, _v2);
+            _graph.AddArc(_v1, _v2, false);
             Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
             Assert.AreSame(_graph, _graph.arcs.FirstOrDefault(arcV1V2).Graph);
         }

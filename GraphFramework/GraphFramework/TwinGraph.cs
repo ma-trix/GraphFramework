@@ -75,13 +75,9 @@ namespace GraphFramework
 
         private void AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
-            Arc a = startVertex.AddOutboundArc(endVertex);;
-            if (inMatching)
-            {
-                a.AddToMatching();
-            }
+            Arc a = startVertex.AddOutboundArc(endVertex, inMatching);
             Arcs.AddLast(a);
-            Log.Info("Added arc " + a.Start.Name + " -> " + a.End.Name);
+            Log.Info("Added arc " + a.Start.Name + " -> " + a.End.Name + " " + inMatching);
         }
        
         public void RemoveTwinVertex(TwinVertex tv)

@@ -74,7 +74,7 @@ namespace GraphFramework
             [Test]
             public void AddingEdgeMakesVerticesNeighboursOfEachOther()
             {
-                _v1.AddEdge(_v2);
+                _v1.AddEdge(_v2, false);
                 Assert.AreEqual(1, _v1.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
                 Assert.AreEqual(1, _v1.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
                 Assert.AreEqual(1, _v2.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
@@ -84,8 +84,8 @@ namespace GraphFramework
             [Test]
             public void CanNotAddMultipleEdgesBetweenTwoVertices()
             {
-                _v1.AddEdge(_v2);
-                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddEdge(_v2));
+                _v1.AddEdge(_v2, false);
+                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddEdge(_v2, false));
             }
         }
 
@@ -94,7 +94,7 @@ namespace GraphFramework
             [Test]
             public void CanRemoveArcBetweenTwoVertices()
             {
-                _v1.AddOutboundArc(_v2);
+                _v1.AddOutboundArc(_v2, false);
                 _v1.RemoveArc(_v2);
                 Assert.AreEqual(0, _v1.OutboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
                 Assert.AreEqual(0, _v2.InboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
@@ -112,7 +112,7 @@ namespace GraphFramework
             [Test]
             public void CanRemoveEdgeBetweenTwoVertices()
             {
-                _v1.AddEdge(_v2);
+                _v1.AddEdge(_v2, false);
                 _v1.RemoveEdge(_v2);
                 Assert.AreEqual(0, _v1.OutboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
                 Assert.AreEqual(0, _v1.InboundArcs.Select(arc => (arc.Start == _v1 && arc.End == _v2)).Count());
@@ -129,17 +129,17 @@ namespace GraphFramework
             [Test]
             public void RemovingEdgeWhenArcFromEndVertexToStartVertexExistsThrowsException()
             {
-                _v2.AddOutboundArc(_v1);
+                _v2.AddOutboundArc(_v1, false);
                 Assert.Throws<NoArcException>(() => _v1.RemoveEdge(_v2));
             }
         }
 
-        public class TheAddOutboundArcOldMethod : VertexUnitTest
+        public class TheAddOutboundArcMethod : VertexUnitTest
         {
             [Test]
             public void AddsOutboundArcToVertex()
             {
-                Arc a = _v1.AddOutboundArc(_v2);
+                Arc a = _v1.AddOutboundArc(_v2, false);
                 Assert.That(_v1.OutboundArcs.Contains(a), Is.True);
                 Assert.That(_v2.InboundArcs.Contains(a), Is.True);
             }
@@ -147,7 +147,7 @@ namespace GraphFramework
             [Test]
             public void AddingArcToVertexIsOneWayOnly()
             {
-                _v1.AddOutboundArc(_v2);
+                _v1.AddOutboundArc(_v2, false);
                 Assert.That(_v1.InDegree, Is.EqualTo(0));
                 Assert.That(_v2.OutDegree, Is.EqualTo(0));
             }
@@ -155,42 +155,39 @@ namespace GraphFramework
             [Test]
             public void CanNotAddArcIfStartVertexIsAlreadyConsecutiveToEndVertex()
             {
-                _v1.AddOutboundArc(_v2);
-                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddOutboundArc(_v2));
+                _v1.AddOutboundArc(_v2, false);
+                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddOutboundArc(_v2, false));
             }
 
             [Test]
             public void CanNotAddEdgeIfEndVertexIsAlreadyConsecutiveToStartVertex()
             {
-                _v2.AddOutboundArc(_v1);
-                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddEdge(_v2));
+                _v2.AddOutboundArc(_v1, false);
+                Assert.Throws<NoMultiedgePermitedException>(() => _v1.AddEdge(_v2, false));
             }
 
             [Test]
             public void VertexKnowsItsNonzeroOutDegree()
             {
-                _v1.AddOutboundArc(_v2);
+                _v1.AddOutboundArc(_v2, false);
                 Assert.AreEqual(1, _v1.OutDegree);
             }
 
             [Test]
             public void VertexKnowsItsNonzeroInDegree()
             {
-                _v2.AddOutboundArc(_v1);
+                _v2.AddOutboundArc(_v1, false);
                 Assert.AreEqual(1, _v1.InDegree);
             }
 
             [Test]
             public void VerticesWithArcBetweenThemReferToTheSameObject()
             {
-                _v1.AddOutboundArc(_v2);
+                _v1.AddOutboundArc(_v2, false);
                 Assert.AreSame(_v1.OutboundArcs.First(arc => arc.Start == _v1 && arc.End == _v2),
                                 _v2.InboundArcs.First(arc => arc.Start == _v1 && arc.End == _v2));
             }
-        }
-        
-        public class TheAddOutboundArcMethod : VertexUnitTest
-        {
+
             [Test]
             public void AddsArcInMatchingToOutboundArcsInStartVertex()
             {

@@ -29,9 +29,9 @@ namespace GraphFramework
             vertices.Remove(vertexToRemove);
         }
 
-        public void AddArc(Vertex startVertex, Vertex endVertex)
+        public void AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
-            Arc a = startVertex.AddOutboundArc(endVertex);
+            Arc a = startVertex.AddOutboundArc(endVertex, inMatching);
             Log.Info("Added arc " + a + " to graph");
             arcs.AddLast(a);
         }
@@ -49,11 +49,11 @@ namespace GraphFramework
             }
         }
 
-        public void AddEdge(Vertex startVertex, Vertex endVertex)
+        public void AddEdge(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
             Log.Info("Adding edge " + startVertex.Name + " <-> " + endVertex.Name);
-            AddArc(startVertex, endVertex);
-            AddArc(endVertex, startVertex);
+            AddArc(startVertex, endVertex, inMatching);
+            AddArc(endVertex, startVertex, inMatching);
         }
 
         public void RemoveEdge(Vertex v1, Vertex v2)

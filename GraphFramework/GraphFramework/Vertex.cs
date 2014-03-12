@@ -44,26 +44,12 @@ namespace GraphFramework
 
         public bool IsInMatching { get; set; }
 
-        public void AddEdge(Vertex newNeighbour)
+        public void AddEdge(Vertex newNeighbour, bool inMatching)
         {
-            AddOutboundArc(newNeighbour);
-            newNeighbour.AddOutboundArc(this);
+            AddOutboundArc(newNeighbour, inMatching);
+            newNeighbour.AddOutboundArc(this, inMatching);
         }
         
-        public Arc AddOutboundArc(Vertex endVertex)
-        {
-            if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
-            {
-                throw new NoMultiedgePermitedException();
-            }
-            var newArc = new Arc(Graph, this, endVertex);
-            OutboundArcs.AddLast(newArc);
-            Log.Info("Added outbound arc " + newArc + " to vertex " + Name);
-            endVertex.AddInboundArc(newArc);
-            return newArc;
-        }
-
-
         public Arc AddOutboundArc(Vertex endVertex, bool inMatching)
         {
             if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
@@ -94,7 +80,7 @@ namespace GraphFramework
         private void AddToMatching()
         {
             IsInMatching = true;
-            Log.Info("Adsded vertex " + Name + " to matching");
+            Log.Info("Added vertex " + Name + " to matching");
         }
 
         private void AddInboundArc(Arc newArc)

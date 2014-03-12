@@ -93,7 +93,7 @@ namespace GraphFramework
         {
             _g.AddVertex(_v1);
             _g.AddVertex(_v2);
-            _g.AddEdge(_v1, _v2);
+            _g.AddEdge(_v1, _v2, false);
             var tg = new TwinGraph(_g);
             var tv1 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v1.Guid);
             var tv2 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v2.Guid);

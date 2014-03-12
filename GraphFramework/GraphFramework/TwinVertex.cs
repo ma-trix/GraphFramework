@@ -34,14 +34,14 @@ namespace GraphFramework
 
         public void AddNonMatchingEdge(TwinVertex tv2)
         {
-            B.AddOutboundArc(tv2.A);
-            tv2.B.AddOutboundArc(A);
+            B.AddOutboundArc(tv2.A, false);
+            tv2.B.AddOutboundArc(A, false);
         }
 
         public void AddMatchingEdge(TwinVertex tv2)
         {
-            A.AddOutboundArc(tv2.B);
-            tv2.A.AddOutboundArc(B);
+            A.AddOutboundArc(tv2.B, true);
+            tv2.A.AddOutboundArc(B, true);
         }
     }
 }
