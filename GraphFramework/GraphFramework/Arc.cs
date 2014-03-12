@@ -18,5 +18,10 @@
         {
             IsInMatching = true;
         }
+
+        public override string ToString()
+        {
+            return Start.Name + " -> " + End.Name;
+        }
     }
 }

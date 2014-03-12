@@ -16,6 +16,7 @@ namespace GraphFramework
                 var nextArc = arc.Next;
                 if (arc.Value.Start == start && arc.Value.End == end)
                 {
+                    Log.Info("Arc " + arc.Value.Start.Name + " -> " + arc.Value.End.Name + " exists");
                     return true;
                 }
                 arc = nextArc;

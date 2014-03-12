@@ -32,7 +32,7 @@ namespace GraphFramework
         public void AddArc(Vertex startVertex, Vertex endVertex)
         {
             Arc a = startVertex.AddOutboundArc(endVertex);
-            Log.Info("Added arc " + startVertex.Name + " -> " + endVertex.Name);
+            Log.Info("Added arc " + a + " to graph");
             arcs.AddLast(a);
         }
 
@@ -40,6 +40,7 @@ namespace GraphFramework
         {
             if (ArcHelper.DeleteArc(v1, v2, arcs))
             {
+                Log.Info("Removed arc " + v1.Name + " -> " + v2.Name + " from graph");
                 v1.RemoveArc(v2);
             }
             else

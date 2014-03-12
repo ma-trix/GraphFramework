@@ -56,6 +56,7 @@ namespace GraphFramework
             }
             var newArc = new Arc(Graph, this, endVertex);
             OutboundArcs.AddLast(newArc);
+            Log.Info("Added outbound arc " + newArc + " to vertex " + Name);
             endVertex.AddInboundArc(newArc);
             return newArc;
         }
@@ -63,10 +64,12 @@ namespace GraphFramework
         private void AddInboundArc(Arc newArc)
         {
             InboundArcs.AddLast(newArc);
+            Log.Info("Added inbound arc " + newArc + " to vertex " + Name);
         }
 
         public void RemoveArc(Vertex vertex)
         {
+            Log.Info("Removing outbound arc from vertex " + Name);
             if (!ArcHelper.DoesArcExist(this, vertex, OutboundArcs))
                 throw new NoArcException();
             vertex.RemoveInboundArc(this);
@@ -75,6 +78,7 @@ namespace GraphFramework
 
         private void RemoveInboundArc(Vertex startVertex)
         {
+            Log.Info("Removing inbound arc from vertex " + Name);
             if (!ArcHelper.DoesArcExist(startVertex, this, InboundArcs))
                 throw new NoArcException();
             ArcHelper.DeleteArc(startVertex, this, InboundArcs);
