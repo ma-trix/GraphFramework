@@ -24,6 +24,22 @@ namespace GraphFramework
             return false;
         }
 
+        public static Arc FindArc(Vertex start, Vertex end, LinkedList<Arc> inList)
+        {
+            var arc = inList.First;
+            while (arc != null)
+            {
+                var nextArc = arc.Next;
+                if (arc.Value.Start == start && arc.Value.End == end)
+                {
+                    Log.Info("Arc " + arc.Value.Start.Name + " -> " + arc.Value.End.Name + " exists");
+                    return arc.Value;
+                }
+                arc = nextArc;
+            }
+            return null;
+        }
+
         public static bool DoesConnectionExist(Vertex start, Vertex end, LinkedList<Tuple<Arc, StackVertex>> inList)
         {
             var arc = inList.First;
