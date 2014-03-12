@@ -149,38 +149,60 @@ namespace GraphFramework
             }
         }
 
+        public class TheRemoveEdgeMethod : GraphUnitTests
+        {
+            private Tuple<Arc, Arc> e;
+                
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _graph.AddVertex(_v1);
+                _graph.AddVertex(_v2);
+                e = _graph.AddEdge(_v1, _v2, false);
+            }
+
+            [Test]
+            public void RemovesEdgeFromArcsInGraph()
+            {
+                _graph.RemoveEdge(_v1, _v2);
+                Assert.That(_graph.arcs.Contains(e.Item1), Is.False);
+                Assert.That(_graph.arcs.Contains(e.Item2), Is.False);
+            }
+
+            [Test]
+            public void RemovesEdgeFromArcsInStartVertex()
+            {
+                _graph.RemoveEdge(_v1, _v2);
+                Assert.That(_v1.OutboundArcs.Contains(e.Item1), Is.False);
+                Assert.That(_v1.InboundArcs.Contains(e.Item2), Is.False);
+            }
+
+            [Test]
+            public void RemovesEdgeFromArcsInEndVertex()
+            {
+                _graph.RemoveEdge(_v1, _v2);
+                Assert.That(_v2.OutboundArcs.Contains(e.Item2), Is.False);
+                Assert.That(_v2.InboundArcs.Contains(e.Item1), Is.False);
+            }
+
+            [Test]
+            public void RemovingEdgeWhenOnlyArcExistsLeavesArc()
+            {
+                _graph.RemoveArc(e.Item2.Start, e.Item2.End);
+                Assert.That(_graph.arcs.Contains(e.Item1));
+            }
+
+            [Test]
+            public void RemovingEdgeWhenOnlyArcExistsThrowsException()
+            {
+                _graph.RemoveArc(e.Item2.Start, e.Item2.End);
+                Assert.Throws<NoArcException>(() => _graph.RemoveEdge(_v1, _v2));
+            }
+        }
+
         public class EvertOtherTest : GraphUnitTests
         {
-            [Test]
-            public void RemovesEdgeBetweenVertices()
-            {
-                _graph.AddVertex(_v1);
-                _graph.AddVertex(_v2);
-                _graph.AddEdge(_v1, _v2, false);
-                _graph.RemoveEdge(_v1, _v2);
-
-                Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
-                Assert.IsNull(_graph.arcs.FirstOrDefault(arcV1V2));
-                Assert.IsNull(_v1.OutboundArcs.FirstOrDefault(arcV1V2));
-                Assert.IsNull(_v2.InboundArcs.FirstOrDefault(arcV1V2));
-
-                Func<Arc, bool> arcV2V1 = arc => arc.Start == _v2 && arc.End == _v1;
-                Assert.IsNull(_graph.arcs.FirstOrDefault(arcV2V1));
-                Assert.IsNull(_v1.OutboundArcs.FirstOrDefault(arcV2V1));
-                Assert.IsNull(_v2.InboundArcs.FirstOrDefault(arcV2V1));
-            }
-
-            [Test]
-            public void RemovingEdgeWhenOnlyArcExistsLeavesArcAndThrowsException()
-            {
-                _graph.AddVertex(_v1);
-                _graph.AddVertex(_v2);
-                _graph.AddArc(_v1, _v2, false);
-                Func<Arc, bool> arcV1V2 = arc => arc.Start == _v1 && arc.End == _v2;
-                Assert.Throws<NoArcException>(() => _graph.RemoveEdge(_v1, _v2));
-                Assert.IsNotNull(_graph.arcs.FirstOrDefault(arcV1V2));
-            }
-
             [Test]
             public void AddedVertexKnowsWhichGraphItBelongsTo()
             {
