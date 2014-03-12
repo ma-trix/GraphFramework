@@ -29,11 +29,12 @@ namespace GraphFramework
             vertices.Remove(vertexToRemove);
         }
 
-        public void AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
+        public Arc AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
             Arc a = startVertex.AddOutboundArc(endVertex, inMatching);
             Log.Info("Added arc " + a + " to graph");
             arcs.AddLast(a);
+            return a;
         }
 
         public void RemoveArc(Vertex v1, Vertex v2)
