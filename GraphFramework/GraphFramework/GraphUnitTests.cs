@@ -79,20 +79,43 @@ namespace GraphFramework
             }
         }
 
-        public class EvertOtherTest : GraphUnitTests
+        public class TheRemoveArcMethod : GraphUnitTests
         {
-            [Test]
-            public void RemovesArcBetweenVertices()
+            private Arc _arc;
+
+            [SetUp]
+            public void DerivedInit()
             {
+                base.Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
-                _graph.AddArc(_v1, _v2, false);
-                _graph.RemoveArc(_v1, _v2);
-                Assert.IsNull(_graph.arcs.FirstOrDefault(arc => arc.Start == _v1 && arc.End == _v2));
-                Assert.IsNull(_v1.OutboundArcs.FirstOrDefault(arc => arc.Start == _v1 && arc.End == _v2));
-                Assert.IsNull(_v2.InboundArcs.FirstOrDefault(arc => arc.Start == _v1 && arc.End == _v2));
+                _arc = _graph.AddArc(_v1, _v2, false);
             }
 
+            [Test]
+            public void RemovesArcFromArcsInGraph()
+            {
+                _graph.RemoveArc(_v1, _v2);
+                Assert.That(_graph.arcs.Contains(_arc), Is.False);
+            }
+
+            [Test]
+            public void RemovesArcFromOutboundArcsInStartVertex()
+            {
+                _graph.RemoveArc(_v1, _v2);
+                Assert.That(_v1.OutboundArcs.Contains(_arc), Is.False);
+            }
+
+            [Test]
+            public void RemovesArcFromInboundArcsInEndVertex()
+            {
+                _graph.RemoveArc(_v1, _v2);
+                Assert.That(_v2.InboundArcs.Contains(_arc), Is.False);
+            }
+        }
+
+        public class EvertOtherTest : GraphUnitTests
+        {
             [Test]
             public void AddsEdgeBetweenVertices()
             {
