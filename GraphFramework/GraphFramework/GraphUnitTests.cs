@@ -114,25 +114,43 @@ namespace GraphFramework
             }
         }
 
-        public class EvertOtherTest : GraphUnitTests
+        public class TheAddEdgeMethod : GraphUnitTests
         {
-            [Test]
-            public void AddsEdgeBetweenVertices()
+            [SetUp]
+            public void DerivedInit()
             {
+                base.Init(); 
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
-                _graph.AddEdge(_v1, _v2, false);
-                Assert.IsTrue(ArcHelper.DoesArcExist(_v1, _v2, _graph.arcs));
-                Assert.IsNotNull(_v1.OutboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
-                Assert.IsNotNull(_v2.InboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
-                Assert.AreSame(_graph.arcs.Single(arc => arc.Start == _v1 && arc.End == _v2), _v1.OutboundArcs.Single(arc => arc.Start == _v1 && arc.End == _v2));
-
-                Assert.IsTrue(ArcHelper.DoesArcExist(_v2, _v1, _graph.arcs));
-                Assert.IsNotNull(_v2.OutboundArcs.Single(arc => arc.Start == _v2 && arc.End == _v1));
-                Assert.IsNotNull(_v1.InboundArcs.Single(arc => arc.Start == _v2 && arc.End == _v1));
-                Assert.AreSame(_graph.arcs.Single(arc => arc.Start == _v2 && arc.End == _v1), _v2.OutboundArcs.Single(arc => arc.Start == _v2 && arc.End == _v1));
+            }
+            
+            [Test]
+            public void AddsEdgeNotInMatchingToArcsInGraph()
+            {
+                var e = _graph.AddEdge(_v1, _v2, false);
+                Assert.That(_graph.arcs.Contains(e.Item1));
+                Assert.That(_graph.arcs.Contains(e.Item2));
             }
 
+            [Test]
+            public void AddsEdgeNotInMatchingToArcsInStartVertex()
+            {
+                var e = _graph.AddEdge(_v1, _v2, false);
+                Assert.That(_v1.OutboundArcs.Contains(e.Item1));
+                Assert.That(_v1.InboundArcs.Contains(e.Item2));
+            }
+
+            [Test]
+            public void AddsEdgeNotInMatchingToArcsInEndVertex()
+            {
+                var e = _graph.AddEdge(_v1, _v2, false);
+                Assert.That(_v2.OutboundArcs.Contains(e.Item2));
+                Assert.That(_v2.InboundArcs.Contains(e.Item1));
+            }
+        }
+
+        public class EvertOtherTest : GraphUnitTests
+        {
             [Test]
             public void RemovesEdgeBetweenVertices()
             {
