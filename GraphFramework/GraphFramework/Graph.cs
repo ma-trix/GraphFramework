@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphFramework
 {
@@ -50,11 +51,12 @@ namespace GraphFramework
             }
         }
 
-        public void AddEdge(Vertex startVertex, Vertex endVertex, bool inMatching)
+        public Tuple<Arc, Arc> AddEdge(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
             Log.Info("Adding edge " + startVertex.Name + " <-> " + endVertex.Name);
-            AddArc(startVertex, endVertex, inMatching);
-            AddArc(endVertex, startVertex, inMatching);
+            var there = AddArc(startVertex, endVertex, inMatching);
+            var back = AddArc(endVertex, startVertex, inMatching);
+            return new Tuple<Arc, Arc>(there, back);
         }
 
         public void RemoveEdge(Vertex v1, Vertex v2)
