@@ -128,29 +128,58 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : TwinGraphUnitTests
+        public class TheAddEdgeMethod : TwinGraphUnitTests
         {
-            
-
-            [Test]
-            public void AddsEdgeToTwinGraph()
+            [SetUp]
+            public void DerivedInit()
             {
+                base.Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
-                _tg.AddEdge(_tv1, _tv2, false);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.True);
             }
             
+            [Test]
+            public void AddsEdgeInMatchingToTwinGraph()
+            {
+                var e = _tg.AddEdge(_tv1, _tv2, true);
+                Assert.That(_tg.Arcs, Has.Member(e.Item1));
+                Assert.That(_tg.Arcs, Has.Member(e.Item2));
+            }
+            
+            [Test]
+            public void AddsEdgeNotInMatchingToTwinGraph()
+            {
+                var e = _tg.AddEdge(_tv1, _tv2, false);
+                Assert.That(_tg.Arcs, Has.Member(e.Item1));
+                Assert.That(_tg.Arcs, Has.Member(e.Item2));
+            }
+            
+        }
+        
+        public class TheRemoveTwinVertexMethod : TwinGraphUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                _tg.AddTwinVertex(_tv1);
+            }
+
             [Test]
             public void RemovesTwinVertexFromTwinGraph()
             {
-                _tg.AddTwinVertex(_tv1);
-                Assert.That(_tg.Vertices.Contains(_tv1), Is.True);
                 _tg.RemoveTwinVertex(_tv1);
-                Assert.That(_tg.Vertices.Contains(_tv1), Is.False);
+                Assert.That(_tg.Vertices, Has.No.Member(_tv1));
             }
 
+            [Test]
+            public void RemovingNonexistentTwinVertexThrowsException()
+            {
+                Assert.Throws<NoVertexException>(() => _tg.RemoveTwinVertex(_tv2));
+            }
+        }
+
+        public class TheOtherMethods : TwinGraphUnitTests
+        {
             [Test]
             public void RemovesNonMatchingArcBetweenTwinVertices()
             {
@@ -180,13 +209,7 @@ namespace GraphFramework
             {
                 Assert.Throws<NoArcException>(() => _tg.RemoveArc(_tv1, _tv2, false));
             }
-
-            [Test]
-            public void RemovingNonexistentTwinVertexThrowsException()
-            {
-                Assert.Throws<NoVertexException>(() => _tg.RemoveTwinVertex(_tv1));
-            }
-
+           
             [Test]
             public void RemovesNonMatchingEdgeBetweenTwinVertices()
             {
