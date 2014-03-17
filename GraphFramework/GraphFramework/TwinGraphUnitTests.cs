@@ -53,34 +53,42 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : TwinGraphUnitTests
+        public class TheConstructor1 : TwinGraphUnitTests
         {
-            [Test]
-            public void TwinGraphCreatedFromGraphHasAllEdgesBasedOnPrecursors()
+            private TwinGraph _tg;
+
+            [SetUp]
+            public void DerivedInit()
             {
+                base.Init();
                 _g.AddVertex(_v1);
                 _g.AddVertex(_v2);
                 _g.AddEdge(_v1, _v2, false);
-                var tg = new TwinGraph(_g);
-                var tv1 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v1.Guid);
-                var tv2 = tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v2.Guid);
+                _tg = new TwinGraph(_g);
+            }
+
+            [Test]
+            public void TwinGraphCreatedFromGraphHasAllEdgesBasedOnPrecursors()
+            {
+                var tv1 = _tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v1.Guid);
+                var tv2 = _tg.Vertices.FirstOrDefault(tv => tv.Precursor.Guid == _v2.Guid);
                 Assert.That(tv1, Is.Not.Null);
                 Assert.That(tv2, Is.Not.Null);
-                Assert.That(ArcHelper.DoesArcExist(tv1.B, tv2.A, tg.Arcs), Is.True);
-                Assert.That(ArcHelper.DoesArcExist(tv2.B, tv1.A, tg.Arcs), Is.True);
+                Assert.That(ArcHelper.DoesArcExist(tv1.B, tv2.A, _tg.Arcs), Is.True);
+                Assert.That(ArcHelper.DoesArcExist(tv2.B, tv1.A, _tg.Arcs), Is.True);
             }
 
             [Test]
             public void TwinGraphCreatedFromGraphHasAllTwinVerticesBasedOnPrecursors()
             {
-                _g.AddVertex(_v1);
-                _g.AddVertex(_v2);
-                var tg = new TwinGraph(_g);
-                Assert.AreEqual(2, tg.Vertices.Count);
-                Assert.IsTrue(VertexHelper.DoesTwinVertexExist(_v1.Guid, tg.Vertices));
-                Assert.IsTrue(VertexHelper.DoesTwinVertexExist(_v2.Guid, tg.Vertices));
+                Assert.AreEqual(2, _tg.Vertices.Count);
+                Assert.IsTrue(VertexHelper.DoesTwinVertexExist(_v1.Guid, _tg.Vertices));
+                Assert.IsTrue(VertexHelper.DoesTwinVertexExist(_v2.Guid, _tg.Vertices));
             }
+        }
 
+        public class TheOtherMethods : TwinGraphUnitTests
+        {
             [Test]
             public void AddsTwinVertexToTwinGraph()
             {
