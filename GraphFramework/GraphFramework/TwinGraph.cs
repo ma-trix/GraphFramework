@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GraphFramework
@@ -65,18 +66,32 @@ namespace GraphFramework
 
         }
 
-        public void AddEdge(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
+        public Tuple<Arc,Arc> AddEdge(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
         {
+            ABVertex start1;
+            ABVertex start2;
+            ABVertex end1;
+            ABVertex end2;
             if (inMatching)
             {
-                AddArc(startVertex.A, endVertex.B, inMatching);
-                AddArc(endVertex.A, startVertex.B, inMatching);
+                start1 = startVertex.A;
+                end1 = endVertex.B;
+                start2 = endVertex.A;
+                end2 = startVertex.B;
             }
             else
             {
-                AddArc(startVertex.B, endVertex.A, inMatching);
-                AddArc(endVertex.B, startVertex.A, inMatching);  
+                start1 = startVertex.B;
+                end1 = endVertex.A;
+                start2 = endVertex.B;
+                end2 = startVertex.A;
             }
+            Arc a1;
+            Arc a2;
+            
+            a1 = AddArc(start1, end1, inMatching);
+            a2 = AddArc(start2, end2, inMatching);  
+            return new Tuple<Arc, Arc>(a1, a2);
         }
 
         private Arc AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
