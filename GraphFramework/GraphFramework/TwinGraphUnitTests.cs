@@ -103,6 +103,33 @@ namespace GraphFramework
             }
         }
 
+        public class TheAddArcMethod : TwinGraphUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _tg.AddTwinVertex(_tv1);
+                _tg.AddTwinVertex(_tv2);
+            }
+
+            [Test]
+            public void AddsArcInMatchingToTwinGraph()
+            {
+                _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
+                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
+            }
+            
+            [Test]
+            public void AddsArcNotMatchingToTwinGraph()
+            {
+                _tg.AddArc(_tv1, _tv2, false);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
+                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
+            }
+        }
+
         public class TheOtherMethods : TwinGraphUnitTests
         {
             
@@ -116,17 +143,7 @@ namespace GraphFramework
                 Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
                 Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.True);
             }
-
-            [Test]
-            public void AddsArcToTwinGraph()
-            {
-                _tg.AddTwinVertex(_tv1);
-                _tg.AddTwinVertex(_tv2);
-                _tg.AddArc(_tv1, _tv2, false);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
-            }
-
+            
             [Test]
             public void RemovesTwinVertexFromTwinGraph()
             {
