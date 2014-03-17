@@ -77,7 +77,7 @@ namespace GraphFramework
         {
             TwinVertex tv1 = new TwinVertex(null, null);
             TwinVertex tv2 = new TwinVertex(null, null);
-            tv1.AddNonMatchingEdge(tv2);
+            tv1.AddEdge(tv2, false);
             Assert.That(tv1.B.OutboundArcs.Count(a => a.End == tv2.A), Is.EqualTo(1));
             Assert.That(tv2.B.OutboundArcs.Count(a => a.End == tv1.A), Is.EqualTo(1));
         }
@@ -87,7 +87,7 @@ namespace GraphFramework
         {
             TwinVertex tv1 = new TwinVertex(null, null);
             TwinVertex tv2 = new TwinVertex(null, null);
-            tv1.AddMatchingEdge(tv2);
+            tv1.AddEdge(tv2, true);
             Assert.That(tv1.A.OutboundArcs.Count(a => a.End == tv2.B), Is.EqualTo(1));
             Assert.That(tv2.A.OutboundArcs.Count(a => a.End == tv1.B), Is.EqualTo(1));
         }

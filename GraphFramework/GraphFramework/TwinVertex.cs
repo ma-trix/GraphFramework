@@ -32,16 +32,28 @@ namespace GraphFramework
 
         public String Name { get { return Precursor.Name + ".TV"; } }
 
-        public void AddNonMatchingEdge(TwinVertex tv2)
+        public void AddEdge(TwinVertex tv, bool inMatching)
         {
-            B.AddOutboundArc(tv2.A, false);
-            tv2.B.AddOutboundArc(A, false);
-        }
-
-        public void AddMatchingEdge(TwinVertex tv2)
-        {
-            A.AddOutboundArc(tv2.B, true);
-            tv2.A.AddOutboundArc(B, true);
+            ABVertex start1;
+            ABVertex start2;
+            ABVertex end1;
+            ABVertex end2;
+            if (inMatching)
+            {
+                start1 = A;
+                start2 = tv.A;
+                end1 = B;
+                end2 = tv.B;
+            }
+            else
+            {
+                start1 = B;
+                start2 = tv.B;
+                end1 = A;
+                end2 = tv.A;
+            }
+            start1.AddOutboundArc(end2, inMatching);
+            start2.AddOutboundArc(end1, inMatching);
         }
     }
 }
