@@ -6,48 +6,71 @@ namespace GraphFramework
     [TestFixture]
     public class TwinVertexTests
     {
-        [Test]
-        public void KnowsItsPrecursor()
+        public class TheConstructor : TwinVertexTests
         {
-            Vertex v = new Vertex();
-            TwinVertex tv = new TwinVertex(v, null);
-            Assert.AreSame(v, tv.Precursor);
+            private Vertex _v;
+            private TwinVertex _tv;
+            private TwinGraph _tg;
+
+            [SetUp]
+            public void DerivedInit()
+            {
+                _v = new Vertex();
+                _tg = new TwinGraph();
+                _tv = new TwinVertex(_v, _tg);
+            }
+
+            [Test]
+            public void SetsPrecursorOnCreate()
+            {
+                Assert.That(_tv.Precursor, Is.SameAs(_v));
+            }
+
+            [Test]
+            public void SetsTwinGraphOnCreate()
+            {
+                Assert.That(_tv.Graph, Is.SameAs(_tg));
+            }
+
+            [Test]
+            public void CreatesAVertexOnCreate()
+            {   
+                Assert.That(_tv.A, Is.Not.Null);
+            }
+
+            [Test]
+            public void CreatesBVertexOnCreate()
+            {
+                Assert.That(_tv.B, Is.Not.Null);
+            }
+
+            [Test]
+            public void SetsCorrectTypeToAVertexOnCreate()
+            {
+                Assert.That(_tv.A.Type, Is.EqualTo(VertexType.A));
+            }
+
+            [Test]
+            public void SetsCorrectTypeToBVertexOnCreate()
+            {
+                Assert.That(_tv.B.Type, Is.EqualTo(VertexType.B));
+            }
+
+            [Test]
+            public void SetsVertexBAsTwinOfVertexAOnCreate()
+            {
+                Assert.That(_tv.A.Twin, Is.EqualTo(_tv.B));
+            }
+            
+            [Test]
+            public void SetsVertexAAsTwinOfVertexBOnCreate()
+            {
+                Assert.That(_tv.A.Twin, Is.EqualTo(_tv.B));
+            }
         }
 
-        [Test]
-        public void KnowsItsTwinGraph()
-        {
-            TwinGraph tg = new TwinGraph();
-            TwinVertex tv = new TwinVertex(null, tg);
-            Assert.AreSame(tg, tv.Graph);
-        }
+        
 
-        [Test]
-        public void CreatesAandBVertices()
-        {
-            Vertex v = new Vertex();
-            TwinVertex tv = new TwinVertex(v, null);
-            Assert.NotNull(tv.A);
-            Assert.NotNull(tv.B);
-        }
-
-        [Test]
-        public void AandBVerticesHaveCorrectTypesAssigned()
-        {
-            var v = new Vertex();
-            var tv = new TwinVertex(v, null);
-            Assert.That(tv.A.Type, Is.EqualTo(VertexType.A));
-            Assert.That(tv.B.Type, Is.EqualTo(VertexType.B));
-        }
-
-        [Test]
-        public void AandBVerticesAreTwinsOfEachOther()
-        {
-            var v = new Vertex();
-            var tv = new TwinVertex(v, null);
-            Assert.That(tv.A.Twin, Is.EqualTo(tv.B));
-            Assert.That(tv.B.Twin, Is.EqualTo(tv.A));
-        }
 
         [Test]
         public void AddsNotMatchingEdgeToNeighbour()
