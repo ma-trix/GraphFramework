@@ -32,7 +32,7 @@ namespace GraphFramework
 
         public String Name { get { return Precursor.Name + ".TV"; } }
 
-        public void AddEdge(TwinVertex tv, bool inMatching)
+        public Tuple<Arc, Arc> AddEdge(TwinVertex tv, bool inMatching)
         {
             ABVertex start1;
             ABVertex start2;
@@ -52,8 +52,9 @@ namespace GraphFramework
                 end1 = A;
                 end2 = tv.A;
             }
-            start1.AddOutboundArc(end2, inMatching);
-            start2.AddOutboundArc(end1, inMatching);
+            var a1 = start1.AddOutboundArc(end2, inMatching);
+            var a2 = start2.AddOutboundArc(end1, inMatching);
+            return new Tuple<Arc, Arc>(a1, a2);
         }
     }
 }
