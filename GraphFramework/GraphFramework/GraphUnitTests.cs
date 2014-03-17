@@ -19,6 +19,34 @@ namespace GraphFramework
             _v2 = new Vertex();
         }
 
+        public class TheAddVertexMethod : GraphUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _graph.AddVertex(_v1);
+            }
+
+            [Test]
+            public void AddedVertexKnowsWhichGraphItBelongsTo()
+            {
+                Assert.That(_v1.Graph, Is.SameAs(_graph));
+            }
+
+            [Test]
+            public void AddsVertexToGraph()
+            {
+                Assert.That(_graph.vertices, Contains.Item(_v1));
+            }
+
+            [Test]
+            public void VertexKnowsWhichGraphItIsAddedTo()
+            {
+                Assert.That(_v1.Graph, Is.SameAs(_graph));
+            }
+        }
+
         public class TheAddArcMethod : GraphUnitTests
         {
             [SetUp]
@@ -203,26 +231,13 @@ namespace GraphFramework
 
         public class EvertOtherTest : GraphUnitTests
         {
-            [Test]
-            public void AddedVertexKnowsWhichGraphItBelongsTo()
-            {
-                _graph.AddVertex(_v1);
-                Assert.AreSame(_graph, _v1.Graph);
-            }
+
             [Test]
             public void EmptyGraphHasNoVertices()
             {
                 Assert.AreEqual(0, _graph.vertices.Count);
             }
-
-
-            [Test]
-            public void AddsVertexToGraph()
-            {
-                _graph.AddVertex(_v1);
-                Assert.Contains(_v1, _graph.vertices);
-            }
-
+            
             [Test]
             public void RemovesVertexFromGraph()
             {
@@ -270,14 +285,6 @@ namespace GraphFramework
             public void NewGraphHasNoArcs()
             {
                 Assert.AreEqual(0, _graph.arcs.Count());
-            }
-
-
-            [Test]
-            public void VertexKnowsWhichGraphItIsAddedTo()
-            {
-                _graph.AddVertex(_v1);
-                Assert.AreSame(_graph, _v1.Graph);
             }
         }
     }
