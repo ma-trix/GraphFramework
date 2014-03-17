@@ -21,6 +21,7 @@ namespace GraphFramework
 
         public class TheConstructor : GraphUnitTests
         {
+            [SetUp]
             public void DerivedInit()
             {
                 base.Init();
@@ -249,49 +250,52 @@ namespace GraphFramework
             }
         }
 
-        public class EvertOtherTest : GraphUnitTests
+        public class TheRemoveVertexMethod : GraphUnitTests
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _graph.AddVertex(_v1);
+                _graph.AddVertex(_v2);
+            }
+
             [Test]
             public void RemovesVertexFromGraph()
             {
-                _graph.AddVertex(_v1);
-                Assert.IsTrue(_graph.vertices.Contains(_v1));
                 _graph.RemoveVertex(_v1);
-                Assert.IsFalse(_graph.vertices.Contains(_v1));
+                Assert.That(_graph.vertices, Has.No.Member(_v1));
             }
 
             [Test]
             public void RemovingNonexistentVertexThrowsException()
             {
-                Assert.Throws<NoVertexException>(() => _graph.RemoveVertex(_v1));
+                var _v3 = new Vertex();
+                Assert.Throws<NoVertexException>(() => _graph.RemoveVertex(_v3));
             }
 
             [Test]
             public void RemovingVertexRemovesInboundArcs()
             {
-                _graph.AddVertex(_v1);
-                _graph.AddVertex(_v2);
-                _v2.AddOutboundArc(_v1, false);
+
+                var a = _v2.AddOutboundArc(_v1, false);
                 _graph.RemoveVertex(_v1);
-                Assert.AreEqual(0, _v2.OutboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v1).Count());
+                Assert.That(_v2.OutboundArcs, Has.No.Member(a));
             }
 
             [Test]
             public void RemovingVertexRemovesOutboundArcsToNeighbours()
             {
-                _graph.AddVertex(_v1);
-                _graph.AddVertex(_v2);
-                _v1.AddOutboundArc(_v2, false);
+                var a =_v1.AddOutboundArc(_v2, false);
                 _graph.RemoveVertex(_v1);
-                Assert.AreEqual(0, _v2.InboundArcs.Select(arc => arc.Start == _v1 && arc.End == _v2).Count());
+                Assert.That(_v2.InboundArcs, Has.No.Member(a));
             }
 
             [Test]
             public void RemovingVertexResetsItsGraphToNull()
             {
-                _graph.AddVertex(_v1);
                 _graph.RemoveVertex(_v1);
-                Assert.IsNull(_v1.Graph);
+                Assert.That(_v1.Graph, Is.Null);
             }
         }
     }
