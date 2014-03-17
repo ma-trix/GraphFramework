@@ -244,36 +244,71 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : TwinGraphUnitTests
+        public class TheRemoveEdgeMethod : TwinGraphUnitTests
         {
-            [Test]
-            public void RemovesNonMatchingEdgeBetweenTwinVertices()
+            [SetUp]
+            public void DerivedInit()
             {
+                base.Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
-                _tg.AddEdge(_tv1, _tv2, false);
-                _tg.RemoveEdge(_tv1, _tv2, false);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv1.B.OutboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tv2.A.InboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tv2.B.OutboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tv1.A.InboundArcs), Is.False);
             }
 
             [Test]
-            public void RemovesInMatchingEdgeBetweenTwinVertices()
+            public void RemovesNonMatchingEdgeBetweenTwinVerticesFromTwinGraph()
             {
-                _tg.AddTwinVertex(_tv1);
-                _tg.AddTwinVertex(_tv2);
-                _tg.AddEdge(_tv1, _tv2, true);
+
+                var eNotInMatching = _tg.AddEdge(_tv1, _tv2, false);
+                _tg.RemoveEdge(_tv1, _tv2, false);
+                Assert.That(_tg.Arcs, Has.No.Member(eNotInMatching.Item1));
+                Assert.That(_tg.Arcs, Has.No.Member(eNotInMatching.Item1));
+            }
+
+            [Test]
+            public void RemovesNonMatchingEdgeBetweenTwinVerticesFromStartVertex()
+            {
+
+                var eNotInMatching = _tg.AddEdge(_tv1, _tv2, false);
+                _tg.RemoveEdge(_tv1, _tv2, false);
+                Assert.That(_tv1.B.OutboundArcs, Has.No.Member(eNotInMatching.Item1));
+                Assert.That(_tv1.A.InboundArcs, Has.No.Member(eNotInMatching.Item1));
+            }
+
+            [Test]
+            public void RemovesNonMatchingEdgeBetweenTwinVerticesFromEndVertex()
+            {
+
+                var eNotInMatching = _tg.AddEdge(_tv1, _tv2, false);
+                _tg.RemoveEdge(_tv1, _tv2, false);
+                Assert.That(_tv2.A.InboundArcs, Has.No.Member(eNotInMatching.Item2));
+                Assert.That(_tv2.B.OutboundArcs, Has.No.Member(eNotInMatching.Item2));
+            }
+
+            [Test]
+            public void RemovesInMatchingEdgeBetweenTwinVerticesFromTwinGraph()
+            {
+                var eInMatching = _tg.AddEdge(_tv1, _tv2, true);
                 _tg.RemoveEdge(_tv1, _tv2, true);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tv2.B, _tg.Arcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tv2.B, _tv1.A.OutboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tv2.B, _tv2.B.InboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tv1.B, _tg.Arcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tv1.B, _tv2.A.OutboundArcs), Is.False);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tv1.B, _tv1.B.InboundArcs), Is.False);
+                Assert.That(_tg.Arcs, Has.No.Member(eInMatching.Item1));
+                Assert.That(_tg.Arcs, Has.No.Member(eInMatching.Item2));
+            }
+
+            [Test]
+            public void RemovesInMatchingEdgeBetweenTwinVerticesFromStartVertex()
+            {
+                var eInMatching = _tg.AddEdge(_tv1, _tv2, true);
+                _tg.RemoveEdge(_tv1, _tv2, true);
+                Assert.That(_tv1.A.OutboundArcs, Has.No.Member(eInMatching.Item1));
+                Assert.That(_tv1.B.InboundArcs, Has.No.Member(eInMatching.Item2));
+            }
+
+            [Test]
+            public void RemovesInMatchingEdgeBetweenTwinVerticesFromEndVertex()
+            {
+                var eInMatching = _tg.AddEdge(_tv1, _tv2, true);
+                _tg.RemoveEdge(_tv1, _tv2, true);
+                Assert.That(_tv2.B.InboundArcs, Has.No.Member(eInMatching.Item1));
+                Assert.That(_tv2.A.OutboundArcs, Has.No.Member(eInMatching.Item2));
             }
         }
     }
