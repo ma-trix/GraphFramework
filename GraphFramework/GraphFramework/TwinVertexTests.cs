@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using System.Linq;
 
 namespace GraphFramework
@@ -69,46 +70,46 @@ namespace GraphFramework
             }
         }
 
-        
-
-
-        [Test]
-        public void AddsNotMatchingEdgeToNeighbour()
+        public class TheAddEdgeMethod : TwinVertexTests
         {
-            TwinVertex tv1 = new TwinVertex(null, null);
-            TwinVertex tv2 = new TwinVertex(null, null);
-            tv1.AddEdge(tv2, false);
-            Assert.That(tv1.B.OutboundArcs.Count(a => a.End == tv2.A), Is.EqualTo(1));
-            Assert.That(tv2.B.OutboundArcs.Count(a => a.End == tv1.A), Is.EqualTo(1));
+            private TwinVertex _tv1;
+            private TwinVertex _tv2;
+            private Tuple<Arc, Arc> _e;
+
+            [SetUp]
+            public void DerivedInit()
+            {
+                _tv1 = new TwinVertex(null, null);
+                _tv2 = new TwinVertex(null, null);
+            }
+            
+            [Test]
+            public void AddsNotMatchingEdgeToNeighbour()
+            {
+                _e = _tv1.AddEdge(_tv2, false);
+                Assert.That(_tv1.B.OutboundArcs, Has.Member(_e.Item1));
+                Assert.That(_tv2.B.OutboundArcs, Has.Member(_e.Item2));
+            }
+
+            [Test]
+            public void AddsMatchingEdgeToNeighbour()
+            {
+                _e = _tv1.AddEdge(_tv2, true);
+                Assert.That(_tv1.A.OutboundArcs, Has.Member(_e.Item1));
+                Assert.That(_tv2.A.OutboundArcs, Has.Member(_e.Item2));
+            }
         }
 
-        [Test]
-        public void AddsMatchingEdgeToNeighbour()
+        public class TheNameProperty : TwinVertexTests
         {
-            TwinVertex tv1 = new TwinVertex(null, null);
-            TwinVertex tv2 = new TwinVertex(null, null);
-            tv1.AddEdge(tv2, true);
-            Assert.That(tv1.A.OutboundArcs.Count(a => a.End == tv2.B), Is.EqualTo(1));
-            Assert.That(tv2.A.OutboundArcs.Count(a => a.End == tv1.B), Is.EqualTo(1));
-        }
-
-        [Test]
-        public void TwinsHaveNameOfPrecursorWithTypeAppended()
-        {
-            var name = "badaboom";
-            Vertex v = new Vertex(name);
-            TwinVertex tv = new TwinVertex(v, null);
-            Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
-            Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
-        }
-
-        [Test]
-        public void TwinVertexHasNameOfPrecursorWithTVAppended()
-        {
-            var name = "badaboom";
-            Vertex v = new Vertex(name);
-            TwinVertex tv = new TwinVertex(v, null);
-            Assert.That(tv.Name, Is.EqualTo(name + ".TV"));
+            [Test]
+            public void TwinVertexHasNameOfPrecursorWithTVAppended()
+            {
+                var name = "badaboom";
+                Vertex v = new Vertex(name);
+                TwinVertex tv = new TwinVertex(v, null);
+                Assert.That(tv.Name, Is.EqualTo(name + ".TV"));
+            }
         }
     }
 }

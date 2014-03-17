@@ -102,5 +102,16 @@ namespace GraphFramework
             var abv = new ABVertex(VertexType.A, name);
             Assert.That(abv.Name, Is.EqualTo(name + ".A"));
         }
+
+
+        [Test]
+        public void TwinsHaveNameOfPrecursorWithTypeAppended()
+        {
+            var name = "badaboom";
+            Vertex v = new Vertex(name);
+            TwinVertex tv = new TwinVertex(v, null);
+            Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
+            Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
+        }
     }
 }
