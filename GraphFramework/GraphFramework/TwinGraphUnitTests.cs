@@ -55,8 +55,6 @@ namespace GraphFramework
 
         public class TheConstructor1 : TwinGraphUnitTests
         {
-            private TwinGraph _tg;
-
             [SetUp]
             public void DerivedInit()
             {
