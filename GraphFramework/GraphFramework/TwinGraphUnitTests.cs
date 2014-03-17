@@ -87,15 +87,25 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : TwinGraphUnitTests
+        public class TheAddTwinVertexMethod : TwinGraphUnitTests
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void AddsTwinVertexToTwinGraph()
             {
                 _tg.AddTwinVertex(_tv1);
-                Assert.Contains(_tv1, _tg.Vertices);
+                Assert.That(_tg.Vertices, Has.Member(_tv1));
             }
+        }
 
+        public class TheOtherMethods : TwinGraphUnitTests
+        {
+            
 
             [Test]
             public void AddsEdgeToTwinGraph()
