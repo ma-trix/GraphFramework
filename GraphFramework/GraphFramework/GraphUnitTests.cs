@@ -19,6 +19,26 @@ namespace GraphFramework
             _v2 = new Vertex();
         }
 
+        public class TheConstructor : GraphUnitTests
+        {
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
+            [Test]
+            public void EmptyGraphHasNoVertices()
+            {
+                Assert.That(_graph.vertices.Count, Is.EqualTo(0));
+            }
+
+            [Test]
+            public void NewGraphHasNoArcs()
+            {
+                Assert.That(_graph.arcs, Is.Empty);
+            }
+        }
+
         public class TheAddVertexMethod : GraphUnitTests
         {
             [SetUp]
@@ -231,13 +251,6 @@ namespace GraphFramework
 
         public class EvertOtherTest : GraphUnitTests
         {
-
-            [Test]
-            public void EmptyGraphHasNoVertices()
-            {
-                Assert.AreEqual(0, _graph.vertices.Count);
-            }
-            
             [Test]
             public void RemovesVertexFromGraph()
             {
@@ -279,12 +292,6 @@ namespace GraphFramework
                 _graph.AddVertex(_v1);
                 _graph.RemoveVertex(_v1);
                 Assert.IsNull(_v1.Graph);
-            }
-
-            [Test]
-            public void NewGraphHasNoArcs()
-            {
-                Assert.AreEqual(0, _graph.arcs.Count());
             }
         }
     }
