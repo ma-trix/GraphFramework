@@ -105,6 +105,8 @@ namespace GraphFramework
 
         public class TheAddArcMethod : TwinGraphUnitTests
         {
+            private Arc _a;
+
             [SetUp]
             public void DerivedInit()
             {
@@ -116,17 +118,15 @@ namespace GraphFramework
             [Test]
             public void AddsArcInMatchingToTwinGraph()
             {
-                _tg.AddArc(_tv1, _tv2, true);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(_tg.Arcs, Has.Member(_a));
             }
-            
+
             [Test]
             public void AddsArcNotMatchingToTwinGraph()
             {
-                _tg.AddArc(_tv1, _tv2, false);
-                Assert.That(ArcHelper.DoesArcExist(_tv1.B, _tv2.A, _tg.Arcs), Is.True);
-                Assert.That(ArcHelper.DoesArcExist(_tv2.B, _tv1.A, _tg.Arcs), Is.False);
+                _a = _tg.AddArc(_tv1, _tv2, false);
+                Assert.That(_tg.Arcs, Has.Member(_a));
             }
         }
 

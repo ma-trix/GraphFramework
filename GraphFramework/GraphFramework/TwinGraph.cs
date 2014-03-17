@@ -47,16 +47,22 @@ namespace GraphFramework
             Vertices.AddLast(tv);
         }
 
-        public void AddArc(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
+        public Arc AddArc(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
         {
+            ABVertex start;
+            ABVertex end;
             if (inMatching)
             {
-                AddArc(startVertex.A, endVertex.B, inMatching);
+                start = startVertex.A;
+                end = endVertex.B;
             }
             else
             {
-                AddArc(startVertex.B, endVertex.A, inMatching);
+                start = startVertex.B;
+                end = endVertex.A;
             }
+            return AddArc(start, end, inMatching);
+
         }
 
         public void AddEdge(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
@@ -73,11 +79,12 @@ namespace GraphFramework
             }
         }
 
-        private void AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
+        private Arc AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
             Arc a = startVertex.AddOutboundArc(endVertex, inMatching);
             Arcs.AddLast(a);
             Log.Info("Added arc " + a.Start.Name + " -> " + a.End.Name + " " + inMatching);
+            return a;
         }
        
         public void RemoveTwinVertex(TwinVertex tv)
