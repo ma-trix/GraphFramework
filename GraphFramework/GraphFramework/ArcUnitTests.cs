@@ -8,6 +8,7 @@ namespace GraphFramework
         private Vertex _v1;
         private Vertex _v2;
         private Graph _g;
+        private Arc _a;
 
         [SetUp]
         public void Init()
@@ -17,34 +18,53 @@ namespace GraphFramework
             _g = new Graph();
         }
 
-        [Test]
-        public void SetsStartAndEndVerticesOnCreate()
+        public class TheConstructor3 : ArcUnitTests 
         {
-            Arc a = new Arc(null, _v1, _v2);
-            Assert.AreSame(_v1, a.Start);
-            Assert.AreSame(_v2, a.End);
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _a = new Arc(_g, _v1, _v2);
+            }
+
+            [Test]
+            public void SetsStartVertexOnCreate()
+            {
+                Assert.That(_a.Start, Is.SameAs(_v1));
+            }
+
+            [Test]
+            public void SetsEndVertexOnCreate()
+            {
+                Assert.That(_a.End, Is.SameAs(_v2));
+            }
+
+            [Test]
+            public void SetsGraphOnCreate()
+            {
+                Assert.AreSame(_g, _a.Graph);
+            }
         }
 
-        [Test]
-        public void KnowsGraphItBelongsTo()
+        public class TheConstructor4 : ArcUnitTests
         {
-            Arc a = new Arc(_g, _v1, _v2);
-            Assert.AreSame(_g, a.Graph);
+            [Test]
+            public void CanCreateArcInMatching()
+            {
+                _a = new Arc(_g, _v1, _v2, true);
+                Assert.That(_a.IsInMatching, Is.True);
+            }
         }
 
-        [Test]
-        public void KnowsItIsInMatching()
+        public class TheAddToMatchingMethod : ArcUnitTests
         {
-            Arc a = new Arc(_g, _v1, _v2);
-            a.AddToMatching();
-            Assert.AreEqual(true, a.IsInMatching);
-        }
-
-        [Test]
-        public void CanCreateArcInMatching()
-        {
-            Arc a = new Arc(_g, _v1, _v2, true);
-            Assert.That(a.IsInMatching, Is.True);
+            [Test]
+            public void KnowsItIsInMatching()
+            {
+                _a = new Arc(_g, _v1, _v2);
+                _a.AddToMatching();
+                Assert.AreEqual(true, _a.IsInMatching);
+            }     
         }
     }
 }
