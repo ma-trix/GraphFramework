@@ -89,43 +89,49 @@ namespace GraphFramework
             }
         }
 
+        public class TheAddToDERMethods : ABVertexTests
+        {
+            private ABVertex _v;
+            private Arc _arc;
+            private Tuple<Arc, StackVertex> _connection;
+
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _v = new ABVertex(VertexType.B);
+                _arc = new Arc(null, _v, Abv);
+                _connection = new Tuple<Arc, StackVertex>(_arc, null);
+            }
+
+            [Test]
+            public void AddsToE()
+            {
+                Abv.AddToE(_connection);
+                Assert.That(Abv.E, Has.Member(_connection));
+            }
+
+            [Test]
+            public void AddsToR()
+            {
+                Abv.AddToR(_connection);
+                Assert.That(Abv.R, Has.Member(_connection));
+            }
+
+            [Test]
+            public void AddsToD()
+            {
+                Abv.AddToD(_v);
+                Assert.That(Abv.D, Has.Member(_v));
+            }
+        }
+
         public class TheOtherMethods : ABVertexTests
         {
             [SetUp]
             public void DerivedInit()
             {
                 base.Init();
-            }
-            
-            [Test]
-            public void AddsToE()
-            {
-                var abv = new ABVertex(VertexType.A);
-                var v1 = new ABVertex(VertexType.B);
-                var arc = new Arc(null, v1, abv);
-                var connection = new Tuple<Arc, StackVertex>(arc, null);
-                abv.AddToE(connection);
-                Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.E));
-            }
-
-            [Test]
-            public void AddsToR()
-            {
-                var abv = new ABVertex(VertexType.A);
-                var v1 = new ABVertex(VertexType.B);
-                var arc = new Arc(null, v1, abv);
-                var connection = new Tuple<Arc, StackVertex>(arc, null);
-                abv.AddToR(connection);
-                Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.R));
-            }
-
-            [Test]
-            public void AddsToD()
-            {
-                var abv = new ABVertex(VertexType.A);
-                var v1 = new ABVertex(VertexType.B);
-                abv.AddToD(v1);
-                Assert.That(abv.D, Contains.Item(v1));
             }
 
             [Test]
