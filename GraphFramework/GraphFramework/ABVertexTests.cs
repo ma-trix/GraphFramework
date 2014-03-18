@@ -6,45 +6,43 @@ namespace GraphFramework
     [TestFixture]
     public class ABVertexTests
     {
-        [SetUp]
+        protected ABVertex Abv;
+
         public void Init()
         {
-            
+            Abv = new ABVertex(VertexType.A);
         }
 
         public class TheConstructor1 : ABVertexTests
         {
-            private ABVertex _abv;
-
             [SetUp]
             public void DerivedInit()
             {
                 base.Init();
-                _abv = new ABVertex(VertexType.A);
             }
             
             [Test]
             public void NewTypedVertexIsNotPushed()
             {
-                Assert.That(_abv.IsPushed, Is.False);
+                Assert.That(Abv.IsPushed, Is.False);
             }
 
             [Test]
             public void NewVertexHasEmptyE()
             {
-                Assert.That(_abv.E, Is.Empty);
+                Assert.That(Abv.E, Is.Empty);
             }
             
             [Test]
             public void NewVertexHasEmptyR()
             {
-                Assert.That(_abv.R, Is.Empty);
+                Assert.That(Abv.R, Is.Empty);
             }
 
             [Test]
             public void NewVertexHasEmptyD()
             {
-                Assert.That(_abv.D, Is.Empty);
+                Assert.That(Abv.D, Is.Empty);
             }
         }
 
@@ -75,20 +73,28 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : ABVertexTests
+        public class ThePushedMethod : ABVertexTests
         {
             [SetUp]
             public void DerivedInit()
             {
                 base.Init();
             }
-            
+
             [Test]
             public void PushingABVertexMarksItAsPushed()
             {
-                var abv = new ABVertex(VertexType.A);
-                abv.Pushed();
-                Assert.That(abv.IsPushed, Is.True);
+                Abv.Pushed();
+                Assert.That(Abv.IsPushed, Is.True);
+            }
+        }
+
+        public class TheOtherMethods : ABVertexTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
             }
             
             [Test]
