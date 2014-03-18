@@ -6,112 +6,135 @@ namespace GraphFramework
     [TestFixture]
     public class ABVertexTests
     {
-        [Test]
-        public void NewTypedVertexIsNotPushed()
+        [SetUp]
+        public void Init()
         {
-            var abv = new ABVertex(VertexType.A);
-            Assert.That(abv.IsPushed, Is.False);
+            
         }
 
-        [Test]
-        public void PushingABVertexMarksItAsPushed()
+        public class TheConstructor1 : ABVertexTests
         {
-            var abv = new ABVertex(VertexType.A);
-            abv.Pushed();
-            Assert.That(abv.IsPushed, Is.True);
+            private ABVertex _abv;
+
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+                _abv = new ABVertex(VertexType.A);
+            }
+            
+            [Test]
+            public void NewTypedVertexIsNotPushed()
+            {
+                Assert.That(_abv.IsPushed, Is.False);
+            }
+
+            [Test]
+            public void NewVertexHasEmptyE()
+            {
+                Assert.That(_abv.E, Is.Empty);
+            }
+            
+            [Test]
+            public void NewVertexHasEmptyR()
+            {
+                Assert.That(_abv.R, Is.Empty);
+            }
+
+            [Test]
+            public void NewVertexHasEmptyD()
+            {
+                Assert.That(_abv.D, Is.Empty);
+            }
         }
 
-        [Test]
-        public void NewVertexHasEmptyE()
+        public class TheOtherMethods : ABVertexTests
         {
-            var abv = new ABVertex(VertexType.A);
-            Assert.That(abv.E, Is.Empty);
-        }
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+            
+            [Test]
+            public void PushingABVertexMarksItAsPushed()
+            {
+                var abv = new ABVertex(VertexType.A);
+                abv.Pushed();
+                Assert.That(abv.IsPushed, Is.True);
+            }
+            
+            [Test]
+            public void AddsToE()
+            {
+                var abv = new ABVertex(VertexType.A);
+                var v1 = new ABVertex(VertexType.B);
+                var arc = new Arc(null, v1, abv);
+                var connection = new Tuple<Arc, StackVertex>(arc, null);
+                abv.AddToE(connection);
+                Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.E));
+            }
 
-        [Test]
-        public void AddsToE()
-        {
-            var abv = new ABVertex(VertexType.A);
-            var v1 = new ABVertex(VertexType.B);
-            var arc = new Arc(null, v1, abv);
-            var connection = new Tuple<Arc, StackVertex>(arc, null);
-            abv.AddToE(connection);
-            Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.E));
-        }
+            [Test]
+            public void AddsToR()
+            {
+                var abv = new ABVertex(VertexType.A);
+                var v1 = new ABVertex(VertexType.B);
+                var arc = new Arc(null, v1, abv);
+                var connection = new Tuple<Arc, StackVertex>(arc, null);
+                abv.AddToR(connection);
+                Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.R));
+            }
 
-        [Test]
-        public void NewVertexHasEmptyR()
-        {
-            var abv = new ABVertex(VertexType.A);
-            Assert.That(abv.R, Is.Empty);
-        }
+            [Test]
+            public void AddsToD()
+            {
+                var abv = new ABVertex(VertexType.A);
+                var v1 = new ABVertex(VertexType.B);
+                abv.AddToD(v1);
+                Assert.That(abv.D, Contains.Item(v1));
+            }
 
-        [Test]
-        public void AddsToR()
-        {
-            var abv = new ABVertex(VertexType.A);
-            var v1 = new ABVertex(VertexType.B);
-            var arc = new Arc(null, v1, abv);
-            var connection = new Tuple<Arc, StackVertex>(arc, null);
-            abv.AddToR(connection);
-            Assert.That(ArcHelper.DoesConnectionExist(v1, abv, abv.R));
-        }
-        
-        [Test]
-        public void NewVertexHasEmptyD()
-        {
-            var abv = new ABVertex(VertexType.A);
-            Assert.That(abv.D, Is.Empty);
-        }
+            [Test]
+            public void EmptiesD()
+            {
+                var abv = new ABVertex(VertexType.A);
+                var v1 = new ABVertex(VertexType.B);
+                abv.AddToD(v1);
+                abv.EmptyD();
+                Assert.That(abv.D, Is.Empty);
+            }
 
-        [Test]
-        public void AddsToD()
-        {
-            var abv = new ABVertex(VertexType.A);
-            var v1 = new ABVertex(VertexType.B);
-            abv.AddToD(v1);
-            Assert.That(abv.D, Contains.Item(v1));
-        }
+            [Test]
+            public void AddsAnotherDToD()
+            {
+                var abv = new ABVertex(VertexType.A);
+                var v1 = new ABVertex(VertexType.B);
+                v1.AddToD(abv);
+                v1.AddToD(v1);
+                abv.AddAnotherDToD(v1.D);
+                Assert.That(abv.D, Contains.Item(abv));
+                Assert.That(abv.D, Contains.Item(v1));
+            }
 
-        [Test]
-        public void EmptiesD()
-        {
-            var abv = new ABVertex(VertexType.A);
-            var v1 = new ABVertex(VertexType.B);
-            abv.AddToD(v1);
-            abv.EmptyD();
-            Assert.That(abv.D, Is.Empty);
-        }
-
-        [Test]
-        public void AddsAnotherDToD()
-        {
-            var abv = new ABVertex(VertexType.A);
-            var v1 = new ABVertex(VertexType.B);
-            v1.AddToD(abv);
-            v1.AddToD(v1);
-            abv.AddAnotherDToD(v1.D);
-            Assert.That(abv.D, Contains.Item(abv));
-            Assert.That(abv.D, Contains.Item(v1));
-        }
-
-        [Test]
-        public void InitializesABVertexWithName()
-        {
-            const string name = "bazinga";
-            var abv = new ABVertex(VertexType.A, name);
-            Assert.That(abv.Name, Is.EqualTo(name + ".A"));
-        }
+            [Test]
+            public void InitializesABVertexWithName()
+            {
+                const string name = "bazinga";
+                var abv = new ABVertex(VertexType.A, name);
+                Assert.That(abv.Name, Is.EqualTo(name + ".A"));
+            }
 
 
-        [Test]
-        public void TwinsHaveNameOfPrecursorWithTypeAppended()
-        {
-            var name = "badaboom";
-            Vertex v = new Vertex(name);
-            TwinVertex tv = new TwinVertex(v, null);
-            Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
-            Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
+            [Test]
+            public void TwinsHaveNameOfPrecursorWithTypeAppended()
+            {
+                var name = "badaboom";
+                Vertex v = new Vertex(name);
+                TwinVertex tv = new TwinVertex(v, null);
+                Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
+                Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
+            }
         }
     }
 }
