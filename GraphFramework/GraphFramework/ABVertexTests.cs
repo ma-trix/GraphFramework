@@ -48,6 +48,33 @@ namespace GraphFramework
             }
         }
 
+        public class TheConstructor2 : ABVertexTests
+        {
+            private ABVertex _abvA;
+            private ABVertex _abvB;
+            private const string Name = "bazinga";
+
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
+            [Test]
+            public void InitializesABVertexTypeAWithName()
+            {
+                _abvA = new ABVertex(VertexType.A, Name);
+                Assert.That(_abvA.Name, Is.EqualTo(Name + ".A"));
+            }
+
+            [Test]
+            public void InitializesABVertexTypeBWithName()
+            {
+                _abvB = new ABVertex(VertexType.B, Name);
+                Assert.That(_abvB.Name, Is.EqualTo(Name + ".B"));
+            }
+        }
+
         public class TheOtherMethods : ABVertexTests
         {
             [SetUp]
@@ -116,16 +143,7 @@ namespace GraphFramework
                 Assert.That(abv.D, Contains.Item(abv));
                 Assert.That(abv.D, Contains.Item(v1));
             }
-
-            [Test]
-            public void InitializesABVertexWithName()
-            {
-                const string name = "bazinga";
-                var abv = new ABVertex(VertexType.A, name);
-                Assert.That(abv.Name, Is.EqualTo(name + ".A"));
-            }
-
-
+            
             [Test]
             public void TwinsHaveNameOfPrecursorWithTypeAppended()
             {
