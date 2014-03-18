@@ -128,38 +128,38 @@ namespace GraphFramework
 
         public class TheOtherMethods : ABVertexTests
         {
+            private ABVertex _v;
+
             [SetUp]
             public void DerivedInit()
             {
                 base.Init();
+                Abv = new ABVertex(VertexType.A);
+                _v = new ABVertex(VertexType.B);
             }
 
             [Test]
             public void EmptiesD()
             {
-                var abv = new ABVertex(VertexType.A);
-                var v1 = new ABVertex(VertexType.B);
-                abv.AddToD(v1);
-                abv.EmptyD();
-                Assert.That(abv.D, Is.Empty);
+                Abv.AddToD(_v);
+                Abv.EmptyD();
+                Assert.That(Abv.D, Is.Empty);
             }
 
             [Test]
             public void AddsAnotherDToD()
             {
-                var abv = new ABVertex(VertexType.A);
-                var v1 = new ABVertex(VertexType.B);
-                v1.AddToD(abv);
-                v1.AddToD(v1);
-                abv.AddAnotherDToD(v1.D);
-                Assert.That(abv.D, Contains.Item(abv));
-                Assert.That(abv.D, Contains.Item(v1));
+                _v.AddToD(Abv);
+                _v.AddToD(_v);
+                Abv.AddAnotherDToD(_v.D);
+                Assert.That(Abv.D, Has.Member(Abv));
+                Assert.That(Abv.D, Has.Member(_v));
             }
             
             [Test]
             public void TwinsHaveNameOfPrecursorWithTypeAppended()
             {
-                var name = "badaboom";
+                const string name = "badaboom";
                 Vertex v = new Vertex(name);
                 TwinVertex tv = new TwinVertex(v, null);
                 Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
