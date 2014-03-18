@@ -10,7 +10,6 @@ namespace GraphFramework
         private Graph _g;
         private Arc _a;
 
-        [SetUp]
         public void Init()
         {
             _v1 = new Vertex();

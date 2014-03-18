@@ -9,7 +9,6 @@ namespace GraphFramework
         private Vertex _v1;
         private Vertex _v2;
 
-        [SetUp]
         public void Init()
         {
             _v1 = new Vertex();
@@ -18,6 +17,11 @@ namespace GraphFramework
 
         public class TheConstructor : VertexUnitTest
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
 
             [Test]
             public void NewVertexHasOutDegreeZero()
@@ -71,6 +75,12 @@ namespace GraphFramework
 
         public class TheAddOutboundArcMethod : VertexUnitTest
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void AddsArcToStartVertexAsOutbound()
             {
@@ -189,6 +199,12 @@ namespace GraphFramework
 
         public class TheRemoveArcMethod : VertexUnitTest
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void CanRemoveArcBetweenTwoVertices()
             {
@@ -207,6 +223,12 @@ namespace GraphFramework
 
         public class TheAddEdgeMethod : VertexUnitTest
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void AddingEdgeMakesVerticesNeighboursOfEachOther()
             {
@@ -234,6 +256,12 @@ namespace GraphFramework
 
         public class TheRemoveEdgeMethod : VertexUnitTest
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void CanRemoveEdgeBetweenTwoVertices()
             {

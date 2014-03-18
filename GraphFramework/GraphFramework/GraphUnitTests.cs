@@ -11,7 +11,6 @@ namespace GraphFramework
         private Vertex _v1;
         private Vertex _v2;
 
-        [SetUp]
         public void Init()
         {
             _graph = new Graph();

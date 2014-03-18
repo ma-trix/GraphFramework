@@ -14,7 +14,6 @@ namespace GraphFramework
         private TwinVertex _tv1;
         private TwinVertex _tv2;
 
-        [SetUp]
         public void Init()
         {
             _tg = new TwinGraph();
@@ -28,6 +27,12 @@ namespace GraphFramework
 
         public class TheConstructor0 : TwinGraphUnitTests
         {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
             [Test]
             public void NewTwinGraphHasStartVertex()
             {
