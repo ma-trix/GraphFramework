@@ -17,21 +17,21 @@ namespace ExampleGraphTests
             Log.Info("Adding vertex " + v2.Name);
             g.AddVertex(v2);
             Log.Info("Adding edge " + v1.Name + " <-> " + v2.Name);
-            g.AddEdge(v1, v2);
+            g.AddEdge(v1, v2, false);
             Log.Info("Removing edge " + v1.Name + " <-> " + v1.Name);
             g.RemoveEdge(v1,v2);
-            g.AddArc(v1, v2);
+            v1.AddOutboundArc(v2, true);
             Log.Info("Adding arc " + v1.Name + " -> " + v2.Name);
-            g.AddArc(v2, v1);
+            g.AddArc(v2, v1, false);
             Log.Info("Adding arc " + v2.Name + " -> " + v1.Name);
-            g.RemoveArc(v2, v1);
+            /*g.RemoveArc(v2, v1);
             Log.Info("Removing arc " + v1.Name + " -> " + v2.Name);
             g.RemoveArc(v1, v2);
             Log.Info("Removing arc " + v2.Name + " -> " + v2.Name);
             g.RemoveVertex(v1);
             Log.Info("Removing vertex " + v1.Name);
             g.RemoveVertex(v2);
-            Log.Info("Removing vertex " + v1.Name);
+            Log.Info("Removing vertex " + v1.Name);*/
             return g;
         }
 
@@ -45,6 +45,7 @@ namespace ExampleGraphTests
         public TwinGraph GenerateExampleTwinGraph()
         {
             Graph g = GenerateExampleGraph();
+            Log.Info("Graph generated ===================================================");
             TwinGraph tg = new TwinGraph(g);
             return tg;
         }
@@ -73,17 +74,17 @@ namespace ExampleGraphTests
             g.AddVertex(v9);
             g.AddVertex(v10);
 
-            g.AddEdge(v1, v2);
-            g.AddEdge(v2, v3);
-            g.AddEdge(v3, v4);
-            g.AddEdge(v4, v5);
-            g.AddEdge(v5, v6);
-            g.AddEdge(v6, v7);
-            g.AddEdge(v7, v3);
-            g.AddEdge(v6, v8);
-            g.AddEdge(v8, v9);
-            g.AddEdge(v9, v1);
-            g.AddEdge(v2, v10);
+            g.AddEdge(v1, v2, false);
+            g.AddEdge(v2, v3, true);
+            g.AddEdge(v3, v4, false);
+            g.AddEdge(v4, v5, true);
+            g.AddEdge(v5, v6, false);
+            g.AddEdge(v6, v7, true);
+            g.AddEdge(v7, v3, false);
+            g.AddEdge(v6, v8, false);
+            g.AddEdge(v8, v9, true);
+            g.AddEdge(v9, v1, false);
+            g.AddEdge(v2, v10, false);
 
             return g;
         }

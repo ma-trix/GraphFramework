@@ -11,7 +11,9 @@
             log.Info("=====================================================================");
             var e = new ExampleGraph();
             //e.Generate2VertexExampleGraph();
-            e.GenerateExampleTwinGraph();
+            var tv = e.GenerateExampleTwinGraph();
+            tv.LogVertices();
+            tv.LogArcs();
         }
     }
 }
