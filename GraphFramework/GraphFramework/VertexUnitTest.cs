@@ -71,6 +71,12 @@ namespace GraphFramework
             {
                 Assert.AreEqual(0, _v1.InboundArcs.Count);
             }
+
+            [Test]
+            public void NewVertexIsNotInMatching()
+            {
+                Assert.That(_v1.IsInMatching, Is.False);
+            }
         }
 
         public class TheAddOutboundArcMethod : VertexUnitTest

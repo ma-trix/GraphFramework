@@ -46,6 +46,11 @@ namespace GraphFramework
         {
             Log.Info("Adding TwinVertex " + tv.Name + " with precursor " + (tv.Precursor != null ? tv.Precursor.Name : "NULL"));
             Vertices.AddLast(tv);
+            if (!tv.B.IsInMatching && !tv.A.IsInMatching)
+            {
+                AddArc(StartVertex, tv.B, false);
+                AddArc(tv.A, EndVertex, false);
+            }
         }
 
         public Arc AddArc(TwinVertex startVertex, TwinVertex endVertex, bool inMatching)
@@ -56,6 +61,26 @@ namespace GraphFramework
             {
                 start = startVertex.A;
                 end = endVertex.B;
+                bool arcExisted = ArcHelper.DeleteArc(StartVertex, startVertex.B, Arcs);
+                if (arcExisted)
+                {
+                    StartVertex.RemoveArc(startVertex.B);
+                }
+                arcExisted = ArcHelper.DeleteArc(StartVertex, endVertex.B, Arcs);
+                if (arcExisted)
+                {
+                    StartVertex.RemoveArc(endVertex.B);
+                }
+                arcExisted = ArcHelper.DeleteArc(startVertex.A, EndVertex, Arcs);
+                if (arcExisted)
+                {
+                    startVertex.A.RemoveArc(EndVertex);
+                }
+                arcExisted = ArcHelper.DeleteArc(endVertex.A, EndVertex, Arcs);
+                if (arcExisted)
+                {
+                    endVertex.A.RemoveArc(EndVertex);
+                }
             }
             else
             {

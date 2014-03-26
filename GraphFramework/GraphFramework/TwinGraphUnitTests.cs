@@ -104,6 +104,96 @@ namespace GraphFramework
                 _tg.AddTwinVertex(_tv1);
                 Assert.That(_tg.Vertices, Has.Member(_tv1));
             }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsSBArcToTwinGraph()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.Arcs), Is.True);
+            }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsSBArcToStartVertex()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.StartVertex.OutboundArcs), Is.True);
+            }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsSBArcToTwinVertex()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tv1.B.InboundArcs), Is.True);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoesntAddSBArcToTwinGraph()
+            {
+                _tv1.B.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoesntAddSBArcToStartVertex()
+            {
+                _tv1.B.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.StartVertex.OutboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoesntAddSBArcToTwinVertex()
+            {
+                _tv1.B.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tv1.B.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsTAArcToTwinGraph()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.Arcs), Is.True);
+            }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsTAArcToEndVertex()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.EndVertex.InboundArcs), Is.True);
+            }
+
+            [Test]
+            public void AddingNonMatchingVertexAddsTAArcToTwinVertex()
+            {
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tv1.A.OutboundArcs), Is.True);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoesntAddTAArcToTwinGraph()
+            {
+                _tv1.A.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoesntAddTAArcToEndVertex()
+            {
+                _tv1.A.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.EndVertex.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingVertexDoestAddTAArcToTwinVertex()
+            {
+                _tv1.A.IsInMatching = true;
+                _tg.AddTwinVertex(_tv1);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tv1.A.OutboundArcs), Is.False);
+            }
         }
 
         public class TheAddArcMethod : TwinGraphUnitTests
@@ -130,6 +220,90 @@ namespace GraphFramework
             {
                 _a = _tg.AddArc(_tv1, _tv2, false);
                 Assert.That(_tg.Arcs, Has.Member(_a));
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSBArcFromGraph()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSBArcFromStartVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tg.StartVertex.OutboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSBArcFromTwinVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv1.B, _tv1.B.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSB2ArcFromGraph()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv2.B, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSB2ArcFromStartVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv2.B, _tg.StartVertex.OutboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesSB2ArcFromTwinVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tg.StartVertex, _tv2.B, _tv2.B.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTAArcFromGraph()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTAArcFromStartVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tg.EndVertex.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTAArcFromTwinVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv1.A, _tg.EndVertex, _tv1.A.OutboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTA2ArcFromGraph()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tg.EndVertex, _tg.Arcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTA2ArcFromStartVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tg.EndVertex, _tg.EndVertex.InboundArcs), Is.False);
+            }
+
+            [Test]
+            public void AddingInMatchingArcToVertexRemovesTA2ArcFromTwinVertex()
+            {
+                _a = _tg.AddArc(_tv1, _tv2, true);
+                Assert.That(ArcHelper.DoesArcExist(_tv2.A, _tg.EndVertex, _tv2.A.OutboundArcs), Is.False);
             }
         }
 
