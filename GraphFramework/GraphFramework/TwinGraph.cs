@@ -137,6 +137,7 @@ namespace GraphFramework
         {
             if (inMatching)
             {
+                Log.Info("Removing arc " + tvFrom + " -> " + tvTo + " M?: " + inMatching + " from TwinGraph");
                 if (ArcHelper.DeleteArc(tvFrom.A, tvTo.B, Arcs))
                 {
                     tvFrom.A.RemoveArc(tvTo.B);
@@ -175,8 +176,25 @@ namespace GraphFramework
                 if (!ArcHelper.DoesArcExist(tvTo.B, tvFrom.A, Arcs))
                     throw new NoArcException();
             }
+            Log.Info("Removing edge " + tvFrom + " <-> " + tvTo + " M?: " + inMatching + " from TwinGraph");
             RemoveArc(tvFrom, tvTo, inMatching);
             RemoveArc(tvTo, tvFrom, inMatching);
+        }
+
+        public void LogVertices()
+        {
+            foreach (var twinVertex in Vertices)
+            {
+                Log.Info(twinVertex.Name + " " + twinVertex.A.IsInMatching + " " + twinVertex.B.IsInMatching);
+            }
+        }
+
+        public void LogArcs()
+        {
+            foreach (var arc in Arcs)
+            {
+                Log.Info(arc + " " + arc.IsInMatching);
+            }
         }
     }
 }
