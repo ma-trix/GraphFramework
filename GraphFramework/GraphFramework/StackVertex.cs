@@ -4,6 +4,9 @@ namespace GraphFramework
 {
     public class StackVertex
     {
+        public bool isExpanded;
+        public ExpandedArc expandedArc;
+
         public StackVertex(ABVertex value, StackVertex ancestor)
         {
             Value = value;
@@ -19,5 +22,11 @@ namespace GraphFramework
         {
             Descendants.AddLast(vertex);
         }
+    }
+
+    public class ExpandedArc
+    {
+        public StackVertex Start;
+        public StackVertex End;
     }
 }

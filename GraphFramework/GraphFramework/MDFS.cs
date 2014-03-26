@@ -8,6 +8,7 @@ namespace GraphFramework
         private readonly TwinGraph _tg;
         private readonly IVertexStack _k;
         private readonly LinkedList<ABVertex> L;
+        private StackVertex _start;
 
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -21,7 +22,7 @@ namespace GraphFramework
 
         public void Run()
         {
-            _k.Push(_tg.StartVertex);
+            _start = _k.Push(_tg.StartVertex);
             Search();
         }
 
@@ -29,7 +30,7 @@ namespace GraphFramework
         {
             if (_k.Top().Value == _tg.EndVertex)
             {
-                Reconstruct();
+                Reconstruct(_k.Top(), _start);
             }
             else
             {
@@ -155,9 +156,35 @@ namespace GraphFramework
             throw new NotImplementedException();
         }
 
-        private void Reconstruct()
+        private void Reconstruct(StackVertex top, StackVertex start)
         {
-            
+            var nodeCur = top;
+            while (nodeCur != start)
+            {
+                if (!nodeCur.Ancestor.isExpanded)
+                {
+                    nodeCur = nodeCur.Ancestor;
+                }
+                else
+                {
+                    var eA = nodeCur.Ancestor.expandedArc;
+                    ReconstructQ(nodeCur, eA.End);
+                    nodeCur = eA.Start;
+                }
+            }
+        }
+
+        private void ReconstructQ(StackVertex uA, StackVertex wA)
+        {
+            var st = wA;
+            var p1st = st.Value.P.Item2;
+            var p2st = st.Value.P.Item1.End;
+            Reconstruct(p1st, st);
+            while (p2st != uA.Value)
+            {
+                // st = st.Value.P.Item1.End.TreeVertex // to implement connection from ABVertex to TreeVertex?
+                Reconstruct(st.Value.P.Item2, st);
+            }
         }
     }
 }
