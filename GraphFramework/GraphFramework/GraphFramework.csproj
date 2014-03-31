@@ -50,12 +50,12 @@
     <Compile Include="ArcUnitTests.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphUnitTests.cs" />
+    <Compile Include="IStackVertex.cs" />
     <Compile Include="IVertexStack.cs" />
     <Compile Include="MDFS.cs" />
     <Compile Include="NoArcException.cs" />
     <Compile Include="NoVertexException.cs" />
-    <Compile Include="StackVertex.cs" />
-    <Compile Include="StackVertexUnitTests.cs" />
+    <Compile Include="ExpandedArc.cs" />
     <Compile Include="TwinGraph.cs" />
     <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="TwinVertex.cs" />

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace GraphFramework
 {
-    public class ABVertex : Vertex
+    public class ABVertex : Vertex, IStackVertex
     {
         public ABVertex(VertexType type)
         {
             Type = type;
             inL = false;
             D = new LinkedList<ABVertex>();
+            Descendants = new LinkedList<IStackVertex>();
         }
 
         public ABVertex(VertexType type, string name) : this(type)
@@ -21,7 +22,7 @@ namespace GraphFramework
         public bool IsPushed { get; private set; }
         public VertexType Type { get; private set; }
         public ABVertex L { get; set; }
-        public Tuple<Arc, StackVertex> P { get; set; }
+        public Tuple<Arc, IStackVertex> P { get; set; }
         public LinkedList<ABVertex> D { get; set; }
         private bool inL;
         public override String Name { get { return _name + "." + Type.ToString(); } }
@@ -36,12 +37,12 @@ namespace GraphFramework
             Twin = twin;
         }
 
-        public void AddToE(Tuple<Arc, StackVertex> connection)
+        public void AddToE(Tuple<Arc, IStackVertex> connection)
         {
             E.AddLast(connection);
         }
 
-        public void AddToR(Tuple<Arc, StackVertex> connection)
+        public void AddToR(Tuple<Arc, IStackVertex> connection)
         {
             R.AddLast(connection);
         }
@@ -61,8 +62,8 @@ namespace GraphFramework
             D.Clear();
         }
 
-        public LinkedList<Tuple<Arc,StackVertex>> E = new LinkedList<Tuple<Arc, StackVertex>>();
-        public LinkedList<Tuple<Arc, StackVertex>> R = new LinkedList<Tuple<Arc, StackVertex>>();
+        public LinkedList<Tuple<Arc,IStackVertex>> E = new LinkedList<Tuple<Arc, IStackVertex>>();
+        public LinkedList<Tuple<Arc, IStackVertex>> R = new LinkedList<Tuple<Arc, IStackVertex>>();
 
         public void AddToD(ABVertex v)
         {
@@ -80,6 +81,20 @@ namespace GraphFramework
         public void AddedToL()
         {
             inL = true;
+        }
+
+        public ABVertex Value { get { return this; } }
+        public IStackVertex Ancestor { get; private set; }
+        public LinkedList<IStackVertex> Descendants { get; private set; }
+        public bool IsExpanded { get; private set; }
+        public ExpandedArc ExpandedArc { get; private set; }
+        public void AddDescendant(IStackVertex vertex)
+        {
+            Descendants.AddLast(vertex);
+        }
+        public void Pushed(IStackVertex ancestor)
+        {
+            Ancestor = ancestor;
         }
     }
 }

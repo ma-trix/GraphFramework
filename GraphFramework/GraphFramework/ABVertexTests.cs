@@ -93,7 +93,7 @@ namespace GraphFramework
         {
             private ABVertex _v;
             private Arc _arc;
-            private Tuple<Arc, StackVertex> _connection;
+            private Tuple<Arc, IStackVertex> _connection;
 
             [SetUp]
             public void DerivedInit()
@@ -101,7 +101,7 @@ namespace GraphFramework
                 base.Init();
                 _v = new ABVertex(VertexType.B);
                 _arc = new Arc(null, _v, Abv);
-                _connection = new Tuple<Arc, StackVertex>(_arc, null);
+                _connection = new Tuple<Arc, IStackVertex>(_arc, null);
             }
 
             [Test]
@@ -164,6 +164,41 @@ namespace GraphFramework
                 TwinVertex tv = new TwinVertex(v, null);
                 Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
                 Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
+            }
+        }
+
+        public class TheIStackVertexInterfaceMethods : ABVertexTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                base.Init();
+            }
+
+            [Test]
+            public void NewStackVertexHasNoDescendants()
+            {
+                Assert.That(Abv.Descendants, Is.Empty);
+            }
+
+            [Test]
+            public void ValueSelfReferences()
+            {
+                Assert.That(Abv.Value, Is.SameAs(Abv));
+            }
+
+            [Test]
+            public void NewABVertexHasNoAncestor()
+            {
+                Assert.That(Abv.Ancestor, Is.Null);
+            }
+
+            [Test]
+            public void AddsDescendant()
+            {
+                IStackVertex v = new ABVertex(VertexType.A);
+                Abv.AddDescendant(v);
+                Assert.That(Abv.Descendants, Has.Member(v));
             }
         }
     }

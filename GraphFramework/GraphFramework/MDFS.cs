@@ -8,7 +8,7 @@ namespace GraphFramework
         private readonly TwinGraph _tg;
         private readonly IVertexStack _k;
         private readonly LinkedList<ABVertex> L;
-        private StackVertex _start;
+        private IStackVertex _start;
 
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -49,7 +49,7 @@ namespace GraphFramework
                     {
                         if (_k.Contains(w))
                         {
-                            w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
+                            w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
                         }
                         else
                         {
@@ -57,11 +57,11 @@ namespace GraphFramework
                             {
                                 if (w.IsPushed)
                                 {
-                                    w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
+                                    w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
                                 }
                                 else
                                 {
-                                    w.AddToR(new Tuple<Arc, StackVertex>(arc, stackTop));
+                                    w.AddToR(new Tuple<Arc, IStackVertex>(arc, stackTop));
                                 }
                             }
                             else
@@ -79,7 +79,7 @@ namespace GraphFramework
                                     {
                                         if (!w.IsInL())
                                         {
-                                            w.AddToE(new Tuple<Arc, StackVertex>(arc, stackTop));
+                                            w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
                                         }
                                     }
                                 }
@@ -116,7 +116,7 @@ namespace GraphFramework
             }
         }
 
-        private void ConstrL(Tuple<Arc, StackVertex> connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
+        private void ConstrL(Tuple<Arc, IStackVertex> connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
         {
             var qB = connection.Item2;
             var uA = connection.Item1.End;
@@ -151,30 +151,30 @@ namespace GraphFramework
             v.AddedToL();
         }
 
-        private StackVertex FindCurrentDContaining(ABVertex stackVertex)
+        private IStackVertex FindCurrentDContaining(ABVertex stackVertex)
         {
             throw new NotImplementedException();
         }
 
-        private void Reconstruct(StackVertex top, StackVertex start)
+        private void Reconstruct(IStackVertex top, IStackVertex start)
         {
             var nodeCur = top;
             while (nodeCur != start)
             {
-                if (!nodeCur.Ancestor.isExpanded)
+                if (!nodeCur.Ancestor.IsExpanded)
                 {
                     nodeCur = nodeCur.Ancestor;
                 }
                 else
                 {
-                    var eA = nodeCur.Ancestor.expandedArc;
+                    var eA = nodeCur.Ancestor.ExpandedArc;
                     ReconstructQ(nodeCur, eA.End);
                     nodeCur = eA.Start;
                 }
             }
         }
 
-        private void ReconstructQ(StackVertex uA, StackVertex wA)
+        private void ReconstructQ(IStackVertex uA, IStackVertex wA)
         {
             var st = wA;
             var p1st = st.Value.P.Item2;

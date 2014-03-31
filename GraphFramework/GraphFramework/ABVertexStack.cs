@@ -4,19 +4,22 @@ namespace GraphFramework
 {
     public class ABVertexStack : IVertexStack
     {
-        public readonly LinkedList<ABVertex> CurrentStack = new LinkedList<ABVertex>(); 
-        private StackVertex _top = new StackVertex(null, null);
+        public readonly LinkedList<IStackVertex> CurrentStack = new LinkedList<IStackVertex>();
+        private IStackVertex _top = null;
 
-        public StackVertex Push(ABVertex vertex)
+        public IStackVertex Push(ABVertex vertex)
         {
-            var pushedVertex = new StackVertex(vertex, _top);
-            _top.AddDescendant(vertex);
-            _top = pushedVertex;
+            vertex.Pushed(_top);
+            if (_top != null)
+            {
+                _top.AddDescendant(vertex);
+            }
+            _top = vertex;
             CurrentStack.AddLast(vertex);
-            return pushedVertex;
+            return vertex;
         }
 
-        public StackVertex Top()
+        public IStackVertex Top()
         {
             return _top;
         }

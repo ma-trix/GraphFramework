@@ -2,8 +2,8 @@
 {
     public interface IVertexStack
     {
-        StackVertex Push(ABVertex vertex);
-        StackVertex Top();
+        IStackVertex Push(ABVertex vertex);
+        IStackVertex Top();
         bool Contains(ABVertex vertex);
         void Pop();
     }

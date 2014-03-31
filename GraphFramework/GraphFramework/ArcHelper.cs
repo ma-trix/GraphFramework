@@ -40,7 +40,7 @@ namespace GraphFramework
             return null;
         }
 
-        public static bool DoesConnectionExist(Vertex start, Vertex end, LinkedList<Tuple<Arc, StackVertex>> inList)
+        public static bool DoesConnectionExist(Vertex start, Vertex end, LinkedList<Tuple<Arc, IStackVertex>> inList)
         {
             var arc = inList.First;
             while (arc != null)

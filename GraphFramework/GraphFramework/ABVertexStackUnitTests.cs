@@ -20,7 +20,7 @@ namespace GraphFramework
         [Test]
         public void TopElementIsNullForEmptyVertexStack()
         {
-            Assert.That(k.Top().Value, Is.Null);
+            Assert.That(k.Top(), Is.Null);
         }
 
         [Test]
@@ -35,8 +35,6 @@ namespace GraphFramework
         {
             var pushed = k.Push(v1);
             Assert.That(pushed.Value, Is.SameAs(v1));
-            Assert.That(pushed.Ancestor.Value, Is.Null);
-            Assert.That(pushed.Ancestor.Ancestor, Is.Null);
         }
 
         [Test]

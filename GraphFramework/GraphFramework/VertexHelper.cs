@@ -20,13 +20,13 @@ namespace GraphFramework
             return false;
         }
 
-        public static bool DoesABVertexExist(Guid guid, LinkedList<ABVertex> inList)
+        public static bool DoesABVertexExist(Guid guid, LinkedList<IStackVertex> inList)
         {
             var vertex = inList.First;
             while (vertex != null)
             {
                 var nextVertex = vertex.Next;
-                if (vertex.Value.Guid == guid)
+                if (((ABVertex) vertex.Value).Guid == guid)
                 {
                     return true;
                 }
