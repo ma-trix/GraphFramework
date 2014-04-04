@@ -49,7 +49,7 @@ namespace GraphFramework
                     {
                         if (_k.Contains(w))
                         {
-                            w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
+                            w.AddToE(new Connection(arc, stackTop, w));
                         }
                         else
                         {
@@ -57,11 +57,11 @@ namespace GraphFramework
                             {
                                 if (w.IsPushed)
                                 {
-                                    w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
+                                    w.AddToE(new Connection(arc, stackTop, w));
                                 }
                                 else
                                 {
-                                    w.AddToR(new Tuple<Arc, IStackVertex>(arc, stackTop));
+                                    w.AddToR(new Connection(arc, stackTop, w));
                                 }
                             }
                             else
@@ -79,7 +79,7 @@ namespace GraphFramework
                                     {
                                         if (!w.IsInL())
                                         {
-                                            w.AddToE(new Tuple<Arc, IStackVertex>(arc, stackTop));
+                                            w.AddToE(new Connection(arc, stackTop, w));
                                         }
                                     }
                                 }
@@ -116,20 +116,22 @@ namespace GraphFramework
             }
         }
 
-        private void ConstrL(Tuple<Arc, IStackVertex> connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
+        private void ConstrL(Connection connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
         {
-            var qB = connection.Item2;
-            var uA = connection.Item1.End;
+            var qB = connection.Start;
+            var uA = connection.End;
             var zB = qB;
             var n = qB.Ancestor;
 
             while (n.Value != xB)
             {
+                // backwards search
                 if (n.Value.Type == VertexType.A)
                 {
                     if (!L.Contains(n.Value))
                     {
                         Lcur.AddToD(n.Value);
+                        n.Value.L = Lcur;
                         AddToL(n.Value);
                         n.Value.P = connection;
                         Ldef.AddLast(n.Value);
@@ -151,9 +153,9 @@ namespace GraphFramework
             v.AddedToL();
         }
 
-        private IStackVertex FindCurrentDContaining(ABVertex stackVertex)
+        private IStackVertex FindCurrentDContaining(ABVertex v)
         {
-            throw new NotImplementedException();
+            return v.L;
         }
 
         private void Reconstruct(IStackVertex top, IStackVertex start)
@@ -177,13 +179,13 @@ namespace GraphFramework
         private void ReconstructQ(IStackVertex uA, IStackVertex wA)
         {
             var st = wA;
-            var p1st = st.Value.P.Item2;
-            var p2st = st.Value.P.Item1.End;
+            var p1st = st.Value.P.Start;
+            var p2st = st.Value.P.End;
             Reconstruct(p1st, st);
             while (p2st != uA.Value)
             {
-                // st = st.Value.P.Item1.End.TreeVertex // to implement connection from ABVertex to TreeVertex?
-                Reconstruct(st.Value.P.Item2, st);
+                st = st.Value.P.End;
+                Reconstruct(st.Value.P.Start, st);
             }
         }
     }

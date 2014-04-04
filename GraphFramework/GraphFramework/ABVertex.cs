@@ -22,7 +22,7 @@ namespace GraphFramework
         public bool IsPushed { get; private set; }
         public VertexType Type { get; private set; }
         public ABVertex L { get; set; }
-        public Tuple<Arc, IStackVertex> P { get; set; }
+        public Connection P { get; set; }
         public LinkedList<ABVertex> D { get; set; }
         private bool inL;
         public override String Name { get { return _name + "." + Type.ToString(); } }
@@ -37,12 +37,12 @@ namespace GraphFramework
             Twin = twin;
         }
 
-        public void AddToE(Tuple<Arc, IStackVertex> connection)
+        public void AddToE(Connection connection)
         {
             E.AddLast(connection);
         }
 
-        public void AddToR(Tuple<Arc, IStackVertex> connection)
+        public void AddToR(Connection connection)
         {
             R.AddLast(connection);
         }
@@ -62,8 +62,8 @@ namespace GraphFramework
             D.Clear();
         }
 
-        public LinkedList<Tuple<Arc,IStackVertex>> E = new LinkedList<Tuple<Arc, IStackVertex>>();
-        public LinkedList<Tuple<Arc, IStackVertex>> R = new LinkedList<Tuple<Arc, IStackVertex>>();
+        public LinkedList<Connection> E = new LinkedList<Connection>();
+        public LinkedList<Connection> R = new LinkedList<Connection>();
 
         public void AddToD(ABVertex v)
         {

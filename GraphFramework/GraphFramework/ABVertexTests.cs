@@ -93,7 +93,7 @@ namespace GraphFramework
         {
             private ABVertex _v;
             private Arc _arc;
-            private Tuple<Arc, IStackVertex> _connection;
+            private Connection _connection;
 
             [SetUp]
             public void DerivedInit()
@@ -101,7 +101,7 @@ namespace GraphFramework
                 base.Init();
                 _v = new ABVertex(VertexType.B);
                 _arc = new Arc(null, _v, Abv);
-                _connection = new Tuple<Arc, IStackVertex>(_arc, null);
+                _connection = new Connection(_arc, null, null);
             }
 
             [Test]
