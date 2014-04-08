@@ -69,7 +69,7 @@ namespace GraphFramework
                                 {
                                     if (w.L != null)
                                     {
-                                        top.Expand(arc);
+                                        top.Expand(new ExpandedArc(arc));
                                         _k.Push(w.L);
                                         w.L = null;
                                         Search();

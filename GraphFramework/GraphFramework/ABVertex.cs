@@ -11,6 +11,7 @@ namespace GraphFramework
             _inL = false;
             D = new LinkedList<ABVertex>();
             Descendants = new LinkedList<IStackableVertex>();
+            IsExpanded = false;
         }
 
         public ABVertex(VertexType type, string name) : this(type)
@@ -47,9 +48,10 @@ namespace GraphFramework
             R.AddLast(connection);
         }
 
-        public void Expand(Arc arc)
+        public void Expand(ExpandedArc arc)
         {
-            throw new NotImplementedException();
+            IsExpanded = true;
+            ExpandedArc = arc;
         }
 
         public bool IsInL()

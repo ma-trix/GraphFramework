@@ -164,6 +164,28 @@ namespace GraphFramework
                 Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
                 Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
             }
+            
+            [Test]
+            public void NewVertexIsNotExpanded()
+            {
+                Assert.That(_v.IsExpanded, Is.False);
+            }
+
+            [Test]
+            public void ExpandsVertex()
+            {
+                var a = new ExpandedArc();
+                _v.Expand(a);
+                Assert.That(_v.IsExpanded, Is.True);
+            }
+
+            [Test]
+            public void SavesExpandedArc()
+            {
+                var a = new ExpandedArc();
+                _v.Expand(a);
+                Assert.That(_v.ExpandedArc, Is.SameAs(a));
+            }
         }
 
         public class TheIStackVertexUnitInterfaceMethods : ABVertexUnitTests
