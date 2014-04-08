@@ -4,10 +4,10 @@ namespace GraphFramework
 {
     public class ABVertexStack : IVertexStack
     {
-        public readonly LinkedList<IStackVertex> CurrentStack = new LinkedList<IStackVertex>();
-        private IStackVertex _top = null;
+        public readonly LinkedList<IStackableVertex> CurrentStack = new LinkedList<IStackableVertex>();
+        private IStackableVertex _top = null;
 
-        public IStackVertex Push(ABVertex vertex)
+        public IStackableVertex Push(ABVertex vertex)
         {
             vertex.Pushed(_top);
             if (_top != null)
@@ -19,7 +19,7 @@ namespace GraphFramework
             return vertex;
         }
 
-        public IStackVertex Top()
+        public IStackableVertex Top()
         {
             return _top;
         }

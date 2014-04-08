@@ -51,7 +51,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphUnitTests.cs" />
-    <Compile Include="IStackVertex.cs" />
+    <Compile Include="IStackableVertex.cs" />
     <Compile Include="IVertexStack.cs" />
     <Compile Include="MDFS.cs" />
     <Compile Include="NoArcException.cs" />
@@ -60,9 +60,9 @@
     <Compile Include="TwinGraph.cs" />
     <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="TwinVertex.cs" />
-    <Compile Include="TwinVertexTests.cs" />
+    <Compile Include="TwinVertexUnitTests.cs" />
     <Compile Include="ABVertex.cs" />
-    <Compile Include="ABVertexTests.cs" />
+    <Compile Include="ABVertexUnitTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
     <Compile Include="ABVertexStack.cs" />

@@ -1,13 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
-using System.Linq;
 
 namespace GraphFramework
 {
     [TestFixture]
-    public class TwinVertexTests
+    public class TwinVertexUnitTests
     {
-        public class TheConstructor : TwinVertexTests
+        public class TheConstructor : TwinVertexUnitTests
         {
             private Vertex _v;
             private TwinVertex _tv;
@@ -70,7 +69,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheAddEdgeMethod : TwinVertexTests
+        public class TheAddEdgeMethod : TwinVertexUnitTests
         {
             private TwinVertex _tv1;
             private TwinVertex _tv2;
@@ -100,7 +99,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheNameProperty : TwinVertexTests
+        public class TheNameProperty : TwinVertexUnitTests
         {
             [Test]
             public void TwinVertexHasNameOfPrecursorWithTVAppended()

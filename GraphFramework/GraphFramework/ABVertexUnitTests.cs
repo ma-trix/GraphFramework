@@ -1,10 +1,9 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GraphFramework
 {
     [TestFixture]
-    public class ABVertexTests
+    public class ABVertexUnitTests
     {
         protected ABVertex Abv;
 
@@ -13,7 +12,7 @@ namespace GraphFramework
             Abv = new ABVertex(VertexType.A);
         }
 
-        public class TheConstructor1 : ABVertexTests
+        public class TheConstructor1 : ABVertexUnitTests
         {
             [SetUp]
             public void DerivedInit()
@@ -46,7 +45,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheConstructor2 : ABVertexTests
+        public class TheConstructor2 : ABVertexUnitTests
         {
             private ABVertex _abvA;
             private ABVertex _abvB;
@@ -73,7 +72,7 @@ namespace GraphFramework
             }
         }
 
-        public class ThePushedMethod : ABVertexTests
+        public class ThePushedMethod : ABVertexUnitTests
         {
             [SetUp]
             public void DerivedInit()
@@ -89,7 +88,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheAddToDERMethods : ABVertexTests
+        public class TheAddToDERMethods : ABVertexUnitTests
         {
             private ABVertex _v;
             private Arc _arc;
@@ -126,7 +125,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheOtherMethods : ABVertexTests
+        public class TheOtherMethods : ABVertexUnitTests
         {
             private ABVertex _v;
 
@@ -167,7 +166,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheIStackVertexInterfaceMethods : ABVertexTests
+        public class TheIStackVertexUnitInterfaceMethods : ABVertexUnitTests
         {
             [SetUp]
             public void DerivedInit()
@@ -196,7 +195,7 @@ namespace GraphFramework
             [Test]
             public void AddsDescendant()
             {
-                IStackVertex v = new ABVertex(VertexType.A);
+                IStackableVertex v = new ABVertex(VertexType.A);
                 Abv.AddDescendant(v);
                 Assert.That(Abv.Descendants, Has.Member(v));
             }

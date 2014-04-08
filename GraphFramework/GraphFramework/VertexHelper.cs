@@ -20,7 +20,7 @@ namespace GraphFramework
             return false;
         }
 
-        public static bool DoesABVertexExist(Guid guid, LinkedList<IStackVertex> inList)
+        public static bool DoesABVertexExist(Guid guid, LinkedList<IStackableVertex> inList)
         {
             var vertex = inList.First;
             while (vertex != null)

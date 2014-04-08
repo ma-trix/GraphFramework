@@ -3,10 +3,10 @@
     public class Connection
     {
         public Arc Arc;
-        public IStackVertex Start;
-        public IStackVertex End;
+        public IStackableVertex Start;
+        public IStackableVertex End;
 
-        public Connection(Arc arc, IStackVertex start, IStackVertex end)
+        public Connection(Arc arc, IStackableVertex start, IStackableVertex end)
         {
             Arc = arc;
             Start = start;

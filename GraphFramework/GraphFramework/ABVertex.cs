@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace GraphFramework
 {
-    public class ABVertex : Vertex, IStackVertex
+    public class ABVertex : Vertex, IStackableVertex
     {
         public ABVertex(VertexType type)
         {
             Type = type;
             inL = false;
             D = new LinkedList<ABVertex>();
-            Descendants = new LinkedList<IStackVertex>();
+            Descendants = new LinkedList<IStackableVertex>();
         }
 
         public ABVertex(VertexType type, string name) : this(type)
@@ -84,15 +84,15 @@ namespace GraphFramework
         }
 
         public ABVertex Value { get { return this; } }
-        public IStackVertex Ancestor { get; private set; }
-        public LinkedList<IStackVertex> Descendants { get; private set; }
+        public IStackableVertex Ancestor { get; private set; }
+        public LinkedList<IStackableVertex> Descendants { get; private set; }
         public bool IsExpanded { get; private set; }
         public ExpandedArc ExpandedArc { get; private set; }
-        public void AddDescendant(IStackVertex vertex)
+        public void AddDescendant(IStackableVertex vertex)
         {
             Descendants.AddLast(vertex);
         }
-        public void Pushed(IStackVertex ancestor)
+        public void Pushed(IStackableVertex ancestor)
         {
             Ancestor = ancestor;
         }

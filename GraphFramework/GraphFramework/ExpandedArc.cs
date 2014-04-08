@@ -2,7 +2,7 @@
 {
     public class ExpandedArc
     {
-        public IStackVertex Start;
-        public IStackVertex End;
+        public IStackableVertex Start;
+        public IStackableVertex End;
     }
 }
