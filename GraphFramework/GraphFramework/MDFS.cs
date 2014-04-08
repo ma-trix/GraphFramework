@@ -121,29 +121,28 @@ namespace GraphFramework
             var qB = connection.Start;
             var uA = connection.End;
             var zB = qB;
-            var n = qB.Ancestor;
-
-            while (n.Value != xB)
+            
+            while (zB.Value != xB)
             {
-                // backwards search
-                if (n.Value.Type == VertexType.A)
+                if (zB.Value.Type == VertexType.A)
                 {
-                    if (!L.Contains(n.Value))
+                    if (!L.Contains(zB.Value))
                     {
-                        Lcur.AddToD(n.Value);
-                        n.Value.L = Lcur;
-                        AddToL(n.Value);
-                        n.Value.P = connection;
-                        Ldef.AddLast(n.Value);
+                        Lcur.AddToD(zB.Value);
+                        zB.Value.L = Lcur;
+                        AddToL(zB.Value);
+                        zB.Value.P = connection;
+                        Ldef.AddLast(zB.Value);
                     }
                     else
                     {
-                        var rB = FindCurrentDContaining(n.Value);
+                        var rB = FindCurrentDContaining(zB.Value);
                         Lcur.AddAnotherDToD(rB.Value.D);
                         zB = rB;
+                        continue;
                     }
                 }
-                n = n.Ancestor;
+                zB = zB.Ancestor;
             }
         }
 
