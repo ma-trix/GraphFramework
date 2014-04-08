@@ -5,78 +5,78 @@ namespace GraphFramework
     [TestFixture]
     public class ABVertexStackUnitTests
     {
-        private ABVertexStack k;
-        private ABVertex v1;
-        private ABVertex v2;
+        private ABVertexStack _k;
+        private ABVertex _v1;
+        private ABVertex _v2;
 
         [SetUp]
         public void SetUp()
         {
-            k = new ABVertexStack();
-            v1 = new ABVertex(VertexType.A);
-            v2 = new ABVertex(VertexType.B);
+            _k = new ABVertexStack();
+            _v1 = new ABVertex(VertexType.A);
+            _v2 = new ABVertex(VertexType.B);
         }
 
         [Test]
         public void TopElementIsNullForEmptyVertexStack()
         {
-            Assert.That(k.Top(), Is.Null);
+            Assert.That(_k.Top(), Is.Null);
         }
 
         [Test]
         public void PushingElementSetsItToTop()
         {
-            k.Push(v1);
-            Assert.That(k.Top().Value, Is.SameAs(v1));
+            _k.Push(_v1);
+            Assert.That(_k.Top().Value, Is.SameAs(_v1));
         }
 
         [Test]
         public void PushReturnsWrappedPushedElement()
         {
-            var pushed = k.Push(v1);
-            Assert.That(pushed.Value, Is.SameAs(v1));
+            var pushed = _k.Push(_v1);
+            Assert.That(pushed.Value, Is.SameAs(_v1));
         }
 
         [Test]
         public void PushingAnotherElementMakesCurrentTopItsAncestor()
         {
-            var pushedV1 = k.Push(v1);
-            var pushedV2 = k.Push(v2);
+            var pushedV1 = _k.Push(_v1);
+            var pushedV2 = _k.Push(_v2);
             Assert.That(pushedV2.Ancestor, Is.SameAs(pushedV1));
         }
 
         [Test]
         public void PushingAnotherElementMakesItDescendantOfCurrentTop()
         {
-            var pushedV1 = k.Push(v1);
-            k.Push(v2);
-            Assert.That(VertexHelper.DoesABVertexExist(v2.Guid, pushedV1.Descendants), Is.True);
+            var pushedV1 = _k.Push(_v1);
+            _k.Push(_v2);
+            Assert.That(VertexHelper.DoesABVertexExist(_v2.Guid, pushedV1.Descendants), Is.True);
         }
 
         [Test]
         public void PoppingMovesTopToAncestor()
         {
-            k.Push(v1);
-            k.Push(v2);
-            k.Pop();
-            Assert.That(k.Top().Value, Is.SameAs(v1));
+            _k.Push(_v1);
+            _k.Push(_v2);
+            _k.Pop();
+            Assert.That(_k.Top().Value, Is.SameAs(_v1));
         }
 
         [Test]
         public void PushingElementAddsItToTheEndOfCurrentStack()
         {
-            k.Push(v1);
-            Assert.That(k.CurrentStack.Last.Value, Is.EqualTo(v1));
+            _k.Push(_v1);
+            Assert.That(_k.CurrentStack.Last.Value, Is.EqualTo(_v1));
         }
 
         [Test]
         public void PoppingElementRemovesItFromTheEndOfCurrentStack()
         {
-            k.Push(v1);
-            k.Push(v2);
-            Assert.That(k.CurrentStack.Last.Value, Is.EqualTo(v2));
-            k.Pop();
-            Assert.That(k.CurrentStack.Last.Value, Is.EqualTo(v1));
+            _k.Push(_v1);
+            _k.Push(_v2);
+            Assert.That(_k.CurrentStack.Last.Value, Is.EqualTo(_v2));
+            _k.Pop();
+            Assert.That(_k.CurrentStack.Last.Value, Is.EqualTo(_v1));
         }
     }
 }

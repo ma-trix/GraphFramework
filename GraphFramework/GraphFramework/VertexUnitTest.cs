@@ -20,7 +20,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -56,7 +56,7 @@ namespace GraphFramework
             [Test]
             public void NamesAVertex()
             {
-                Vertex v = new Vertex("1");
+                var v = new Vertex("1");
                 Assert.That(v.Name, Is.EqualTo("1"));
             }
 
@@ -84,7 +84,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -208,7 +208,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -232,7 +232,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -265,7 +265,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]

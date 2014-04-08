@@ -104,9 +104,9 @@ namespace GraphFramework
             [Test]
             public void TwinVertexHasNameOfPrecursorWithTVAppended()
             {
-                var name = "badaboom";
-                Vertex v = new Vertex(name);
-                TwinVertex tv = new TwinVertex(v, null);
+                const string name = "badaboom";
+                var v = new Vertex(name);
+                var tv = new TwinVertex(v, null);
                 Assert.That(tv.Name, Is.EqualTo(name + ".TV"));
             }
         }

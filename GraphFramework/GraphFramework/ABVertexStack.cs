@@ -5,7 +5,7 @@ namespace GraphFramework
     public class ABVertexStack : IVertexStack
     {
         public readonly LinkedList<IStackableVertex> CurrentStack = new LinkedList<IStackableVertex>();
-        private IStackableVertex _top = null;
+        private IStackableVertex _top;
 
         public IStackableVertex Push(ABVertex vertex)
         {

@@ -83,12 +83,6 @@ namespace GraphFramework
             Log.Info("Added vertex " + Name + " to matching");
         }
 
-        private void AddInboundArc(Arc newArc)
-        {
-            InboundArcs.AddLast(newArc);
-            Log.Info("Added inbound arc " + newArc + " to vertex " + Name);
-        }
-
         public void RemoveArc(Vertex vertex)
         {
             Log.Info("Removing outbound arc from vertex " + Name);

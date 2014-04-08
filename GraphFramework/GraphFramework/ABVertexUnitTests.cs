@@ -17,7 +17,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
             
             [Test]
@@ -54,7 +54,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -77,7 +77,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -88,7 +88,7 @@ namespace GraphFramework
             }
         }
 
-        public class TheAddToDERMethods : ABVertexUnitTests
+        public class TheAddToDerMethods : ABVertexUnitTests
         {
             private ABVertex _v;
             private Arc _arc;
@@ -97,7 +97,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _v = new ABVertex(VertexType.B);
                 _arc = new Arc(null, _v, Abv);
                 _connection = new Connection(_arc, null, null);
@@ -132,7 +132,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 Abv = new ABVertex(VertexType.A);
                 _v = new ABVertex(VertexType.B);
             }
@@ -146,11 +146,11 @@ namespace GraphFramework
             }
 
             [Test]
-            public void AddsAnotherDToD()
+            public void AddsAnotherDtoD()
             {
                 _v.AddToD(Abv);
                 _v.AddToD(_v);
-                Abv.AddAnotherDToD(_v.D);
+                Abv.AddAnotherDtoD(_v.D);
                 Assert.That(Abv.D, Has.Member(Abv));
                 Assert.That(Abv.D, Has.Member(_v));
             }
@@ -159,8 +159,8 @@ namespace GraphFramework
             public void TwinsHaveNameOfPrecursorWithTypeAppended()
             {
                 const string name = "badaboom";
-                Vertex v = new Vertex(name);
-                TwinVertex tv = new TwinVertex(v, null);
+                var v = new Vertex(name);
+                var tv = new TwinVertex(v, null);
                 Assert.That(tv.A.Name, Is.EqualTo(name + ".A"));
                 Assert.That(tv.B.Name, Is.EqualTo(name + ".B"));
             }
@@ -171,7 +171,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]

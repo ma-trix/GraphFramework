@@ -22,19 +22,19 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
             public void EmptyGraphHasNoVertices()
             {
-                Assert.That(_graph.vertices.Count, Is.EqualTo(0));
+                Assert.That(_graph.Vertices.Count, Is.EqualTo(0));
             }
 
             [Test]
             public void NewGraphHasNoArcs()
             {
-                Assert.That(_graph.arcs, Is.Empty);
+                Assert.That(_graph.Arcs, Is.Empty);
             }
         }
 
@@ -43,7 +43,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _graph.AddVertex(_v1);
             }
 
@@ -56,7 +56,7 @@ namespace GraphFramework
             [Test]
             public void AddsVertexToGraph()
             {
-                Assert.That(_graph.vertices, Contains.Item(_v1));
+                Assert.That(_graph.Vertices, Contains.Item(_v1));
             }
 
             [Test]
@@ -71,7 +71,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }
@@ -80,7 +80,7 @@ namespace GraphFramework
             public void AddsArcNotInMatchingBetweenVerticesToArcsInGraph()
             {
                 var a = _graph.AddArc(_v1, _v2, false);
-                Assert.That(_graph.arcs.Contains(a));
+                Assert.That(_graph.Arcs.Contains(a));
             }
 
             [Test]
@@ -101,7 +101,7 @@ namespace GraphFramework
             public void AddsArcInMatchingBetweenVerticesToArcsInGraph()
             {
                 var a = _graph.AddArc(_v1, _v2, true);
-                Assert.That(_graph.arcs.Contains(a));
+                Assert.That(_graph.Arcs.Contains(a));
             }
 
             [Test]
@@ -133,7 +133,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
                 _arc = _graph.AddArc(_v1, _v2, false);
@@ -143,7 +143,7 @@ namespace GraphFramework
             public void RemovesArcFromArcsInGraph()
             {
                 _graph.RemoveArc(_v1, _v2);
-                Assert.That(_graph.arcs.Contains(_arc), Is.False);
+                Assert.That(_graph.Arcs.Contains(_arc), Is.False);
             }
 
             [Test]
@@ -166,7 +166,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init(); 
+                Init(); 
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }
@@ -175,8 +175,8 @@ namespace GraphFramework
             public void AddsEdgeNotInMatchingToArcsInGraph()
             {
                 var e = _graph.AddEdge(_v1, _v2, false);
-                Assert.That(_graph.arcs.Contains(e.Item1));
-                Assert.That(_graph.arcs.Contains(e.Item2));
+                Assert.That(_graph.Arcs.Contains(e.Item1));
+                Assert.That(_graph.Arcs.Contains(e.Item2));
             }
 
             [Test]
@@ -198,52 +198,52 @@ namespace GraphFramework
 
         public class TheRemoveEdgeMethod : GraphUnitTests
         {
-            private Tuple<Arc, Arc> e;
+            private Tuple<Arc, Arc> _e;
                 
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
-                e = _graph.AddEdge(_v1, _v2, false);
+                _e = _graph.AddEdge(_v1, _v2, false);
             }
 
             [Test]
             public void RemovesEdgeFromArcsInGraph()
             {
                 _graph.RemoveEdge(_v1, _v2);
-                Assert.That(_graph.arcs.Contains(e.Item1), Is.False);
-                Assert.That(_graph.arcs.Contains(e.Item2), Is.False);
+                Assert.That(_graph.Arcs.Contains(_e.Item1), Is.False);
+                Assert.That(_graph.Arcs.Contains(_e.Item2), Is.False);
             }
 
             [Test]
             public void RemovesEdgeFromArcsInStartVertex()
             {
                 _graph.RemoveEdge(_v1, _v2);
-                Assert.That(_v1.OutboundArcs.Contains(e.Item1), Is.False);
-                Assert.That(_v1.InboundArcs.Contains(e.Item2), Is.False);
+                Assert.That(_v1.OutboundArcs.Contains(_e.Item1), Is.False);
+                Assert.That(_v1.InboundArcs.Contains(_e.Item2), Is.False);
             }
 
             [Test]
             public void RemovesEdgeFromArcsInEndVertex()
             {
                 _graph.RemoveEdge(_v1, _v2);
-                Assert.That(_v2.OutboundArcs.Contains(e.Item2), Is.False);
-                Assert.That(_v2.InboundArcs.Contains(e.Item1), Is.False);
+                Assert.That(_v2.OutboundArcs.Contains(_e.Item2), Is.False);
+                Assert.That(_v2.InboundArcs.Contains(_e.Item1), Is.False);
             }
 
             [Test]
             public void RemovingEdgeWhenOnlyArcExistsLeavesArc()
             {
-                _graph.RemoveArc(e.Item2.Start, e.Item2.End);
-                Assert.That(_graph.arcs.Contains(e.Item1));
+                _graph.RemoveArc(_e.Item2.Start, _e.Item2.End);
+                Assert.That(_graph.Arcs.Contains(_e.Item1));
             }
 
             [Test]
             public void RemovingEdgeWhenOnlyArcExistsThrowsException()
             {
-                _graph.RemoveArc(e.Item2.Start, e.Item2.End);
+                _graph.RemoveArc(_e.Item2.Start, _e.Item2.End);
                 Assert.Throws<NoArcException>(() => _graph.RemoveEdge(_v1, _v2));
             }
         }
@@ -253,7 +253,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }
@@ -262,14 +262,14 @@ namespace GraphFramework
             public void RemovesVertexFromGraph()
             {
                 _graph.RemoveVertex(_v1);
-                Assert.That(_graph.vertices, Has.No.Member(_v1));
+                Assert.That(_graph.Vertices, Has.No.Member(_v1));
             }
 
             [Test]
             public void RemovingNonexistentVertexThrowsException()
             {
-                var _v3 = new Vertex();
-                Assert.Throws<NoVertexException>(() => _graph.RemoveVertex(_v3));
+                var v3 = new Vertex();
+                Assert.Throws<NoVertexException>(() => _graph.RemoveVertex(v3));
             }
 
             [Test]

@@ -21,12 +21,12 @@ namespace GraphFramework
         {
             Log.Info("Generating TwinGraph from Graph");
             Log.Info("Generating twin vertices from vertices");
-            foreach (var vertex in graph.vertices)
+            foreach (var vertex in graph.Vertices)
             {
                 AddTwinVertex(new TwinVertex(vertex, this));
             }
             Log.Info("Generating arcs for twin vertices from arcs");
-            foreach (var arc in graph.arcs)
+            foreach (var arc in graph.Arcs)
             {
                 TwinVertex tv1 = Vertices.FirstOrDefault(tv => tv.Precursor.Guid == arc.Start.Guid);
                 TwinVertex tv2 = Vertices.FirstOrDefault(tv => tv.Precursor.Guid == arc.End.Guid);
@@ -111,11 +111,9 @@ namespace GraphFramework
                 start2 = endVertex.B;
                 end2 = startVertex.A;
             }
-            Arc a1;
-            Arc a2;
-            
-            a1 = AddArc(start1, end1, inMatching);
-            a2 = AddArc(start2, end2, inMatching);  
+
+            var a1 = AddArc(start1, end1, inMatching);
+            var a2 = AddArc(start2, end2, inMatching);  
             return new Tuple<Arc, Arc>(a1, a2);
         }
 
@@ -135,9 +133,9 @@ namespace GraphFramework
 
         public void RemoveArc(TwinVertex tvFrom, TwinVertex tvTo, bool inMatching)
         {
+            Log.Info("Removing arc " + tvFrom + " -> " + tvTo + " M?: " + inMatching + " from TwinGraph");
             if (inMatching)
             {
-                Log.Info("Removing arc " + tvFrom + " -> " + tvTo + " M?: " + inMatching + " from TwinGraph");
                 if (ArcHelper.DeleteArc(tvFrom.A, tvTo.B, Arcs))
                 {
                     tvFrom.A.RemoveArc(tvTo.B);

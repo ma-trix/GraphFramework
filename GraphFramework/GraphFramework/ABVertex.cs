@@ -8,7 +8,7 @@ namespace GraphFramework
         public ABVertex(VertexType type)
         {
             Type = type;
-            inL = false;
+            _inL = false;
             D = new LinkedList<ABVertex>();
             Descendants = new LinkedList<IStackableVertex>();
         }
@@ -24,7 +24,7 @@ namespace GraphFramework
         public ABVertex L { get; set; }
         public Connection P { get; set; }
         public LinkedList<ABVertex> D { get; set; }
-        private bool inL;
+        private bool _inL;
         public override String Name { get { return _name + "." + Type.ToString(); } }
 
         public void Pushed()
@@ -49,12 +49,12 @@ namespace GraphFramework
 
         public void Expand(Arc arc)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool IsInL()
         {
-            return inL;
+            return _inL;
         }
 
         public void EmptyD()
@@ -70,9 +70,9 @@ namespace GraphFramework
             D.AddLast(v);
         }
 
-        public void AddAnotherDToD(LinkedList<ABVertex> AnotherD)
+        public void AddAnotherDtoD(LinkedList<ABVertex> anotherD)
         {
-            foreach (var v in AnotherD)
+            foreach (var v in anotherD)
             {
                 D.AddLast(v);
             }
@@ -80,7 +80,7 @@ namespace GraphFramework
 
         public void AddedToL()
         {
-            inL = true;
+            _inL = true;
         }
 
         public ABVertex Value { get { return this; } }

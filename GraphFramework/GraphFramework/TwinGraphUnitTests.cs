@@ -30,7 +30,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -63,7 +63,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _g.AddVertex(_v1);
                 _g.AddVertex(_v2);
                 _g.AddEdge(_v1, _v2, false);
@@ -95,7 +95,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
             }
 
             [Test]
@@ -203,7 +203,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }
@@ -312,7 +312,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }
@@ -340,7 +340,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _tg.AddTwinVertex(_tv1);
             }
 
@@ -366,7 +366,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
                 _aNotInMatching = _tg.AddArc(_tv2, _tv1, false);
@@ -428,7 +428,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }

@@ -22,7 +22,7 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                base.Init();
+                Init();
                 _a = new Arc(_g, _v1, _v2);
             }
 

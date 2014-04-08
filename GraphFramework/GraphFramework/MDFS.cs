@@ -135,7 +135,7 @@ namespace GraphFramework
                     else
                     {
                         var rB = FindCurrentDContaining(zB.Value);
-                        lcur.AddAnotherDToD(rB.Value.D);
+                        lcur.AddAnotherDtoD(rB.Value.D);
                         zB = rB;
                         continue;
                     }

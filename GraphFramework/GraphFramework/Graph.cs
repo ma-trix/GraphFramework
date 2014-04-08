@@ -8,39 +8,39 @@ namespace GraphFramework
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public LinkedList<Vertex> vertices = new LinkedList<Vertex>();
-        public LinkedList<Arc> arcs = new LinkedList<Arc>();
+        public LinkedList<Vertex> Vertices = new LinkedList<Vertex>();
+        public LinkedList<Arc> Arcs = new LinkedList<Arc>();
 
         public void AddVertex(Vertex vertex)
         {
-            vertices.AddLast(vertex);
+            Vertices.AddLast(vertex);
             Log.Info("Added vertex " + vertex.Name);
             vertex.Graph = this;
         }
 
         public void RemoveVertex(Vertex vertexToRemove)
         {
-            if (!vertices.Contains(vertexToRemove))
+            if (!Vertices.Contains(vertexToRemove))
             {
                 throw new NoVertexException();
             }
             vertexToRemove.RemoveInboundArcs();
             vertexToRemove.RemoveOutboundArcs();
             vertexToRemove.Graph = null;
-            vertices.Remove(vertexToRemove);
+            Vertices.Remove(vertexToRemove);
         }
 
         public Arc AddArc(Vertex startVertex, Vertex endVertex, bool inMatching)
         {
             Arc a = startVertex.AddOutboundArc(endVertex, inMatching);
             Log.Info("Added arc " + a + " to graph");
-            arcs.AddLast(a);
+            Arcs.AddLast(a);
             return a;
         }
 
         public void RemoveArc(Vertex v1, Vertex v2)
         {
-            if (ArcHelper.DeleteArc(v1, v2, arcs))
+            if (ArcHelper.DeleteArc(v1, v2, Arcs))
             {
                 Log.Info("Removed arc " + v1.Name + " -> " + v2.Name + " from graph");
                 v1.RemoveArc(v2);
@@ -61,9 +61,9 @@ namespace GraphFramework
 
         public void RemoveEdge(Vertex v1, Vertex v2)
         {
-            if (!ArcHelper.DoesArcExist(v1, v2, arcs))
+            if (!ArcHelper.DoesArcExist(v1, v2, Arcs))
                 throw new NoArcException();
-            if (!ArcHelper.DoesArcExist(v2, v1, arcs))
+            if (!ArcHelper.DoesArcExist(v2, v1, Arcs))
                 throw new NoArcException();
             RemoveArc(v1, v2);
             RemoveArc(v2, v1);
