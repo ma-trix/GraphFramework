@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GraphFramework
 {
@@ -7,17 +6,17 @@ namespace GraphFramework
     {
         private readonly TwinGraph _tg;
         private readonly IVertexStack _k;
-        private readonly LinkedList<ABVertex> L;
-        private IStackVertex _start;
+        private readonly LinkedList<ABVertex> _l;
+        private IStackableVertex _start;
 
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public MDFS(TwinGraph tg, IVertexStack k, LinkedList<ABVertex> L)
+        public MDFS(TwinGraph tg, IVertexStack k, LinkedList<ABVertex> l)
         {
             _tg = tg;
             _k = k;
-            this.L = L;
+            _l = l;
         }
 
         public void Run()
@@ -94,20 +93,20 @@ namespace GraphFramework
                 }
                 if (top.Type == VertexType.B && !top.Twin.IsPushed)
                 {
-                    var Lcur = top.Twin;
-                    Lcur.EmptyD();
-                    var Ldef = new LinkedList<ABVertex>();
-                    foreach (var a in Lcur.R)
+                    var lcur = top.Twin;
+                    lcur.EmptyD();
+                    var ldef = new LinkedList<ABVertex>();
+                    foreach (var a in lcur.R)
                     {
-                        ConstrL(a, top, Lcur, Ldef);
+                        ConstrL(a, top, lcur, ldef);
                     }
-                    while (Ldef.Count > 0)
+                    while (ldef.Count > 0)
                     {
-                        var v = Ldef.Last.Value;
-                        Ldef.Remove(v);
+                        var v = ldef.Last.Value;
+                        ldef.Remove(v);
                         foreach (var x in v.E)
                         {
-                            ConstrL(x, top, Lcur, Ldef);
+                            ConstrL(x, top, lcur, ldef);
                         }
                     }
                 }
@@ -116,28 +115,27 @@ namespace GraphFramework
             }
         }
 
-        private void ConstrL(Connection connection , ABVertex xB, ABVertex Lcur, LinkedList<ABVertex> Ldef)
+        private void ConstrL(Connection pcur , ABVertex xB, ABVertex lcur, LinkedList<ABVertex> ldef)
         {
-            var qB = connection.Start;
-            var uA = connection.End;
+            var qB = pcur.Start;
             var zB = qB;
             
             while (zB.Value != xB)
             {
                 if (zB.Value.Type == VertexType.A)
                 {
-                    if (!L.Contains(zB.Value))
+                    if (!_l.Contains(zB.Value))
                     {
-                        Lcur.AddToD(zB.Value);
-                        zB.Value.L = Lcur;
+                        lcur.AddToD(zB.Value);
+                        zB.Value.L = lcur;
                         AddToL(zB.Value);
-                        zB.Value.P = connection;
-                        Ldef.AddLast(zB.Value);
+                        zB.Value.P = pcur;
+                        ldef.AddLast(zB.Value);
                     }
                     else
                     {
                         var rB = FindCurrentDContaining(zB.Value);
-                        Lcur.AddAnotherDToD(rB.Value.D);
+                        lcur.AddAnotherDToD(rB.Value.D);
                         zB = rB;
                         continue;
                     }
@@ -148,16 +146,16 @@ namespace GraphFramework
 
         private void AddToL(ABVertex v)
         {
-            L.AddLast(v);
+            _l.AddLast(v);
             v.AddedToL();
         }
 
-        private IStackVertex FindCurrentDContaining(ABVertex v)
+        private IStackableVertex FindCurrentDContaining(ABVertex v)
         {
             return v.L;
         }
 
-        private void Reconstruct(IStackVertex top, IStackVertex start)
+        private void Reconstruct(IStackableVertex top, IStackableVertex start)
         {
             var nodeCur = top;
             while (nodeCur != start)
@@ -175,13 +173,13 @@ namespace GraphFramework
             }
         }
 
-        private void ReconstructQ(IStackVertex uA, IStackVertex wA)
+        private void ReconstructQ(IStackableVertex uA, IStackableVertex wA)
         {
             var st = wA;
-            var p1st = st.Value.P.Start;
-            var p2st = st.Value.P.End;
-            Reconstruct(p1st, st);
-            while (p2st != uA.Value)
+            var p1St = st.Value.P.Start;
+            var p2St = st.Value.P.End;
+            Reconstruct(p1St, st);
+            while (p2St != uA.Value)
             {
                 st = st.Value.P.End;
                 Reconstruct(st.Value.P.Start, st);
