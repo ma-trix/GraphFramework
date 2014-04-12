@@ -29,7 +29,8 @@ namespace GraphFramework
         {
             if (_k.Top().Value == _tg.EndVertex)
             {
-                Reconstruct(_k.Top(), _start);
+                var augmentingPath = new LinkedList<IStackableVertex>();
+                Reconstruct(_k.Top(), _start, augmentingPath);
             }
             else
             {
@@ -155,35 +156,42 @@ namespace GraphFramework
             return v.L;
         }
 
-        private void Reconstruct(IStackableVertex top, IStackableVertex start)
+        private LinkedList<IStackableVertex> Reconstruct(IStackableVertex top, IStackableVertex start, LinkedList<IStackableVertex> path)
         {
             var nodeCur = top;
             while (nodeCur != start)
             {
                 if (!nodeCur.Ancestor.IsExpanded)
                 {
+                    path.AddFirst(nodeCur);
                     nodeCur = nodeCur.Ancestor;
                 }
                 else
                 {
                     var eA = nodeCur.Ancestor.ExpandedArc;
-                    ReconstructQ(nodeCur, eA.End);
+                    var q = ReconstructQ(nodeCur, eA.End, path);
+                    path.PrependRange(q);
                     nodeCur = eA.Start;
                 }
             }
+            path.AddFirst(nodeCur);
+            return path;
         }
 
-        private void ReconstructQ(IStackableVertex uA, IStackableVertex wA)
+        private LinkedList<IStackableVertex> ReconstructQ(IStackableVertex uA, IStackableVertex wA, LinkedList<IStackableVertex> path)
         {
             var st = wA;
             var p1St = st.Value.P.Start;
             var p2St = st.Value.P.End;
-            Reconstruct(p1St, st);
-            while (p2St != uA.Value)
+            var pathQ = Reconstruct(p1St, st, path);
+            while (p2St != uA)
             {
                 st = st.Value.P.End;
-                Reconstruct(st.Value.P.Start, st);
+                var block = Reconstruct(st.Value.P.Start, st, path);
+                pathQ.AppendRange(block);
             }
+            pathQ.AddLast(uA);
+            return path;
         }
     }
 }
