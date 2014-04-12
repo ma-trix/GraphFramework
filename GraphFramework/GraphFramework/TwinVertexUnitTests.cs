@@ -67,6 +67,12 @@ namespace GraphFramework
             {
                 Assert.That(_tv.A.Twin, Is.EqualTo(_tv.B));
             }
+            
+            [Test]
+            public void NewTwinVertexIsNotInMatching()
+            {
+                Assert.That(_tv.InMatching, Is.False);
+            }
         }
 
         public class TheAddEdgeMethod : TwinVertexUnitTests
@@ -96,6 +102,13 @@ namespace GraphFramework
                 _e = _tv1.AddEdge(_tv2, true);
                 Assert.That(_tv1.A.OutboundArcs, Has.Member(_e.Item1));
                 Assert.That(_tv2.A.OutboundArcs, Has.Member(_e.Item2));
+            }
+
+            [Test]
+            public void AddingMatchingEdgeMakesTwinVertexInMatching()
+            {
+                _e = _tv1.AddEdge(_tv2, true);
+                Assert.That(_tv1.InMatching, Is.True);
             }
         }
 

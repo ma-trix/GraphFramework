@@ -32,6 +32,8 @@ namespace GraphFramework
 
         public String Name { get { return Precursor.Name + ".TV"; } }
 
+        public bool InMatching { get; private set; }
+
         public Tuple<Arc, Arc> AddEdge(TwinVertex tv, bool inMatching)
         {
             ABVertex start1;
@@ -44,6 +46,7 @@ namespace GraphFramework
                 start2 = tv.A;
                 end1 = B;
                 end2 = tv.B;
+                InMatching = true;
             }
             else
             {
