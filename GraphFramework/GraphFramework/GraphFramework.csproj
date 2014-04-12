@@ -53,6 +53,7 @@
     <Compile Include="GraphUnitTests.cs" />
     <Compile Include="IStackableVertex.cs" />
     <Compile Include="IVertexStack.cs" />
+    <Compile Include="LinkedListExtensions.cs" />
     <Compile Include="MDFS.cs" />
     <Compile Include="NoArcException.cs" />
     <Compile Include="NoVertexException.cs" />
