@@ -31,5 +31,13 @@
         {
             return Start.Name + " -> " + End.Name;
         }
+
+        public void Revert()
+        {
+            var tmp = Start;
+            Start = End;
+            End = tmp;
+            IsInMatching = !IsInMatching;
+        }
     }
 }

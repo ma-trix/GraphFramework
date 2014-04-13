@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 
 namespace GraphFramework
 {
@@ -64,6 +65,47 @@ namespace GraphFramework
                 _a.AddToMatching();
                 Assert.AreEqual(true, _a.IsInMatching);
             }     
+        }
+        
+        public class TheRevertMethod : ArcUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                Init();
+                _a = new Arc(null, _v1, _v2);
+            }
+
+            [Test]
+            public void RevertingSetsNewStartVertexToOldEndVertex()
+            {
+                var oldEnd = _a.End;
+                _a.Revert();
+                Assert.That(_a.Start, Is.SameAs(oldEnd));
+            }
+
+            [Test]
+            public void RevertingSetsNewEndVertexToOldStartVertex()
+            {
+                var oldStart = _a.Start;
+                _a.Revert();
+                Assert.That(_a.End, Is.SameAs(oldStart));
+            }
+
+            [Test]
+            public void RevertingRemovesInMatchingArcFromMatching()
+            {
+                _a.AddToMatching();
+                _a.Revert();
+                Assert.That(_a.IsInMatching, Is.False);
+            }
+            
+            [Test]
+            public void RevertingAddsNonMatchingArcToMatching()
+            {
+                _a.Revert();
+                Assert.That(_a.IsInMatching, Is.True);
+            }
         }
     }
 }
