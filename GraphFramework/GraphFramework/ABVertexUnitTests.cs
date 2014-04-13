@@ -222,5 +222,39 @@ namespace GraphFramework
                 Assert.That(Abv.Descendants, Has.Member(v));
             }
         }
+
+        public class TheArcRevertedMethod : ABVertexUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                Init();
+            }
+
+            [Test]
+            public void RevertingArcRevertsArcInTwin()
+            {
+                var v1a = new ABVertex(VertexType.A, "1");
+                var v1b = new ABVertex(VertexType.B, "1");
+                var v2a = new ABVertex(VertexType.A, "2");
+                var v2b = new ABVertex(VertexType.B, "2");
+
+                v1a.SetTwin(v1b);
+                v1b.SetTwin(v1a);
+                v2a.SetTwin(v2b);
+                v2b.SetTwin(v2a);
+
+                var a1 = v1a.AddOutboundArc(v2b, false);
+                var a2 = v2a.AddOutboundArc(v1b, false);
+
+                a1.Revert(); 
+                Assert.That(a1.Start, Is.SameAs(v2b));
+                Assert.That(a1.End, Is.SameAs(v1a));
+                Assert.That(a1.IsInMatching, Is.True);
+                Assert.That(a2.Start, Is.SameAs(v1b));
+                Assert.That(a2.End, Is.SameAs(v2a));
+                Assert.That(a2.IsInMatching, Is.True);
+            }
+        }
     }
 }

@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
+using log4net;
 
 namespace GraphFramework
 {
     public class MDFS
     {
+        public static int _step = 0;
         private readonly TwinGraph _tg;
         private readonly IVertexStack _k;
         private readonly LinkedList<ABVertex> _l;
         private IStackableVertex _start;
-
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
-    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private LinkedList<Arc> _mAugmentingPath; 
+        
+        private static readonly ILog Log = LogManager.GetLogger
+    (MethodBase.GetCurrentMethod().DeclaringType);
 
         public MDFS(TwinGraph tg, IVertexStack k, LinkedList<ABVertex> l)
         {
@@ -19,18 +23,23 @@ namespace GraphFramework
             _l = l;
         }
 
-        public void Run()
+        public LinkedList<Arc> Run()
         {
             _start = _k.Push(_tg.StartVertex, null);
             Search();
+            return _mAugmentingPath;
         }
 
         private void Search()
         {
             if (_k.Top().Value == _tg.EndVertex)
             {
-                var augmentingPath = new LinkedList<Arc>();
-                Reconstruct(_k.Top(), _start, augmentingPath);
+                _mAugmentingPath = Reconstruct(_k.Top(), _start, new LinkedList<Arc>());
+                foreach (var arc in _mAugmentingPath)
+                {
+                    Log.Info(arc);
+                }
+                Log.Info("ALGOTITHM HAS FOUND M-AUGMENTING PATH");
             }
             else
             {
@@ -39,9 +48,14 @@ namespace GraphFramework
                 top.Pushed();
                 foreach (var arc in top.OutboundArcs)
                 {
+                    if (_mAugmentingPath != null)
+                    {
+                        return;
+                    }
                     var w = (ABVertex) arc.End;
                     if (w.Type == VertexType.B)
                     {
+                        Log.Info("Case 1, vertex " + w.Name + " and arc " + arc);
                         _k.Push(w, arc);
                         Search();
                     }
@@ -49,6 +63,7 @@ namespace GraphFramework
                     {
                         if (_k.Contains(w))
                         {
+                            Log.Info("Case 2.1, vertex " + w.Name + " and arc " + arc);
                             w.AddToE(new Connection(arc, stackTop, w));
                         }
                         else
@@ -57,10 +72,12 @@ namespace GraphFramework
                             {
                                 if (w.IsPushed)
                                 {
+                                    Log.Info("Case 2.2.1, vertex " + w.Name + " and arc " + arc);
                                     w.AddToE(new Connection(arc, stackTop, w));
                                 }
                                 else
                                 {
+                                    Log.Info("Case 2.2.2, vertex " + w.Name + " and arc " + arc);
                                     w.AddToR(new Connection(arc, stackTop, w));
                                 }
                             }
@@ -70,6 +87,7 @@ namespace GraphFramework
                                 {
                                     if (w.L != null)
                                     {
+                                        Log.Info("Case 2.3.1, vertex " + w.Name + " and arc " + arc);
                                         top.Expand(new ExpandedArc(arc));
                                         _k.Push(w.L, null);
                                         w.L = null;
@@ -85,6 +103,7 @@ namespace GraphFramework
                                 }
                                 else
                                 {
+                                    Log.Info("Case 2.3.2, vertex " + w.Name + " and arc " + arc);
                                     _k.Push(w, arc);
                                     Search();
                                 }
@@ -92,8 +111,13 @@ namespace GraphFramework
                         }
                     }
                 }
+                if (_mAugmentingPath != null)
+                {
+                    return;
+                }
                 if (top.Type == VertexType.B && !top.Twin.IsPushed)
                 {
+                    Log.Info(" vertex " + top.Name + " ,twin is pushed: " + top.Twin.IsPushed);
                     var lcur = top.Twin;
                     lcur.EmptyD();
                     var ldef = new LinkedList<ABVertex>();
@@ -111,7 +135,7 @@ namespace GraphFramework
                         }
                     }
                 }
-                _k.Pop();
+                //_k.Pop();
                 _k.Pop();
             }
         }
@@ -131,6 +155,7 @@ namespace GraphFramework
                         zB.Value.L = lcur;
                         AddToL(zB.Value);
                         zB.Value.P = pcur;
+                        Log.Info("Vertex " + zB.Value.Name + " gets P " + pcur.Arc);
                         ldef.AddLast(zB.Value);
                     }
                     else
@@ -169,12 +194,15 @@ namespace GraphFramework
                 else
                 {
                     var eA = nodeCur.Ancestor.ExpandedArc;
-                    var q = ReconstructQ(nodeCur, eA.End, path);
+                    var q = ReconstructQ(nodeCur, eA.End, new LinkedList<Arc>());
                     path.PrependRange(q);
                     nodeCur = eA.Start;
                 }
             }
-            path.AddFirst(nodeCur.ArcFromAncestor);
+            if (nodeCur.ArcFromAncestor != null)
+            {
+                path.AddFirst(nodeCur.ArcFromAncestor);
+            }
             return path;
         }
 
@@ -190,7 +218,15 @@ namespace GraphFramework
                 var block = Reconstruct(st.Value.P.Start, st, path);
                 pathQ.AppendRange(block);
             }
-            pathQ.AddLast(uA.ArcFromAncestor);
+            if (uA.ArcFromAncestor == null)
+            {
+                var arc = ArcHelper.FindArc(st.Value.P.Start.Value, uA.Value, uA.Value.InboundArcs);
+                pathQ.AddLast(arc);
+            }
+            else
+            {
+                pathQ.AddLast(uA.ArcFromAncestor);
+            }
             return path;
         }
     }

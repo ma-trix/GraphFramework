@@ -100,5 +100,26 @@ namespace GraphFramework
             Ancestor = ancestor;
             ArcFromAncestor = arcFromAncestor;
         }
+
+        public override void ArcReverted(Arc arc)
+        {
+            Twin.TwinArcReverted(arc);
+            base.ArcReverted(arc);
+        }
+
+        private void TwinArcReverted(Arc arc)
+        {
+            Arc myArc;
+            if (arc.End == Twin)
+            {
+                myArc = ArcHelper.FindArc(((ABVertex) arc.Start).Twin, ((ABVertex) arc.End).Twin, InboundArcs);
+            }
+            else
+            {
+                myArc = ArcHelper.FindArc(((ABVertex) arc.Start).Twin, ((ABVertex) arc.End).Twin, OutboundArcs);
+            }
+            myArc.Revert();
+            base.ArcReverted(myArc);
+        }
     }
 }

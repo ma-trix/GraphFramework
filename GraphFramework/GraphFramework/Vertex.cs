@@ -131,7 +131,7 @@ namespace GraphFramework
             }
         }
     
-        public void ArcReverted(Arc arc)
+        public virtual void ArcReverted(Arc arc)
         {
             if (!IsInMatching)
             {
@@ -148,5 +148,11 @@ namespace GraphFramework
                 InboundArcs.AddLast(arc);
             }
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

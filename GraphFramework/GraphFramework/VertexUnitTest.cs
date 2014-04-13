@@ -314,7 +314,7 @@ namespace GraphFramework
             {
                 var a = _v2.AddOutboundArc(_v1, false);
                 a.Revert();
-                Assert.That(_v1.OutboundArcs, Has.Member(a));
+                Assert.That(_v1.OutboundArcs, Has.Exactly(1).SameAs(a));
             }
 
             [Test]
@@ -330,7 +330,7 @@ namespace GraphFramework
             {
                 var a = _v2.AddOutboundArc(_v1, false);
                 a.Revert();
-                Assert.That(_v2.InboundArcs, Has.Member(a));
+                Assert.That(_v2.InboundArcs, Has.Exactly(1).SameAs(a));
             }
 
             [Test]

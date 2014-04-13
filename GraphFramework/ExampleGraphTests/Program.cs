@@ -1,4 +1,7 @@
-﻿namespace ExampleGraphTests
+﻿using System.Collections.Generic;
+using GraphFramework;
+
+namespace ExampleGraphTests
 {
     class Program
     {
@@ -11,9 +14,16 @@
             log.Info("=====================================================================");
             var e = new ExampleGraph();
             //e.Generate2VertexExampleGraph();
-            var tv = e.GenerateExampleTwinGraph();
-            tv.LogVertices();
-            tv.LogArcs();
+            var tg = e.GenerateExampleTwinGraph();
+            tg.LogVertices();
+            tg.LogArcs();
+            var k = new ABVertexStack();
+            var l = new LinkedList<ABVertex>();
+            var mdfs = new MDFS(tg, k, l);
+            var maug = mdfs.Run();
+            tg.SymmetricDifferenceWith(maug);
+            tg.LogArcs();
+            tg.LogVertices();
         }
     }
 }
