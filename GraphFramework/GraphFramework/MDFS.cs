@@ -21,7 +21,7 @@ namespace GraphFramework
 
         public void Run()
         {
-            _start = _k.Push(_tg.StartVertex);
+            _start = _k.Push(_tg.StartVertex, null);
             Search();
         }
 
@@ -29,7 +29,7 @@ namespace GraphFramework
         {
             if (_k.Top().Value == _tg.EndVertex)
             {
-                var augmentingPath = new LinkedList<IStackableVertex>();
+                var augmentingPath = new LinkedList<Arc>();
                 Reconstruct(_k.Top(), _start, augmentingPath);
             }
             else
@@ -42,7 +42,7 @@ namespace GraphFramework
                     var w = (ABVertex) arc.End;
                     if (w.Type == VertexType.B)
                     {
-                        _k.Push(w);
+                        _k.Push(w, arc);
                         Search();
                     }
                     else
@@ -71,7 +71,7 @@ namespace GraphFramework
                                     if (w.L != null)
                                     {
                                         top.Expand(new ExpandedArc(arc));
-                                        _k.Push(w.L);
+                                        _k.Push(w.L, null);
                                         w.L = null;
                                         Search();
                                     }
@@ -85,7 +85,7 @@ namespace GraphFramework
                                 }
                                 else
                                 {
-                                    _k.Push(w);
+                                    _k.Push(w, arc);
                                     Search();
                                 }
                             }
@@ -156,14 +156,14 @@ namespace GraphFramework
             return v.L;
         }
 
-        private LinkedList<IStackableVertex> Reconstruct(IStackableVertex top, IStackableVertex start, LinkedList<IStackableVertex> path)
+        private LinkedList<Arc> Reconstruct(IStackableVertex top, IStackableVertex start, LinkedList<Arc> path)
         {
             var nodeCur = top;
             while (nodeCur != start)
             {
                 if (!nodeCur.Ancestor.IsExpanded)
                 {
-                    path.AddFirst(nodeCur);
+                    path.AddFirst(nodeCur.ArcFromAncestor);
                     nodeCur = nodeCur.Ancestor;
                 }
                 else
@@ -174,11 +174,11 @@ namespace GraphFramework
                     nodeCur = eA.Start;
                 }
             }
-            path.AddFirst(nodeCur);
+            path.AddFirst(nodeCur.ArcFromAncestor);
             return path;
         }
 
-        private LinkedList<IStackableVertex> ReconstructQ(IStackableVertex uA, IStackableVertex wA, LinkedList<IStackableVertex> path)
+        private LinkedList<Arc> ReconstructQ(IStackableVertex uA, IStackableVertex wA, LinkedList<Arc> path)
         {
             var st = wA;
             var p1St = st.Value.P.Start;
@@ -190,7 +190,7 @@ namespace GraphFramework
                 var block = Reconstruct(st.Value.P.Start, st, path);
                 pathQ.AppendRange(block);
             }
-            pathQ.AddLast(uA);
+            pathQ.AddLast(uA.ArcFromAncestor);
             return path;
         }
     }

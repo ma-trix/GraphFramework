@@ -7,9 +7,9 @@ namespace GraphFramework
         public readonly LinkedList<IStackableVertex> CurrentStack = new LinkedList<IStackableVertex>();
         private IStackableVertex _top;
 
-        public IStackableVertex Push(ABVertex vertex)
+        public IStackableVertex Push(ABVertex vertex, Arc arcFromAncestor)
         {
-            vertex.Pushed(_top);
+            vertex.Pushed(_top, arcFromAncestor);
             if (_top != null)
             {
                 _top.AddDescendant(vertex);

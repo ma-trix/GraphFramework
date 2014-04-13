@@ -6,6 +6,7 @@ namespace GraphFramework
     {
         ABVertex Value { get; }
         IStackableVertex Ancestor { get; }
+        Arc ArcFromAncestor { get; }
         LinkedList<IStackableVertex> Descendants { get; }
         bool IsExpanded { get; }
         ExpandedArc ExpandedArc { get; }

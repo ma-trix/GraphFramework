@@ -87,6 +87,7 @@ namespace GraphFramework
 
         public ABVertex Value { get { return this; } }
         public IStackableVertex Ancestor { get; private set; }
+        public Arc ArcFromAncestor { get; private set; }
         public LinkedList<IStackableVertex> Descendants { get; private set; }
         public bool IsExpanded { get; private set; }
         public ExpandedArc ExpandedArc { get; private set; }
@@ -94,9 +95,10 @@ namespace GraphFramework
         {
             Descendants.AddLast(vertex);
         }
-        public void Pushed(IStackableVertex ancestor)
+        public void Pushed(IStackableVertex ancestor, Arc arcFromAncestor)
         {
             Ancestor = ancestor;
+            ArcFromAncestor = arcFromAncestor;
         }
     }
 }
