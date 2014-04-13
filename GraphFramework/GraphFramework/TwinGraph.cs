@@ -179,6 +179,17 @@ namespace GraphFramework
             RemoveArc(tvTo, tvFrom, inMatching);
         }
 
+        public void SymmetricDifferenceWith(LinkedList<Arc> mAugmentingPath)
+        {
+            foreach (var arc in mAugmentingPath)
+            {
+                if (arc.Start != StartVertex && arc.End != EndVertex)
+                {
+                    arc.Revert();
+                }
+            }
+        }
+
         public void LogVertices()
         {
             foreach (var twinVertex in Vertices)
