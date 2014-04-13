@@ -2,19 +2,19 @@
 {
     public class Arc
     {
-        public Vertex Start { get; set; }
-        public Vertex End { get; set; }
+        public IVertex Start { get; set; }
+        public IVertex End { get; set; }
         public Graph Graph { get; private set; }
         public bool IsInMatching { get; private set; }
         
-        public Arc(Graph graph, Vertex start, Vertex end)
+        public Arc(Graph graph, IVertex start, IVertex end)
         {
             Start = start;
             End = end;
             Graph = graph;
         }
 
-        public Arc(Graph graph, Vertex start, Vertex end, bool inMatching) : this(graph, start, end)
+        public Arc(Graph graph, IVertex start, IVertex end, bool inMatching) : this(graph, start, end)
         {
             if (inMatching)
             {

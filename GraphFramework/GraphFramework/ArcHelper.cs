@@ -8,7 +8,7 @@ namespace GraphFramework
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static bool DoesArcExist(Vertex start, Vertex end, LinkedList<Arc> inList)
+        public static bool DoesArcExist(IVertex start, IVertex end, LinkedList<Arc> inList)
         {
             var arc = inList.First;
             while (arc != null)
@@ -55,7 +55,7 @@ namespace GraphFramework
             return false;
         }
 
-        public static bool DeleteArc(Vertex start, Vertex end, LinkedList<Arc> fromList)
+        public static bool DeleteArc(IVertex start, IVertex end, LinkedList<Arc> fromList)
         {
             var arc = fromList.First;
             while (arc != null)

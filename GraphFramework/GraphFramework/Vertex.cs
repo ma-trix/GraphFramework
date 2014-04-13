@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphFramework
 {
-    public class Vertex
+    public class Vertex : IVertex
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -44,13 +44,13 @@ namespace GraphFramework
 
         public bool IsInMatching { get; set; }
 
-        public void AddEdge(Vertex newNeighbour, bool inMatching)
+        public void AddEdge(IVertex newNeighbour, bool inMatching)
         {
             AddOutboundArc(newNeighbour, inMatching);
             newNeighbour.AddOutboundArc(this, inMatching);
         }
         
-        public Arc AddOutboundArc(Vertex endVertex, bool inMatching)
+        public Arc AddOutboundArc(IVertex endVertex, bool inMatching)
         {
             if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
             {
@@ -67,7 +67,7 @@ namespace GraphFramework
             return newArc;
         }
 
-        private void AddInboundArc(Arc newArc, bool inMatching)
+        public void AddInboundArc(Arc newArc, bool inMatching)
         {
             InboundArcs.AddLast(newArc);
             if (inMatching)
@@ -83,7 +83,7 @@ namespace GraphFramework
             Log.Info("Added vertex " + Name + " to matching");
         }
 
-        public void RemoveArc(Vertex vertex)
+        public void RemoveArc(IVertex vertex)
         {
             Log.Info("Removing outbound arc from vertex " + Name);
             if (!ArcHelper.DoesArcExist(this, vertex, OutboundArcs))
@@ -92,7 +92,7 @@ namespace GraphFramework
             ArcHelper.DeleteArc(this, vertex, OutboundArcs);
         }
 
-        private void RemoveInboundArc(Vertex startVertex)
+        public void RemoveInboundArc(IVertex startVertex)
         {
             Log.Info("Removing inbound arc from vertex " + Name);
             if (!ArcHelper.DoesArcExist(startVertex, this, InboundArcs))
@@ -100,7 +100,7 @@ namespace GraphFramework
             ArcHelper.DeleteArc(startVertex, this, InboundArcs);
         }
 
-        public void RemoveEdge(Vertex toVertex)
+        public void RemoveEdge(IVertex toVertex)
         {
             RemoveArc(toVertex);
             toVertex.RemoveArc(this);
@@ -116,7 +116,7 @@ namespace GraphFramework
             InboundArcs = new LinkedList<Arc>();
         }
 
-        private void EndVertexRemoved(Vertex endVertex)
+        public void EndVertexRemoved(IVertex endVertex)
         {
             if (!ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
                 throw new NoArcException();

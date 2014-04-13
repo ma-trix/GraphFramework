@@ -6,8 +6,8 @@ namespace GraphFramework
     [TestFixture]
     public class ArcUnitTests
     {
-        private Vertex _v1;
-        private Vertex _v2;
+        private IVertex _v1;
+        private IVertex _v2;
         private Graph _g;
         private Arc _a;
 

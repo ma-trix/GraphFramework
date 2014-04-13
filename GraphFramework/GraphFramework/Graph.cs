@@ -38,7 +38,7 @@ namespace GraphFramework
             return a;
         }
 
-        public void RemoveArc(Vertex v1, Vertex v2)
+        public void RemoveArc(IVertex v1, IVertex v2)
         {
             if (ArcHelper.DeleteArc(v1, v2, Arcs))
             {
