@@ -130,5 +130,23 @@ namespace GraphFramework
                 neighbour.End.RemoveInboundArc(this);
             }
         }
+    
+        public void ArcReverted(Arc arc)
+        {
+            if (!IsInMatching)
+            {
+                AddToMatching();
+            }
+            if (arc.Start == this)
+            {
+                InboundArcs.Remove(arc);
+                OutboundArcs.AddLast(arc);
+            }
+            if (arc.End == this)
+            {
+                OutboundArcs.Remove(arc);
+                InboundArcs.AddLast(arc);
+            }
+        }
     }
 }

@@ -38,6 +38,8 @@
             Start = End;
             End = tmp;
             IsInMatching = !IsInMatching;
+            Start.ArcReverted(this);
+            End.ArcReverted(this);
         }
     }
 }

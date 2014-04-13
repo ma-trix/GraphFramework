@@ -292,5 +292,54 @@ namespace GraphFramework
                 Assert.Throws<NoArcException>(() => _v1.RemoveEdge(_v2));
             }
         }
+
+        public class TheArcRevertedMethod : VertexUnitTest
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                Init();
+            }
+
+            [Test]
+            public void ArcRevertedAddsNonMatchingVertexToMatching()
+            {
+                var a = _v2.AddOutboundArc(_v1, false);
+                a.Revert();
+                Assert.That(_v1.IsInMatching, Is.True);
+            }
+
+            [Test]
+            public void InboundArcRevertedIsAddedToOutboundArcsOfOldEndVertex()
+            {
+                var a = _v2.AddOutboundArc(_v1, false);
+                a.Revert();
+                Assert.That(_v1.OutboundArcs, Has.Member(a));
+            }
+
+            [Test]
+            public void InboundArcRevertedIsRemovedFromInboundArcsOfOldEndVertex()
+            {
+                var a = _v2.AddOutboundArc(_v1, false);
+                a.Revert();
+                Assert.That(_v1.InboundArcs, Has.No.Member(a));
+            }
+
+            [Test]
+            public void InboundArcRevertedIsAddedToInbounArcsOfOldStartVertex()
+            {
+                var a = _v2.AddOutboundArc(_v1, false);
+                a.Revert();
+                Assert.That(_v2.InboundArcs, Has.Member(a));
+            }
+
+            [Test]
+            public void InboundArcRevertedIsRemovedFromOutboundArcsOfOldStartVertex()
+            {
+                var a = _v2.AddOutboundArc(_v1, false);
+                a.Revert();
+                Assert.That(_v2.OutboundArcs, Has.No.Member(a));
+            }
+        }
     }
 }

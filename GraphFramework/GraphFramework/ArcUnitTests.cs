@@ -69,11 +69,14 @@ namespace GraphFramework
         
         public class TheRevertMethod : ArcUnitTests
         {
+            private Mock<IVertex> _mock;
+
             [SetUp]
             public void DerivedInit()
             {
                 Init();
                 _a = new Arc(null, _v1, _v2);
+                _mock = new Mock<IVertex>();
             }
 
             [Test]
@@ -105,6 +108,24 @@ namespace GraphFramework
             {
                 _a.Revert();
                 Assert.That(_a.IsInMatching, Is.True);
+            }
+            
+            [Test]
+            public void RevertingInformsOldStartVertex()
+            {
+                var a = new Arc(null, _mock.Object, _v2);
+                _mock.Setup(m => m.ArcReverted(a)).Verifiable();
+                a.Revert();
+                _mock.Verify(m => m.ArcReverted(a));
+            }
+            
+            [Test]
+            public void RevertingInformsOldEndVertex()
+            {
+                var a = new Arc(null, _v1, _mock.Object);
+                _mock.Setup(m => m.ArcReverted(a)).Verifiable();
+                a.Revert();
+                _mock.Verify(m => m.ArcReverted(a));
             }
         }
     }

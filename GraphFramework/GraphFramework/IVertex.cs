@@ -22,5 +22,6 @@ namespace GraphFramework
         void EndVertexRemoved(IVertex endVertex);
         void RemoveInboundArc(IVertex startVertex);
         void AddInboundArc(Arc newArc, bool inMatching);
+        void ArcReverted(Arc arc);
     }
 }
