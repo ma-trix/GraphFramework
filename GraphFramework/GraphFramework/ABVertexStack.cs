@@ -4,6 +4,8 @@ namespace GraphFramework
 {
     public class ABVertexStack : IVertexStack
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public readonly LinkedList<IStackableVertex> CurrentStack = new LinkedList<IStackableVertex>();
         private IStackableVertex _top;
 
@@ -16,6 +18,8 @@ namespace GraphFramework
             }
             _top = vertex;
             CurrentStack.AddLast(vertex);
+            MDFS._step++;
+            Log.Info("(" + MDFS._step + ") Pushed vertex " + vertex.Name + " and arc " + arcFromAncestor);
             return vertex;
         }
 
@@ -32,7 +36,10 @@ namespace GraphFramework
         public void Pop()
         {
             CurrentStack.RemoveLast();
+            MDFS._step++;
+            Log.Info("(" + MDFS._step + ") Popped vertex " + ((ABVertex)_top).Name);
             _top = _top.Ancestor;
+            Log.Info("New top vertex " + ((ABVertex)_top).Name);
         }
     }
 }
