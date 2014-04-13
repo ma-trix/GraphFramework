@@ -1,7 +1,13 @@
-﻿namespace GraphFramework
+﻿using System.Reflection;
+using log4net;
+
+namespace GraphFramework
 {
     public class Arc
     {
+        private static readonly ILog Log = LogManager.GetLogger
+    (MethodBase.GetCurrentMethod().DeclaringType);
+
         public IVertex Start { get; set; }
         public IVertex End { get; set; }
         public Graph Graph { get; private set; }
@@ -38,6 +44,7 @@
             Start = End;
             End = tmp;
             IsInMatching = !IsInMatching;
+            Log.Info("Reverted arc " + this);
             Start.ArcReverted(this);
             End.ArcReverted(this);
         }
