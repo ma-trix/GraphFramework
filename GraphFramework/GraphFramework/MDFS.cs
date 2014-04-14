@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using log4net;
 
 namespace GraphFramework
@@ -35,10 +36,13 @@ namespace GraphFramework
             if (_k.Top().Value == _tg.EndVertex)
             {
                 _mAugmentingPath = Reconstruct(_k.Top(), _start, new LinkedList<Arc>());
+                StringBuilder sb = new StringBuilder();
                 foreach (var arc in _mAugmentingPath)
                 {
-                    Log.Info(arc);
+                    sb.Append(arc);
+                    sb.Append(", ");
                 }
+                Log.Info(sb.ToString());
                 Log.Info("ALGOTITHM HAS FOUND M-AUGMENTING PATH");
             }
             else
