@@ -39,7 +39,10 @@ namespace GraphFramework
             MDFS._step++;
             Log.Info("(" + MDFS._step + ") Popped vertex " + ((ABVertex)_top).Name);
             _top = _top.Ancestor;
-            Log.Info("New top vertex " + ((ABVertex)_top).Name);
+            if (_top != null)
+            {
+                Log.Info("New top vertex " + ((ABVertex)_top).Name);    
+            }
         }
     }
 }
