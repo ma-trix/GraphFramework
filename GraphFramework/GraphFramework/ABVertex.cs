@@ -5,19 +5,22 @@ namespace GraphFramework
 {
     public class ABVertex : Vertex, IStackableVertex
     {
-        public ABVertex(VertexType type)
+        public ABVertex(VertexType type, TwinGraph twinGraph)
         {
             Type = type;
             _inL = false;
             D = new LinkedList<ABVertex>();
             Descendants = new LinkedList<IStackableVertex>();
             IsExpanded = false;
+            TwinGraph = twinGraph;
         }
 
-        public ABVertex(VertexType type, string name) : this(type)
+        public ABVertex(VertexType type, string name, TwinGraph twinGraph) : this(type, twinGraph)
         {
             _name = name;
         }
+
+        public TwinGraph TwinGraph { get; private set; }
 
         public ABVertex Twin { get; private set; }
         public bool IsPushed { get; private set; }
@@ -103,23 +106,19 @@ namespace GraphFramework
 
         public override void ArcReverted(Arc arc)
         {
-            Twin.TwinArcReverted(arc);
-            base.ArcReverted(arc);
-        }
-
-        private void TwinArcReverted(Arc arc)
-        {
-            Arc myArc;
-            if (arc.End == Twin)
+            if (Type == VertexType.A)
             {
-                myArc = ArcHelper.FindArc(((ABVertex) arc.Start).Twin, ((ABVertex) arc.End).Twin, InboundArcs);
+                OutboundArcs.RemoveAll(a => a.End == TwinGraph.EndVertex);
+                TwinGraph.EndVertex.InboundArcs.RemoveAll(a => a.Start == this);
+                TwinGraph.Arcs.RemoveAll(a => a.Start == this && a.End == TwinGraph.EndVertex);
             }
             else
             {
-                myArc = ArcHelper.FindArc(((ABVertex) arc.Start).Twin, ((ABVertex) arc.End).Twin, OutboundArcs);
+                InboundArcs.RemoveAll(a => a.Start == TwinGraph.StartVertex);
+                TwinGraph.StartVertex.OutboundArcs.RemoveAll(a => a.End == this);
+                TwinGraph.Arcs.RemoveAll(a => a.Start == TwinGraph.StartVertex && a.End == this);
             }
-            myArc.Revert();
-            base.ArcReverted(myArc);
+            base.ArcReverted(arc);
         }
     }
 }

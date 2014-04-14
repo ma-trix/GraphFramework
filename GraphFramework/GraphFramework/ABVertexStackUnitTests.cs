@@ -8,13 +8,15 @@ namespace GraphFramework
         private ABVertexStack _k;
         private ABVertex _v1;
         private ABVertex _v2;
+        private TwinGraph _tg;
 
         [SetUp]
         public void SetUp()
         {
+            _tg = new TwinGraph();
             _k = new ABVertexStack();
-            _v1 = new ABVertex(VertexType.A);
-            _v2 = new ABVertex(VertexType.B);
+            _v1 = new ABVertex(VertexType.A, _tg);
+            _v2 = new ABVertex(VertexType.B, _tg);
         }
 
         [Test]

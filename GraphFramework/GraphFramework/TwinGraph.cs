@@ -11,8 +11,8 @@ namespace GraphFramework
         
         public TwinGraph()
         {
-            _startVertex = new ABVertex(VertexType.A, "s");
-            _endVertex = new ABVertex(VertexType.B, "t");
+            _startVertex = new ABVertex(VertexType.A, "s", this);
+            _endVertex = new ABVertex(VertexType.B, "t", this);
             Vertices = new LinkedList<TwinVertex>();
             Arcs = new LinkedList<Arc>();
         }
@@ -185,7 +185,7 @@ namespace GraphFramework
             {
                 if (arc.Start != StartVertex && arc.End != EndVertex)
                 {
-                    arc.Revert();
+                    arc.RevertFromTwin();
                 }
             }
         }

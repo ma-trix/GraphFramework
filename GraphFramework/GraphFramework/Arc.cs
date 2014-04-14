@@ -48,5 +48,28 @@ namespace GraphFramework
             Start.ArcReverted(this);
             End.ArcReverted(this);
         }
+
+        public void RevertFromTwin()
+        {
+            var twinArc = ArcHelper.FindArc(((ABVertex)End).Twin, ((ABVertex)Start).Twin, ((ABVertex)Start).Twin.InboundArcs);
+            twinArc.Revert();
+            /*if (((ABVertex)Start).Type == VertexType.A)
+            {
+                var twinArc = ArcHelper.FindArc(((ABVertex)End).Twin, ((ABVertex)Start).Twin, ((ABVertex)Start).OutboundArcs);
+                twinArc.Revert();
+            }
+            else
+            {
+                var twinArc = ArcHelper.FindArc(((ABVertex)End).Twin, ((ABVertex)Start).Twin, ((ABVertex)Start).InboundArcs);
+                twinArc.Revert();
+            }*/
+            var tmp = Start;
+            Start = End;
+            End = tmp;
+            IsInMatching = !IsInMatching;
+            Log.Info("Reverted arc into " + this);
+            Start.ArcReverted(this);
+            End.ArcReverted(this);
+        }
     }
 }

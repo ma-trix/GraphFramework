@@ -6,10 +6,12 @@ namespace GraphFramework
     public class ABVertexUnitTests
     {
         protected ABVertex Abv;
+        protected TwinGraph tg;
 
         public void Init()
         {
-            Abv = new ABVertex(VertexType.A);
+            tg = new TwinGraph();
+            Abv = new ABVertex(VertexType.A, tg);
         }
 
         public class TheConstructor1 : ABVertexUnitTests
@@ -60,14 +62,14 @@ namespace GraphFramework
             [Test]
             public void InitializesABVertexTypeAWithName()
             {
-                _abvA = new ABVertex(VertexType.A, Name);
+                _abvA = new ABVertex(VertexType.A, Name, null);
                 Assert.That(_abvA.Name, Is.EqualTo(Name + ".A"));
             }
 
             [Test]
             public void InitializesABVertexTypeBWithName()
             {
-                _abvB = new ABVertex(VertexType.B, Name);
+                _abvB = new ABVertex(VertexType.B, Name, null);
                 Assert.That(_abvB.Name, Is.EqualTo(Name + ".B"));
             }
         }
@@ -98,7 +100,7 @@ namespace GraphFramework
             public void DerivedInit()
             {
                 Init();
-                _v = new ABVertex(VertexType.B);
+                _v = new ABVertex(VertexType.B, tg);
                 _arc = new Arc(null, _v, Abv);
                 _connection = new Connection(_arc, null, null);
             }
@@ -133,8 +135,8 @@ namespace GraphFramework
             public void DerivedInit()
             {
                 Init();
-                Abv = new ABVertex(VertexType.A);
-                _v = new ABVertex(VertexType.B);
+                Abv = new ABVertex(VertexType.A, tg);
+                _v = new ABVertex(VertexType.B, tg);
             }
 
             [Test]
@@ -217,7 +219,7 @@ namespace GraphFramework
             [Test]
             public void AddsDescendant()
             {
-                IStackableVertex v = new ABVertex(VertexType.A);
+                IStackableVertex v = new ABVertex(VertexType.A, tg);
                 Abv.AddDescendant(v);
                 Assert.That(Abv.Descendants, Has.Member(v));
             }
@@ -234,10 +236,10 @@ namespace GraphFramework
             [Test]
             public void RevertingArcRevertsArcInTwin()
             {
-                var v1a = new ABVertex(VertexType.A, "1");
-                var v1b = new ABVertex(VertexType.B, "1");
-                var v2a = new ABVertex(VertexType.A, "2");
-                var v2b = new ABVertex(VertexType.B, "2");
+                var v1a = new ABVertex(VertexType.A, "1", tg);
+                var v1b = new ABVertex(VertexType.B, "1", tg);
+                var v2a = new ABVertex(VertexType.A, "2", tg);
+                var v2b = new ABVertex(VertexType.B, "2", tg);
 
                 v1a.SetTwin(v1b);
                 v1b.SetTwin(v1a);
@@ -247,7 +249,7 @@ namespace GraphFramework
                 var a1 = v1a.AddOutboundArc(v2b, false);
                 var a2 = v2a.AddOutboundArc(v1b, false);
 
-                a1.Revert(); 
+                a1.RevertFromTwin(); 
                 Assert.That(a1.Start, Is.SameAs(v2b));
                 Assert.That(a1.End, Is.SameAs(v1a));
                 Assert.That(a1.IsInMatching, Is.True);

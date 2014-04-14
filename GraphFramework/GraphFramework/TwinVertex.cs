@@ -10,13 +10,13 @@ namespace GraphFramework
             Graph = tg;
             if (precursor != null)
             {
-                A = new ABVertex(VertexType.A, precursor.Name);
-                B = new ABVertex(VertexType.B, precursor.Name);
+                A = new ABVertex(VertexType.A, precursor.Name, Graph);
+                B = new ABVertex(VertexType.B, precursor.Name, Graph);
             }
             else
             {
-                A = new ABVertex(VertexType.A);
-                B = new ABVertex(VertexType.B);
+                A = new ABVertex(VertexType.A, Graph);
+                B = new ABVertex(VertexType.B, Graph);
             }
             A.SetTwin(B);
             B.SetTwin(A);
