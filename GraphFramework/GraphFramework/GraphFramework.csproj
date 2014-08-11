@@ -70,12 +70,15 @@
     <Compile Include="UnitTests\TwinGraphUnitTests\TwinGraphUnitTests.cs" />
     <Compile Include="UnitTests\TwinVertexUnitTests\TwinVertexUnitTests.cs" />
     <Compile Include="UnitTests\VertexUnitTests\VertexUnitTest.cs" />
+    <Compile Include="UnitTests\WeightedArcUnitTests\WeightedArcUnitTests.cs" />
+    <Compile Include="UnitTests\WeightedVertexUnitTests\WeightedVertexUnitTests.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
     <Compile Include="ABVertexStack.cs" />
     <Compile Include="VertexType.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeightedArc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
