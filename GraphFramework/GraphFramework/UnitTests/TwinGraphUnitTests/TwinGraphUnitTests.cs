@@ -1,10 +1,9 @@
-﻿using System.Linq;
+using System.Linq;
 using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.TwinGraphUnitTests
 {
-    [TestFixture]
-    public class TwinGraphUnitTests
+    public abstract class TwinGraphUnitTests
     {
         private TwinGraph _tg;
         private Graph _g;
@@ -14,6 +13,7 @@ namespace GraphFramework
         private TwinVertex _tv1;
         private TwinVertex _tv2;
 
+        [SetUp]
         public void Init()
         {
             _tg = new TwinGraph();
@@ -25,14 +25,9 @@ namespace GraphFramework
             _tv2 = new TwinVertex(_precursor, _tg);
         }
 
+        [TestFixture]
         public class TheConstructor0 : TwinGraphUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void NewTwinGraphHasStartVertex()
             {
@@ -58,12 +53,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheConstructor1 : TwinGraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _g.AddVertex(_v1);
                 _g.AddVertex(_v2);
                 _g.AddEdge(_v1, _v2, false);
@@ -90,14 +85,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddTwinVertexMethod : TwinGraphUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void AddsTwinVertexToTwinGraph()
             {
@@ -196,6 +186,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddArcMethod : TwinGraphUnitTests
         {
             private Arc _a;
@@ -203,7 +194,6 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }
@@ -307,12 +297,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddEdgeMethod : TwinGraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }
@@ -334,13 +324,13 @@ namespace GraphFramework
             }
             
         }
-        
+
+        [TestFixture]
         public class TheRemoveTwinVertexMethod : TwinGraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _tg.AddTwinVertex(_tv1);
             }
 
@@ -358,6 +348,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveArcMethod : TwinGraphUnitTests
         {
             private Arc _aNotInMatching;
@@ -366,7 +357,6 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
                 _aNotInMatching = _tg.AddArc(_tv2, _tv1, false);
@@ -423,12 +413,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveEdgeMethod : TwinGraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _tg.AddTwinVertex(_tv1);
                 _tg.AddTwinVertex(_tv2);
             }

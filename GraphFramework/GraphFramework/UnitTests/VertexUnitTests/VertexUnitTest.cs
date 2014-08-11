@@ -1,28 +1,23 @@
-﻿using System.Linq;
+using System.Linq;
 using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.VertexUnitTests
 {
-    [TestFixture]
-    public class VertexUnitTest
+    public abstract class VertexUnitTest
     {
         private Vertex _v1;
         private Vertex _v2;
 
+        [SetUp]
         public void Init()
         {
             _v1 = new Vertex();
             _v2 = new Vertex();
         }
 
+        [TestFixture]
         public class TheConstructor : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void NewVertexHasOutDegreeZero()
             {
@@ -79,14 +74,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddOutboundArcMethod : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void AddsArcToStartVertexAsOutbound()
             {
@@ -203,14 +193,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveArcMethod : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void CanRemoveArcBetweenTwoVertices()
             {
@@ -227,14 +212,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddEdgeMethod : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void AddingEdgeMakesVerticesNeighboursOfEachOther()
             {
@@ -260,14 +240,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveEdgeMethod : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void CanRemoveEdgeBetweenTwoVertices()
             {
@@ -293,14 +268,9 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheArcRevertedMethod : VertexUnitTest
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void ArcRevertedAddsNonMatchingVertexToMatching()
             {

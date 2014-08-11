@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.GraphUnitTests
 {
-    [TestFixture]
-    public class GraphUnitTests
+    public abstract class GraphUnitTests
     {
         private Graph _graph;
         private Vertex _v1;
         private Vertex _v2;
 
+        [SetUp]
         public void Init()
         {
             _graph = new Graph();
@@ -17,14 +17,9 @@ namespace GraphFramework
             _v2 = new Vertex();
         }
 
+        [TestFixture]
         public class TheConstructor : GraphUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void EmptyGraphHasNoVertices()
             {
@@ -37,13 +32,12 @@ namespace GraphFramework
                 Assert.That(_graph.Arcs, Is.Empty);
             }
         }
-
+        [TestFixture]
         public class TheAddVertexMethod : GraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _graph.AddVertex(_v1);
             }
 
@@ -66,12 +60,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddArcMethod : GraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }
@@ -126,6 +120,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveArcMethod : GraphUnitTests
         {
             private Arc _arc;
@@ -133,7 +128,6 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
                 _arc = _graph.AddArc(_v1, _v2, false);
@@ -161,12 +155,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddEdgeMethod : GraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init(); 
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }
@@ -196,6 +190,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveEdgeMethod : GraphUnitTests
         {
             private Tuple<Arc, Arc> _e;
@@ -203,7 +198,6 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
                 _e = _graph.AddEdge(_v1, _v2, false);
@@ -248,12 +242,12 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheRemoveVertexMethod : GraphUnitTests
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _graph.AddVertex(_v1);
                 _graph.AddVertex(_v2);
             }

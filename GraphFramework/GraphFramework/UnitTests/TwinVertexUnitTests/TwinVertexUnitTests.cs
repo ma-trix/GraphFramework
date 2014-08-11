@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.TwinVertexUnitTests
 {
-    [TestFixture]
-    public class TwinVertexUnitTests
+    public abstract class TwinVertexUnitTests
     {
+        [TestFixture]
         public class TheConstructor : TwinVertexUnitTests
         {
             private Vertex _v;
@@ -74,7 +74,8 @@ namespace GraphFramework
                 Assert.That(_tv.InMatching, Is.False);
             }
         }
-
+        
+        [TestFixture]
         public class TheAddEdgeMethod : TwinVertexUnitTests
         {
             private TwinVertex _tv1;
@@ -112,6 +113,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheNameProperty : TwinVertexUnitTests
         {
             [Test]

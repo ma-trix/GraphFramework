@@ -1,63 +1,53 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.ABVertexUnitTests
 {
-    [TestFixture]
-    public class ABVertexUnitTests
+    public abstract class ABVertexUnitTests
     {
-        protected ABVertex Abv;
-        protected TwinGraph tg;
+        private ABVertex _abv;
+        private TwinGraph _tg;
 
+        [SetUp]
         public void Init()
         {
-            tg = new TwinGraph();
-            Abv = new ABVertex(VertexType.A, tg);
+            _tg = new TwinGraph();
+            _abv = new ABVertex(VertexType.A, _tg);
         }
 
+        [TestFixture]
         public class TheConstructor1 : ABVertexUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-            
             [Test]
             public void NewTypedVertexIsNotPushed()
             {
-                Assert.That(Abv.IsPushed, Is.False);
+                Assert.That(_abv.IsPushed, Is.False);
             }
 
             [Test]
             public void NewVertexHasEmptyE()
             {
-                Assert.That(Abv.E, Is.Empty);
+                Assert.That(_abv.E, Is.Empty);
             }
             
             [Test]
             public void NewVertexHasEmptyR()
             {
-                Assert.That(Abv.R, Is.Empty);
+                Assert.That(_abv.R, Is.Empty);
             }
 
             [Test]
             public void NewVertexHasEmptyD()
             {
-                Assert.That(Abv.D, Is.Empty);
+                Assert.That(_abv.D, Is.Empty);
             }
         }
 
+        [TestFixture]
         public class TheConstructor2 : ABVertexUnitTests
         {
             private ABVertex _abvA;
             private ABVertex _abvB;
             private const string Name = "bazinga";
-
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
 
             [Test]
             public void InitializesABVertexTypeAWithName()
@@ -74,22 +64,18 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class ThePushedMethod : ABVertexUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void PushingABVertexMarksItAsPushed()
             {
-                Abv.Pushed();
-                Assert.That(Abv.IsPushed, Is.True);
+                _abv.Pushed();
+                Assert.That(_abv.IsPushed, Is.True);
             }
         }
 
+        [TestFixture]
         public class TheAddToDerMethods : ABVertexUnitTests
         {
             private ABVertex _v;
@@ -99,34 +85,34 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
-                _v = new ABVertex(VertexType.B, tg);
-                _arc = new Arc(null, _v, Abv);
+                _v = new ABVertex(VertexType.B, _tg);
+                _arc = new Arc(null, _v, _abv);
                 _connection = new Connection(_arc, null, null);
             }
 
             [Test]
             public void AddsToE()
             {
-                Abv.AddToE(_connection);
-                Assert.That(Abv.E, Has.Member(_connection));
+                _abv.AddToE(_connection);
+                Assert.That(_abv.E, Has.Member(_connection));
             }
 
             [Test]
             public void AddsToR()
             {
-                Abv.AddToR(_connection);
-                Assert.That(Abv.R, Has.Member(_connection));
+                _abv.AddToR(_connection);
+                Assert.That(_abv.R, Has.Member(_connection));
             }
 
             [Test]
             public void AddsToD()
             {
-                Abv.AddToD(_v);
-                Assert.That(Abv.D, Has.Member(_v));
+                _abv.AddToD(_v);
+                Assert.That(_abv.D, Has.Member(_v));
             }
         }
 
+        [TestFixture]
         public class TheOtherMethods : ABVertexUnitTests
         {
             private ABVertex _v;
@@ -134,27 +120,26 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
-                Abv = new ABVertex(VertexType.A, tg);
-                _v = new ABVertex(VertexType.B, tg);
+                _abv = new ABVertex(VertexType.A, _tg);
+                _v = new ABVertex(VertexType.B, _tg);
             }
 
             [Test]
             public void EmptiesD()
             {
-                Abv.AddToD(_v);
-                Abv.EmptyD();
-                Assert.That(Abv.D, Is.Empty);
+                _abv.AddToD(_v);
+                _abv.EmptyD();
+                Assert.That(_abv.D, Is.Empty);
             }
 
             [Test]
             public void AddsAnotherDtoD()
             {
-                _v.AddToD(Abv);
+                _v.AddToD(_abv);
                 _v.AddToD(_v);
-                Abv.AddAnotherDtoD(_v.D);
-                Assert.That(Abv.D, Has.Member(Abv));
-                Assert.That(Abv.D, Has.Member(_v));
+                _abv.AddAnotherDtoD(_v.D);
+                Assert.That(_abv.D, Has.Member(_abv));
+                Assert.That(_abv.D, Has.Member(_v));
             }
             
             [Test]
@@ -190,71 +175,61 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheIStackVertexUnitInterfaceMethods : ABVertexUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void NewStackVertexHasNoDescendants()
             {
-                Assert.That(Abv.Descendants, Is.Empty);
+                Assert.That(_abv.Descendants, Is.Empty);
             }
 
             [Test]
             public void ValueSelfReferences()
             {
-                Assert.That(Abv.Value, Is.SameAs(Abv));
+                Assert.That(_abv.Value, Is.SameAs(_abv));
             }
 
             [Test]
             public void NewABVertexHasNoAncestor()
             {
-                Assert.That(Abv.Ancestor, Is.Null);
+                Assert.That(_abv.Ancestor, Is.Null);
             }
 
             [Test]
             public void AddsDescendant()
             {
-                IStackableVertex v = new ABVertex(VertexType.A, tg);
-                Abv.AddDescendant(v);
-                Assert.That(Abv.Descendants, Has.Member(v));
+                IStackableVertex v = new ABVertex(VertexType.A, _tg);
+                _abv.AddDescendant(v);
+                Assert.That(_abv.Descendants, Has.Member(v));
             }
         }
 
+        [TestFixture]
         public class TheArcRevertedMethod : ABVertexUnitTests
         {
-            [SetUp]
-            public void DerivedInit()
-            {
-                Init();
-            }
-
             [Test]
             public void RevertingArcRevertsArcInTwin()
             {
-                var v1a = new ABVertex(VertexType.A, "1", tg);
-                var v1b = new ABVertex(VertexType.B, "1", tg);
-                var v2a = new ABVertex(VertexType.A, "2", tg);
-                var v2b = new ABVertex(VertexType.B, "2", tg);
+                var v1A = new ABVertex(VertexType.A, "1", _tg);
+                var v1B = new ABVertex(VertexType.B, "1", _tg);
+                var v2A = new ABVertex(VertexType.A, "2", _tg);
+                var v2B = new ABVertex(VertexType.B, "2", _tg);
 
-                v1a.SetTwin(v1b);
-                v1b.SetTwin(v1a);
-                v2a.SetTwin(v2b);
-                v2b.SetTwin(v2a);
+                v1A.SetTwin(v1B);
+                v1B.SetTwin(v1A);
+                v2A.SetTwin(v2B);
+                v2B.SetTwin(v2A);
 
-                var a1 = v1a.AddOutboundArc(v2b, false);
-                var a2 = v2a.AddOutboundArc(v1b, false);
+                var a1 = v1A.AddOutboundArc(v2B, false);
+                var a2 = v2A.AddOutboundArc(v1B, false);
 
                 a1.RevertFromTwin(); 
-                Assert.That(a1.Start, Is.SameAs(v2b));
-                Assert.That(a1.End, Is.SameAs(v1a));
+                Assert.That(a1.Start, Is.SameAs(v2B));
+                Assert.That(a1.End, Is.SameAs(v1A));
                 Assert.That(a1.IsInMatching, Is.True);
-                Assert.That(a2.Start, Is.SameAs(v1b));
-                Assert.That(a2.End, Is.SameAs(v2a));
+                Assert.That(a2.Start, Is.SameAs(v1B));
+                Assert.That(a2.End, Is.SameAs(v2A));
                 Assert.That(a2.IsInMatching, Is.True);
             }
         }

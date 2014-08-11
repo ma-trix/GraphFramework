@@ -50,10 +50,8 @@
   <ItemGroup>
     <Compile Include="Arc.cs" />
     <Compile Include="ArcHelper.cs" />
-    <Compile Include="ArcUnitTests.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Graph.cs" />
-    <Compile Include="GraphUnitTests.cs" />
     <Compile Include="IStackableVertex.cs" />
     <Compile Include="IVertex.cs" />
     <Compile Include="IVertexStack.cs" />
@@ -63,17 +61,19 @@
     <Compile Include="NoVertexException.cs" />
     <Compile Include="ExpandedArc.cs" />
     <Compile Include="TwinGraph.cs" />
-    <Compile Include="TwinGraphUnitTests.cs" />
     <Compile Include="TwinVertex.cs" />
-    <Compile Include="TwinVertexUnitTests.cs" />
     <Compile Include="ABVertex.cs" />
-    <Compile Include="ABVertexUnitTests.cs" />
+    <Compile Include="UnitTests\ABVertexStackUnitTests\ABVertexStackUnitTests.cs" />
+    <Compile Include="UnitTests\ABVertexUnitTests\ABVertexUnitTests.cs" />
+    <Compile Include="UnitTests\ArcUnitTests\ArcUnitTests.cs" />
+    <Compile Include="UnitTests\GraphUnitTests\GraphUnitTests.cs" />
+    <Compile Include="UnitTests\TwinGraphUnitTests\TwinGraphUnitTests.cs" />
+    <Compile Include="UnitTests\TwinVertexUnitTests\TwinVertexUnitTests.cs" />
+    <Compile Include="UnitTests\VertexUnitTests\VertexUnitTest.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexHelper.cs" />
     <Compile Include="ABVertexStack.cs" />
-    <Compile Include="ABVertexStackUnitTests.cs" />
     <Compile Include="VertexType.cs" />
-    <Compile Include="VertexUnitTest.cs" />
     <Compile Include="NoMultiedgePermitedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

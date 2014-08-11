@@ -1,16 +1,16 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
 
-namespace GraphFramework
+namespace GraphFramework.UnitTests.ArcUnitTests
 {
-    [TestFixture]
-    public class ArcUnitTests
+    public abstract class ArcUnitTests
     {
         private IVertex _v1;
         private IVertex _v2;
         private Graph _g;
         private Arc _a;
 
+        [SetUp]
         public void Init()
         {
             _v1 = new Vertex();
@@ -18,12 +18,12 @@ namespace GraphFramework
             _g = new Graph();
         }
 
+        [TestFixture]
         public class TheConstructor3 : ArcUnitTests 
         {
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _a = new Arc(_g, _v1, _v2);
             }
 
@@ -46,6 +46,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheConstructor4 : ArcUnitTests
         {
             [Test]
@@ -56,6 +57,7 @@ namespace GraphFramework
             }
         }
 
+        [TestFixture]
         public class TheAddToMatchingMethod : ArcUnitTests
         {
             [Test]
@@ -66,7 +68,8 @@ namespace GraphFramework
                 Assert.AreEqual(true, _a.IsInMatching);
             }     
         }
-        
+
+        [TestFixture]
         public class TheRevertMethod : ArcUnitTests
         {
             private Mock<IVertex> _mock;
@@ -74,7 +77,6 @@ namespace GraphFramework
             [SetUp]
             public void DerivedInit()
             {
-                Init();
                 _a = new Arc(null, _v1, _v2);
                 _mock = new Mock<IVertex>();
             }
