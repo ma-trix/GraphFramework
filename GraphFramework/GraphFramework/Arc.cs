@@ -92,5 +92,7 @@ namespace GraphFramework
                 return  result;
             }
         }
+
+        public bool IsInGStar { get; set; }
     }
 }

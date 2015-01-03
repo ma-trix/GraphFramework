@@ -205,5 +205,89 @@ namespace GraphFramework
                 Log.Info(arc + " " + arc.IsInMatching);
             }
         }
+
+        
+        
+        
+        public TwinGraph(Graph graph, bool weighted)
+            : this()
+        {
+            Log.Info("Generating TwinGraph from Graph");
+            Log.Info("Generating twin vertices from vertices");
+            foreach (var vertex in graph.Vertices)
+            {
+                AddTwinVertex(new TwinVertex(vertex, this));
+            }
+            Log.Info("Generating arcs for twin vertices from arcs");
+            foreach (var arc in graph.Arcs)
+            {
+                TwinVertex tv1 = Vertices.FirstOrDefault(tv => tv.Precursor.Guid == arc.Start.Guid);
+                TwinVertex tv2 = Vertices.FirstOrDefault(tv => tv.Precursor.Guid == arc.End.Guid);
+                AddArcWeighted(tv1, tv2, arc.IsInMatching, arc.Weight);
+            }
+        }
+
+        public Arc AddArcWeighted(TwinVertex startVertex, TwinVertex endVertex, bool inMatching, double weight)
+        {
+            ABVertex start;
+            ABVertex end;
+            if (inMatching)
+            {
+                start = startVertex.A;
+                end = endVertex.B;
+                bool arcExisted = ArcHelper.DeleteArc(StartVertex, startVertex.B, Arcs);
+                if (arcExisted)
+                {
+                    StartVertex.RemoveArc(startVertex.B);
+                }
+                arcExisted = ArcHelper.DeleteArc(StartVertex, endVertex.B, Arcs);
+                if (arcExisted)
+                {
+                    StartVertex.RemoveArc(endVertex.B);
+                }
+                arcExisted = ArcHelper.DeleteArc(startVertex.A, EndVertex, Arcs);
+                if (arcExisted)
+                {
+                    startVertex.A.RemoveArc(EndVertex);
+                }
+                arcExisted = ArcHelper.DeleteArc(endVertex.A, EndVertex, Arcs);
+                if (arcExisted)
+                {
+                    endVertex.A.RemoveArc(EndVertex);
+                }
+            }
+            else
+            {
+                start = startVertex.B;
+                end = endVertex.A;
+            }
+            return AddArcWeighted(start, end, inMatching, weight);
+
+        }
+
+        private Arc AddArcWeighted(Vertex startVertex, Vertex endVertex, bool inMatching, double weight)
+        {
+            Arc a = startVertex.AddOutboundArc(endVertex, inMatching, weight);
+            Arcs.AddLast(a);
+            Log.Info("Added arc " + a.Start.Name + " -> " + a.End.Name + " " + inMatching + " " + weight);
+            return a;
+        }
+
+
+        public void LogVerticesWeighted()
+        {
+            foreach (var twinVertex in Vertices)
+            {
+                Log.Info(twinVertex.Name + " " + twinVertex.A.IsInMatching + " " + twinVertex.B.IsInMatching + " " + twinVertex.Precursor.DoubleWeight);
+            }
+        }
+
+        public void LogArcsWeighted()
+        {
+            foreach (var arc in Arcs)
+            {
+                Log.Info(arc + ", inMatching: " + arc.IsInMatching + ", inGStar: " + arc.IsInGStar + ", weight: " + arc.Weight);
+            }
+        }
     }
 }
