@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphFramework", "GraphFram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGraphTests", "ExampleGraphTests\ExampleGraphTests.csproj", "{62A58B8A-2D00-47BA-A33A-59CFC8008155}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWeightedGraphTests", "ExampleWeightedGraphTests\ExampleWeightedGraphTests.csproj", "{C72840CE-0CB2-41D1-AF43-3B0939651308}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{62A58B8A-2D00-47BA-A33A-59CFC8008155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62A58B8A-2D00-47BA-A33A-59CFC8008155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62A58B8A-2D00-47BA-A33A-59CFC8008155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C72840CE-0CB2-41D1-AF43-3B0939651308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C72840CE-0CB2-41D1-AF43-3B0939651308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C72840CE-0CB2-41D1-AF43-3B0939651308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C72840CE-0CB2-41D1-AF43-3B0939651308}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
