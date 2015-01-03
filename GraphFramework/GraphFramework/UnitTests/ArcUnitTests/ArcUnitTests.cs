@@ -44,6 +44,24 @@ namespace GraphFramework.UnitTests.ArcUnitTests
             {
                 Assert.AreSame(_g, _a.Graph);
             }
+
+            [Test]
+            public void WeightEqualsZeroOnCreate()
+            {
+                Assert.That(_a.Weight, Is.EqualTo(0.0));
+            }
+
+            [Test]
+            public void DoubleWeightEqualsZeroOnCreate()
+            {
+                Assert.That(_a.DualWeight, Is.EqualTo(0.0));
+            }
+
+            [Test]
+            public void EdgeSetIsEmptyOnCreate()
+            {
+                Assert.That(_a.EdgeSet, Is.Null);
+            }
         }
 
         [TestFixture]
@@ -128,6 +146,27 @@ namespace GraphFramework.UnitTests.ArcUnitTests
                 _mock.Setup(m => m.ArcReverted(a)).Verifiable();
                 a.Revert();
                 _mock.Verify(m => m.ArcReverted(a));
+            }
+        }
+
+        [TestFixture]
+        public class TheReducedWeightProperty : ArcUnitTests
+        {
+            [SetUp]
+            public void DerivedInit()
+            {
+                _a = new Arc(null, null, null);
+                var mock = new Mock<IEdgeSet>();
+                mock.Setup(m => m.Weight).Returns(1.0);
+                _a.Weight = 1.0;
+                _a.DualWeight = 2.0;
+                _a.EdgeSet = mock.Object;
+            }
+
+            [Test]
+            public void ReducedWeightEqualsToSumOfWieghtDualWeightMinusEdgeSetWeight()
+            {
+                Assert.That(_a.ReducedWeight, Is.EqualTo(2.0));
             }
         }
     }

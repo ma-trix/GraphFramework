@@ -4,7 +4,7 @@ using GraphFramework;
 
 namespace ExampleGraphTests
 {
-    class Program
+    static class Program
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -13,12 +13,10 @@ namespace ExampleGraphTests
 
         static void Main(string[] args)
         {
-            LoggingHelper lh = new LoggingHelper();
+            var lh = new LoggingHelper();
             lh.ClearLogFile();
             log.Info("=====================================================================");
-            var e = new ExampleGraph();
-            //e.Generate2VertexExampleGraph();
-            var tg = e.GenerateExampleTwinGraph0();
+            var tg = ExampleGraph.GenerateExampleTwinGraph0();
             tg.LogVertices();
             tg.LogArcs();
             _mAugmentingPath = new LinkedList<Arc>();

@@ -94,10 +94,12 @@ namespace GraphFramework
         public LinkedList<IStackableVertex> Descendants { get; private set; }
         public bool IsExpanded { get; private set; }
         public ExpandedArc ExpandedArc { get; private set; }
+
         public void AddDescendant(IStackableVertex vertex)
         {
             Descendants.AddLast(vertex);
         }
+
         public void Pushed(IStackableVertex ancestor, Arc arcFromAncestor)
         {
             Ancestor = ancestor;
@@ -119,6 +121,13 @@ namespace GraphFramework
                 TwinGraph.Arcs.RemoveAll(a => a.Start == TwinGraph.StartVertex && a.End == this);
             }
             base.ArcReverted(arc);
+        }
+
+        //Weighted Vertex additions
+
+        public double DualWeight
+        {
+            get; private set;
         }
     }
 }

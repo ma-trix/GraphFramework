@@ -154,5 +154,6 @@ namespace GraphFramework
             return Name;
         }
 
+        public double DoubleWeight { get; set; }
     }
 }

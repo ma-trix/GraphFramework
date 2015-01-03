@@ -13,10 +13,10 @@ namespace ExampleGraphTests
             FileAppender fileAppender = LogManager.GetRepository()
                                                   .GetAppenders().FirstOrDefault(appender => appender is FileAppender) as FileAppender;
             
-            if (fileAppender != null && File.Exists(((FileAppender)fileAppender).File))
+            if (fileAppender != null && File.Exists(fileAppender.File))
             {
-                string path = ((FileAppender)fileAppender).File;
-                FileAppender curAppender = fileAppender as log4net.Appender.FileAppender;
+                string path = fileAppender.File;
+                FileAppender curAppender = fileAppender;
                 curAppender.File = path;
 
                 FileStream fs = null;

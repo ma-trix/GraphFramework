@@ -2,12 +2,12 @@
 
 namespace ExampleGraphTests
 {
-    public class ExampleGraph
+    public static class ExampleGraph
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Graph Generate2VertexExampleGraph()
+        public static Graph Generate2VertexExampleGraph()
         {
             Graph g = new Graph();
             Vertex v1 = new Vertex("1");
@@ -35,14 +35,14 @@ namespace ExampleGraphTests
             return g;
         }
 
-        public TwinGraph Generate2VertexExampleTwinGraph()
+        public static TwinGraph Generate2VertexExampleTwinGraph()
         {
             Graph g = Generate2VertexExampleGraph();
             TwinGraph tg = new TwinGraph(g);
             return tg;
         }
 
-        public TwinGraph GenerateExampleTwinGraph()
+        public static TwinGraph GenerateExampleTwinGraph()
         {
             Graph g = GenerateExampleGraph();
             Log.Info("Graph generated ===================================================");
@@ -50,7 +50,7 @@ namespace ExampleGraphTests
             return tg;
         }
 
-        public Graph GenerateExampleGraph()
+        public static Graph GenerateExampleGraph()
         {
             Graph g = new Graph();
             Vertex v1 = new Vertex("1");
@@ -89,7 +89,7 @@ namespace ExampleGraphTests
             return g;
         }
 
-        public TwinGraph GenerateExampleTwinGraph0()
+        public static TwinGraph GenerateExampleTwinGraph0()
         {
             Graph g = GenerateExampleGraph0();
             Log.Info("Graph generated ===================================================");
@@ -97,7 +97,7 @@ namespace ExampleGraphTests
             return tg;
         }
 
-        public Graph GenerateExampleGraph0()
+        public static Graph GenerateExampleGraph0()
         {
             Graph g = new Graph();
             Vertex v1 = new Vertex("1");

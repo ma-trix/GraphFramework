@@ -71,5 +71,21 @@ namespace GraphFramework
             Start.ArcReverted(this);
             End.ArcReverted(this);
         }
+
+        public double Weight { get; set; }
+        public double DualWeight { get; set; }
+        public IEdgeSet EdgeSet { get; set; }
+        public double ReducedWeight 
+        {
+            get
+            {
+                var result = Weight + DualWeight;
+                if (EdgeSet != null)
+                {
+                    result -= EdgeSet.Weight;
+                }
+                return  result;
+            }
+        }
     }
 }

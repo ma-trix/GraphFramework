@@ -72,6 +72,12 @@ namespace GraphFramework.UnitTests.VertexUnitTests
             {
                 Assert.That(_v1.IsInMatching, Is.False);
             }
+
+            [Test]
+            public void NewVertexHasWeightZero()
+            {
+                Assert.That(_v1.DoubleWeight, Is.EqualTo(0.0));
+            }
         }
 
         [TestFixture]

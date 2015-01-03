@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphFramework
 {
-    public class ArcHelper
+    public static class ArcHelper
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

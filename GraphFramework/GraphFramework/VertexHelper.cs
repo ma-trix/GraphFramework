@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphFramework
 {
-    public class VertexHelper
+    public static class VertexHelper
     {
         public static bool DoesVertexExist(Guid guid, LinkedList<Vertex> inList)
         {
