@@ -67,6 +67,23 @@ namespace GraphFramework
             return newArc;
         }
 
+        public Arc AddOutboundArc(IVertex endVertex, bool inMatching, double weight)
+        {
+            if (ArcHelper.DoesArcExist(this, endVertex, OutboundArcs))
+            {
+                throw new NoMultiedgePermitedException();
+            }
+            var newArc = new Arc(Graph, this, endVertex, inMatching, weight);
+            OutboundArcs.AddLast(newArc);
+            if (inMatching)
+            {
+                AddToMatching();
+            }
+            Log.Info("Added outbound arc " + newArc + " to vertex " + Name + " with weight " + newArc.Weight);
+            endVertex.AddInboundArc(newArc, inMatching);
+            return newArc;
+        }
+
         public void AddInboundArc(Arc newArc, bool inMatching)
         {
             InboundArcs.AddLast(newArc);

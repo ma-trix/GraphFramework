@@ -28,6 +28,11 @@ namespace GraphFramework
             }
         }
 
+        public Arc(Graph graph, IVertex start, IVertex end, bool inMatching, double weight) : this(graph, start, end, inMatching)
+        {
+            Weight = weight;
+        }
+
         public void AddToMatching()
         {
             IsInMatching = true;

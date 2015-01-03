@@ -38,6 +38,14 @@ namespace GraphFramework
             return a;
         }
 
+        public Arc AddArc(Vertex startVertex, Vertex endVertex, bool inMatching, double weight)
+        {
+            Arc a = startVertex.AddOutboundArc(endVertex, inMatching, weight);
+            Log.Info("Added arc " + a + " to graph");
+            Arcs.AddLast(a);
+            return a;
+        }
+
         public void RemoveArc(IVertex v1, IVertex v2)
         {
             if (ArcHelper.DeleteArc(v1, v2, Arcs))
@@ -56,6 +64,14 @@ namespace GraphFramework
             Log.Info("Adding edge " + startVertex.Name + " <-> " + endVertex.Name);
             var there = AddArc(startVertex, endVertex, inMatching);
             var back = AddArc(endVertex, startVertex, inMatching);
+            return new Tuple<Arc, Arc>(there, back);
+        }
+
+        public Tuple<Arc, Arc> AddEdge(Vertex startVertex, Vertex endVertex, bool inMatching, double weight)
+        {
+            Log.Info("Adding edge " + startVertex.Name + " <-> " + endVertex.Name + " with weight " + weight);
+            var there = AddArc(startVertex, endVertex, inMatching, weight);
+            var back = AddArc(endVertex, startVertex, inMatching, weight);
             return new Tuple<Arc, Arc>(there, back);
         }
 

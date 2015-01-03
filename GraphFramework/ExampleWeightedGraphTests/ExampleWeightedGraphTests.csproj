@@ -56,6 +56,10 @@
       <Project>{62A58B8A-2D00-47BA-A33A-59CFC8008155}</Project>
       <Name>ExampleGraphTests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphFramework\GraphFramework.csproj">
+      <Project>{F8C84B09-A992-4D0A-B830-5D14533042B8}</Project>
+      <Name>GraphFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
