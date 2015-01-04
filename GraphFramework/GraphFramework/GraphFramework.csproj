@@ -59,6 +59,7 @@
     <Compile Include="IVertexStack.cs" />
     <Compile Include="LinkedListExtensions.cs" />
     <Compile Include="MDFS.cs" />
+    <Compile Include="MDFSW.cs" />
     <Compile Include="NoArcException.cs" />
     <Compile Include="NoVertexException.cs" />
     <Compile Include="ExpandedArc.cs" />

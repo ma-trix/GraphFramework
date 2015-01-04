@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using ExampleGraphTests;
 using GraphFramework;
 
@@ -9,6 +10,8 @@ namespace ExampleWeightedGraphTests
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static LinkedList<Arc> _mAugmentingPath;
+
         static void Main(string[] args)
         {
             var lh = new LoggingHelper();
@@ -16,8 +19,50 @@ namespace ExampleWeightedGraphTests
             Log.Info("=====================================================================");
             var g0 = ExampleWeightedGraph.GenerateExampleWeightedTwinGraph2();
             TwinGraph g0Star = GenerateG0StarFrom(g0);
-            g0Star.LogArcsWeighted();
-            g0Star.LogVerticesWeighted();
+
+            _mAugmentingPath = new LinkedList<Arc>();
+             var i = 0;
+            var mAugmentingPaths = new LinkedList<LinkedList<Arc>>();
+            while (true)
+            {
+                i++;
+                Log.Info("ITERATION " + i + " =============================================");
+                var k = new ABVertexStack();
+                var l = new LinkedList<ABVertex>();
+                var mdfsw = new MDFSW(g0Star, k, l);
+                MDFSW._step = 0;
+
+                _mAugmentingPath = mdfsw.Run();
+                if (_mAugmentingPath == null)
+                {
+                    //Extension step instead of breaking
+                    break;
+                }
+                mAugmentingPaths.AddLast(_mAugmentingPath);
+                g0Star.SymmetricDifferenceWith(_mAugmentingPath);
+
+                g0Star.LogArcsWeighted();
+                g0Star.LogVerticesWeighted();
+            }
+            LogPaths(mAugmentingPaths);
+        }
+
+        private static void LogPaths(LinkedList<LinkedList<Arc>> mAugmentingPaths)
+        {
+            var i = 0;
+            foreach (var mAugmentingPath in mAugmentingPaths)
+            {
+                i++;
+                var sb = new StringBuilder();
+                sb.Append(i);
+                sb.Append(" | ");
+                foreach (var arc in mAugmentingPath)
+                {
+                    sb.Append(arc);
+                    sb.Append(", ");
+                }
+                Log.Info(sb.ToString());
+            }
         }
 
         private static TwinGraph GenerateG0StarFrom(TwinGraph g0)
